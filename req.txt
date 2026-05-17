@@ -1,0 +1,20 @@
+I want to develop a clinc managent system , web app and mobile app  using nextjs 
+this is homeopathic clienic , medience is giving inhouse , and charged 
+it can have three roles , receiption , doctor and admin 
+the main objective of this system is to manage the clinic efficitenly 
+provide high quality service to the patient 
+maintain the patient records digitally 
+track the expensis 
+track the income 
+track the leads 
+track patients
+communicate on whatapp to patients
+book apoitment on behalf of patient 
+integrate booking system in website to that patient can book 
+regerate receipts , medical certificate 
+template for diet chart and yoga library to precribe them right yoga 
+write down precription 
+all these can be sent via whatapp 
+send the follow up reminder 
+monthly accouting and report of patient 
+

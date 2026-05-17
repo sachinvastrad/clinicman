@@ -1,0 +1,540 @@
+Product Requirements Document (PRD)
+Homeopathy Clinic Management System (HCMS)
+
+A modern, AI-ready clinic management platform for homeopathic clinics with:
+
+Web App (Next.js)
+Mobile App (React Native / Flutter recommended)
+WhatsApp-first patient communication
+Digital patient lifecycle management
+In-house medicine billing & inventory
+Appointment & follow-up automation
+Financial tracking and analytics
+
+Inspired by current clinic-management and EMR trends such as:
+
+WhatsApp appointment/reminder workflows
+Digital EMR and patient history systems
+Appointment scheduling + online booking
+Prescription + billing + reports automation
+1. Product Vision
+
+Build a highly efficient, patient-centric homeopathy clinic operating system that:
+
+Reduces manual work
+Digitizes patient history
+Improves treatment continuity
+Automates communication
+Increases patient retention
+Simplifies clinic accounting
+Enables growth to multi-branch clinics later
+2. Target Users
+Primary Users
+Receptionist
+Manage appointments
+Register patients
+Billing & receipts
+WhatsApp communication
+Follow-up reminders
+Doctor
+Patient consultation
+Case history
+Prescription writing
+Diet/yoga recommendations
+Medical certificates
+Admin / Owner
+Revenue tracking
+Expense tracking
+Lead management
+Analytics & reports
+User management
+Patients (Indirect User)
+Online appointment booking
+Access prescriptions
+Receive reminders
+Receive diet/yoga plans
+WhatsApp communication
+3. Core Problems to Solve
+Problem	Solution
+Paper-based records	Digital EMR
+Missed follow-ups	Automated reminders
+No patient tracking	CRM-style patient lifecycle
+Manual accounting	Expense + income module
+Difficult appointment handling	Unified scheduling
+Poor communication	WhatsApp automation
+Manual prescriptions	Digital templates
+Medicine stock confusion	Inventory management
+No lead conversion visibility	Lead pipeline
+4. Product Goals
+Business Goals
+Increase patient retention by 30%
+Reduce no-shows by 40%
+Reduce receptionist workload by 50%
+Enable digital reporting
+Improve operational efficiency
+User Goals
+Faster patient registration
+Easy appointment booking
+Easy follow-up tracking
+Centralized patient history
+Faster billing and receipt generation
+5. Functional Modules
+MODULE 1 — Authentication & Role Management
+Features
+Login via mobile/email
+JWT authentication
+Role-based access
+Permission management
+Roles
+Role	Permissions
+Receptionist	Appointments, patient registration, billing
+Doctor	Consultation, prescriptions
+Admin	Full access
+MODULE 2 — Patient Management (EMR)
+Features
+Patient registration
+Patient profile
+Digital case history
+Chronic disease tracking
+Consultation notes
+Attach reports/images
+Follow-up timeline
+Patient Data
+Name
+Age
+Gender
+Phone
+Address
+Occupation
+Medical history
+Allergies
+Lifestyle habits
+Family history
+Advanced Homeopathy Features
+Constitutional profile
+Symptom repertory
+Mental symptom notes
+Remedy history
+Potency tracking
+Improvement scale
+MODULE 3 — Appointment Management
+Features
+Walk-in booking
+Online booking
+Doctor calendar
+Slot management
+Reschedule/cancel
+Queue management
+Booking Sources
+Reception
+Website
+WhatsApp
+Mobile app
+Statuses
+Booked
+Confirmed
+Checked-in
+In consultation
+Completed
+Cancelled
+No-show
+MODULE 4 — Consultation & Prescription
+Features
+Consultation notes
+Diagnosis
+Prescription builder
+Medicine selection
+Diet chart templates
+Yoga recommendations
+Follow-up instructions
+Prescription Output
+PDF
+WhatsApp
+Print
+Templates
+Common disease templates
+Diet templates
+Yoga templates
+Remedy templates
+MODULE 5 — In-House Pharmacy & Inventory
+Features
+Medicine catalog
+Batch management
+Stock management
+Expiry tracking
+Auto stock deduction
+Purchase records
+Inventory Data
+Medicine name
+Potency
+Vendor
+Quantity
+Expiry date
+Cost price
+Selling price
+MODULE 6 — Billing & Receipts
+Features
+Consultation billing
+Medicine billing
+GST support
+Discounts
+Package plans
+Payment tracking
+Payment Methods
+UPI
+Cash
+Card
+Net banking
+Outputs
+Receipt PDF
+WhatsApp receipt
+Thermal print
+MODULE 7 — WhatsApp Communication Hub
+Features
+Appointment reminders
+Follow-up reminders
+Prescription sharing
+Diet chart sharing
+Payment reminders
+Broadcast campaigns
+WhatsApp Templates
+Appointment confirmation
+Follow-up due
+Birthday wishes
+Medicine refill reminder
+Integration
+
+Official WhatsApp Business API recommended.
+
+MODULE 8 — Lead Management CRM
+Features
+Inquiry capture
+Lead pipeline
+Lead source tracking
+Conversion tracking
+WhatsApp nurturing
+Lead Sources
+Website
+WhatsApp
+Google Ads
+Walk-in
+Referral
+Pipeline Stages
+New lead
+Contacted
+Appointment booked
+Consultation completed
+Converted
+Lost
+MODULE 9 — Website Booking System
+Features
+Public booking page
+Doctor availability
+Slot booking
+Payment integration
+WhatsApp confirmation
+SEO Pages
+Treatments
+Diseases
+Testimonials
+Blog
+About clinic
+MODULE 10 — Reports & Analytics
+Reports
+Daily revenue
+Monthly revenue
+Expenses
+Profit/loss
+Patient growth
+No-show report
+Lead conversion report
+Medicine sales report
+Dashboard KPIs
+Appointments today
+Revenue today
+Pending follow-ups
+Top diseases treated
+Conversion rate
+MODULE 11 — Accounting & Expense Tracking
+Features
+Expense entry
+Category tracking
+Monthly accounting
+Vendor management
+Profit reports
+Expense Categories
+Rent
+Salaries
+Medicine purchase
+Electricity
+Marketing
+MODULE 12 — Medical Certificates
+Features
+Sick leave certificates
+Fitness certificates
+Custom templates
+PDF generation
+MODULE 13 — Follow-Up Management
+Features
+Auto reminders
+Follow-up calendar
+Due patient list
+Escalation reminders
+6. Non-Functional Requirements
+Area	Requirement
+Performance	<2 sec page load
+Security	HIPAA-inspired security
+Compliance	ABDM-ready architecture
+Scalability	Multi-branch support
+Availability	99.9% uptime
+Mobile support	Responsive
+Audit logs	Mandatory
+Backup	Daily automated
+
+ABDM-aligned digital health approaches are becoming important in India.
+
+7. Recommended Tech Stack
+Frontend
+Next.js
+TypeScript
+Tailwind CSS
+React Query
+Zustand
+Backend
+Node.js
+NestJS
+PostgreSQL
+Prisma ORM
+Mobile
+React Native
+Infrastructure
+AWS / GCP
+Docker
+Kubernetes (future)
+Integrations
+WhatsApp Business API
+Razorpay
+Twilio
+Firebase notifications
+8. Suggested Architecture
+Architecture Style
+
+Modular monolith initially → microservices later
+
+Core Services
+Auth Service
+Appointment Service
+EMR Service
+Billing Service
+Notification Service
+Inventory Service
+Analytics Service
+9. Future AI Features
+Phase 2 AI
+AI prescription suggestions
+AI follow-up prediction
+AI lead scoring
+Voice-to-consultation notes
+AI chatbot for booking
+10. EPICS
+EPIC 1 — User Authentication & RBAC
+Goal
+
+Secure login and role-based access.
+
+User Stories
+As a receptionist, I want secure login access.
+As an admin, I want to create clinic users.
+As an admin, I want permission management.
+EPIC 2 — Patient Registration & EMR
+Goal
+
+Digitize patient records.
+
+User Stories
+As a receptionist, I want quick patient registration.
+As a doctor, I want patient history access.
+As a doctor, I want consultation notes.
+As a doctor, I want follow-up tracking.
+As a patient, I want my records preserved digitally.
+EPIC 3 — Appointment Management
+Goal
+
+Efficient scheduling.
+
+User Stories
+As a patient, I want online booking.
+As a receptionist, I want walk-in booking.
+As a doctor, I want my calendar view.
+As a patient, I want reminder notifications.
+EPIC 4 — Prescription Management
+Goal
+
+Digital prescriptions.
+
+User Stories
+As a doctor, I want prescription templates.
+As a doctor, I want medicine suggestions.
+As a patient, I want prescriptions on WhatsApp.
+As a doctor, I want diet/yoga attachment support.
+EPIC 5 — Billing & Payments
+Goal
+
+Efficient billing.
+
+User Stories
+As a receptionist, I want one-click bill generation.
+As a patient, I want digital receipts.
+As an admin, I want revenue reports.
+EPIC 6 — Inventory Management
+Goal
+
+Track medicines.
+
+User Stories
+As an admin, I want stock visibility.
+As a receptionist, I want stock deduction automation.
+As an admin, I want expiry alerts.
+EPIC 7 — WhatsApp Communication
+Goal
+
+Improve engagement.
+
+User Stories
+As a patient, I want appointment reminders.
+As a doctor, I want prescription sharing.
+As an admin, I want broadcast campaigns.
+EPIC 8 — CRM & Leads
+Goal
+
+Track business growth.
+
+User Stories
+As an admin, I want lead source tracking.
+As a receptionist, I want lead follow-ups.
+As an admin, I want conversion reports.
+EPIC 9 — Accounting & Expenses
+Goal
+
+Financial visibility.
+
+User Stories
+As an admin, I want monthly P&L.
+As an admin, I want expense categorization.
+As an admin, I want downloadable reports.
+EPIC 10 — Reports & Analytics
+Goal
+
+Operational intelligence.
+
+User Stories
+As an admin, I want revenue dashboards.
+As a doctor, I want patient trends.
+As an admin, I want no-show reports.
+11. MVP Scope (Phase 1)
+MUST HAVE
+Authentication
+Patient registration
+Appointment booking
+Consultation notes
+Prescription
+Billing
+WhatsApp reminders
+Basic reports
+NICE TO HAVE
+Inventory
+Lead management
+Website booking
+Mobile app
+LATER
+AI features
+Telemedicine
+Multi-branch
+ABDM integration
+12. Recommended Delivery Plan
+Phase	Timeline
+Discovery & UX	2 weeks
+MVP Backend	4 weeks
+Web Frontend	4 weeks
+WhatsApp Integration	1 week
+Billing & Reports	2 weeks
+QA & UAT	2 weeks
+Pilot Launch	1 week
+
+Total MVP:
+~14–16 weeks
+
+13. Competitive Differentiators
+Your USP
+
+Unlike generic clinic software, this system will be:
+
+Homeopathy-specialized
+WhatsApp-first
+India-focused
+Lead-to-follow-up integrated
+Diet + yoga prescription enabled
+In-house medicine optimized
+14. Recommended Database Design (High Level)
+Core Tables
+users
+roles
+patients
+appointments
+consultations
+prescriptions
+medicines
+invoices
+payments
+expenses
+leads
+reminders
+whatsapp_logs
+15. Success Metrics
+Metric	Target
+No-show reduction	40%
+Reception efficiency	+50%
+Follow-up compliance	+60%
+Patient retention	+30%
+Billing errors	<2%
+16. Suggested Product Roadmap
+Phase 1
+
+Clinic operations digitization
+
+Phase 2
+
+WhatsApp automation + CRM
+
+Phase 3
+
+AI-powered clinic assistant
+
+Phase 4
+
+Multi-clinic SaaS platform
+
+Phase 5
+
+ABDM integration + patient app
+
+Final Recommendation
+
+This is a very strong SaaS opportunity because:
+
+India has massive clinic digitization demand
+Homeopathy clinics are underserved
+WhatsApp-first workflows are highly valuable in India
+Most existing systems are generic and outdated
+Clinics need integrated CRM + EMR + billing + communication in one product
+
+The best strategy:
+
+Build for one clinic first
+Validate workflows
+Convert into multi-tenant SaaS
+Add AI + automation later
+
+Recommended initial positioning:
+
+“WhatsApp-first Homeopathy Clinic Operating System for Indian Clinics.”

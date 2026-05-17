@@ -1,0 +1,526 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL")
+}
+
+// ─── Clinic ──────────────────────────────────────────────────────────────────
+
+model Clinic {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name           String
+  address        String?
+  phone          String?
+  email          String?
+  gstin          String?
+  logoUrl        String?  @map("logo_url")
+  whatsappNumber String?  @map("whatsapp_number")
+  timezone       String   @default("Asia/Kolkata")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  users        User[]
+  patients     Patient[]
+  appointments Appointment[]
+  leads        Lead[]
+  inventory    Inventory[]
+  expenses     Expense[]
+  invoices     Invoice[]
+  payments     Payment[]
+  blockedSlots BlockedSlot[]
+  waMessages   WhatsappMessage[]
+  visits       Visit[]
+  auditLogs    AuditLog[]
+
+  @@map("clinics")
+}
+
+// ─── Users / Auth ─────────────────────────────────────────────────────────────
+
+enum Role {
+  admin
+  doctor
+  receptionist
+}
+
+model User {
+  id        String   @id @db.Uuid
+  clinicId  String   @map("clinic_id") @db.Uuid
+  fullName  String   @map("full_name")
+  phone     String   @unique
+  email     String?
+  role      Role
+  isActive  Boolean  @default(true) @map("is_active")
+  avatarUrl String?  @map("avatar_url")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  clinic        Clinic            @relation(fields: [clinicId], references: [id])
+  visits        Visit[]
+  auditLogs     AuditLog[]
+  prescriptions Prescription[]
+  waMessages    WhatsappMessage[]
+  appointments  Appointment[]
+
+  @@index([clinicId])
+  @@map("users")
+}
+
+// ─── Patients ─────────────────────────────────────────────────────────────────
+
+enum Gender {
+  male
+  female
+  other
+}
+
+enum CaseType {
+  new
+  chronic
+  acute
+}
+
+model Patient {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clinicId      String    @map("clinic_id") @db.Uuid
+  patientCode   String    @unique @map("patient_code")
+  fullName      String    @map("full_name")
+  dateOfBirth   DateTime? @map("date_of_birth") @db.Date
+  gender        Gender?
+  phone         String
+  email         String?
+  address       String?
+  occupation    String?
+  referredBy    String?   @map("referred_by")
+  photoUrl      String?   @map("photo_url")
+  whatsappOptin Boolean   @default(true) @map("whatsapp_optin")
+  allergies     String?
+  caseType      CaseType? @map("case_type")
+  registeredBy  String?   @map("registered_by") @db.Uuid
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  clinic       Clinic            @relation(fields: [clinicId], references: [id])
+  caseHistory  CaseHistory?
+  visits       Visit[]
+  appointments Appointment[]
+  invoices     Invoice[]
+  documents    PatientDocument[]
+  leads        Lead[]
+  waMessages   WhatsappMessage[]
+
+  @@index([clinicId])
+  @@index([phone])
+  @@map("patients")
+}
+
+// ─── Case History (Homeopathic Case Taking) ───────────────────────────────────
+
+model CaseHistory {
+  id                    String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  patientId             String   @unique @map("patient_id") @db.Uuid
+  hopi                  String?
+  pastHistory           String?  @map("past_history")
+  familyHistory         String?  @map("family_history")
+  personalHistory       String?  @map("personal_history")
+  mentalGenerals        String?  @map("mental_generals")
+  physicalGenerals      String?  @map("physical_generals")
+  pqrsSymptoms          String?  @map("pqrs_symptoms")
+  constitutionType      String?  @map("constitution_type")
+  thermalState          String?  @map("thermal_state")
+  mentalDisposition     String?  @map("mental_disposition")
+  miasmaticNotes        String?  @map("miasmatic_notes")
+  dominantMiasm         String?  @map("dominant_miasm")
+  repertorizationNotes  String?  @map("repertorization_notes")
+  selectedRemedy        String?  @map("selected_remedy")
+  potency               String?
+  clinicalDiagnosis     String?  @map("clinical_diagnosis")
+  differentialDiagnosis String?  @map("differential_diagnosis")
+  investigations        String?
+  updatedAt             DateTime @updatedAt @map("updated_at")
+
+  patient Patient @relation(fields: [patientId], references: [id])
+
+  @@map("case_history")
+}
+
+// ─── Visits ───────────────────────────────────────────────────────────────────
+
+enum VisitType {
+  consultation
+  follow_up
+  emergency
+  teleconsultation
+  case_taking
+}
+
+enum VisitStatus {
+  in_progress
+  completed
+  locked
+}
+
+model Visit {
+  id               String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clinicId         String      @map("clinic_id") @db.Uuid
+  patientId        String      @map("patient_id") @db.Uuid
+  doctorId         String      @map("doctor_id") @db.Uuid
+  visitDate        DateTime    @default(now()) @map("visit_date")
+  visitType        VisitType?  @map("visit_type")
+  chiefComplaint   String?     @map("chief_complaint")
+  clinicalFindings String?     @map("clinical_findings")
+  diagnosis        String?
+  planOfAction     String?     @map("plan_of_action")
+  improvementScore Int?        @map("improvement_score")
+  followUpDate     DateTime?   @map("follow_up_date") @db.Date
+  status           VisitStatus @default(in_progress)
+  notes            String?
+  createdAt        DateTime    @default(now()) @map("created_at")
+  updatedAt        DateTime    @updatedAt @map("updated_at")
+
+  clinic       Clinic            @relation(fields: [clinicId], references: [id])
+  patient      Patient           @relation(fields: [patientId], references: [id])
+  doctor       User              @relation(fields: [doctorId], references: [id])
+  vitals       Vitals?
+  prescription Prescription?
+  documents    PatientDocument[]
+
+  @@index([patientId])
+  @@index([doctorId])
+  @@index([visitDate])
+  @@map("visits")
+}
+
+// ─── Vitals ───────────────────────────────────────────────────────────────────
+
+model Vitals {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  visitId     String   @unique @map("visit_id") @db.Uuid
+  patientId   String   @map("patient_id") @db.Uuid
+  bp          String?
+  pulse       Int?
+  temperature Decimal? @db.Decimal(4, 1)
+  weight      Decimal? @db.Decimal(5, 2)
+  height      Decimal? @db.Decimal(5, 1)
+  spo2        Int?
+  recordedAt  DateTime @default(now()) @map("recorded_at")
+
+  visit Visit @relation(fields: [visitId], references: [id])
+
+  @@index([patientId])
+  @@map("vitals")
+}
+
+// ─── Prescriptions ────────────────────────────────────────────────────────────
+
+model Prescription {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  visitId       String    @unique @map("visit_id") @db.Uuid
+  patientId     String    @map("patient_id") @db.Uuid
+  doctorId      String    @map("doctor_id") @db.Uuid
+  dietaryNotes  String?   @map("dietary_notes")
+  followUpDate  DateTime? @map("follow_up_date") @db.Date
+  pdfUrl        String?   @map("pdf_url")
+  whatsappSent  Boolean   @default(false) @map("whatsapp_sent")
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  visit  Visit              @relation(fields: [visitId], references: [id])
+  doctor User               @relation(fields: [doctorId], references: [id])
+  items  PrescriptionItem[]
+
+  @@index([patientId])
+  @@map("prescriptions")
+}
+
+model PrescriptionItem {
+  id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  prescriptionId String  @map("prescription_id") @db.Uuid
+  remedyName     String  @map("remedy_name")
+  potency        String
+  form           String?
+  dose           String?
+  frequency      String?
+  duration       String?
+  instructions   String?
+  sortOrder      Int     @default(0) @map("sort_order")
+
+  prescription Prescription @relation(fields: [prescriptionId], references: [id], onDelete: Cascade)
+
+  @@map("prescription_items")
+}
+
+// ─── Appointments ─────────────────────────────────────────────────────────────
+
+enum AppointmentType {
+  consultation
+  follow_up
+  emergency
+  teleconsultation
+}
+
+enum AppointmentStatus {
+  scheduled
+  confirmed
+  arrived
+  in_progress
+  completed
+  cancelled
+  no_show
+}
+
+model Appointment {
+  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clinicId        String            @map("clinic_id") @db.Uuid
+  patientId       String            @map("patient_id") @db.Uuid
+  doctorId        String?           @map("doctor_id") @db.Uuid
+  scheduledAt     DateTime          @map("scheduled_at")
+  duration        Int               @default(30)
+  appointmentType AppointmentType   @default(consultation) @map("appointment_type")
+  status          AppointmentStatus @default(scheduled)
+  notes           String?
+  createdBy       String?           @map("created_by") @db.Uuid
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+
+  clinic    Clinic   @relation(fields: [clinicId], references: [id])
+  patient   Patient  @relation(fields: [patientId], references: [id])
+  doctor    User?    @relation(fields: [doctorId], references: [id])
+
+  @@index([scheduledAt, clinicId])
+  @@index([patientId])
+  @@map("appointments")
+}
+
+// ─── Inventory ────────────────────────────────────────────────────────────────
+
+model Inventory {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clinicId     String    @map("clinic_id") @db.Uuid
+  name         String
+  category     String?
+  potency      String?
+  unit         String    @default("unit")
+  currentStock Int       @default(0) @map("current_stock")
+  reorderLevel Int       @default(5) @map("reorder_level")
+  costPrice    Decimal?  @map("cost_price") @db.Decimal(10, 2)
+  sellingPrice Decimal?  @map("selling_price") @db.Decimal(10, 2)
+  vendorId     String?   @map("vendor_id") @db.Uuid
+  expiryDate   DateTime? @map("expiry_date") @db.Date
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  clinic    Clinic              @relation(fields: [clinicId], references: [id])
+  movements InventoryMovement[]
+
+  @@index([clinicId])
+  @@map("inventory")
+}
+
+model InventoryMovement {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  inventoryId  String   @map("inventory_id") @db.Uuid
+  movementType String   @map("movement_type")
+  quantity     Int
+  referenceId  String?  @map("reference_id") @db.Uuid
+  notes        String?
+  performedBy  String?  @map("performed_by") @db.Uuid
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  inventory Inventory @relation(fields: [inventoryId], references: [id])
+
+  @@map("inventory_movements")
+}
+
+// ─── Billing / Invoices ───────────────────────────────────────────────────────
+
+model Invoice {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clinicId       String   @map("clinic_id") @db.Uuid
+  patientId      String   @map("patient_id") @db.Uuid
+  visitId        String?  @map("visit_id") @db.Uuid
+  invoiceNumber  String   @unique @map("invoice_number")
+  subtotalAmount Decimal  @map("subtotal_amount") @db.Decimal(10, 2)
+  discountAmount Decimal  @default(0) @map("discount_amount") @db.Decimal(10, 2)
+  totalAmount    Decimal  @map("total_amount") @db.Decimal(10, 2)
+  status         String   @default("draft")
+  notes          String?
+  pdfUrl         String?  @map("pdf_url")
+  createdBy      String?  @map("created_by") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  clinic   Clinic        @relation(fields: [clinicId], references: [id])
+  patient  Patient       @relation(fields: [patientId], references: [id])
+  items    InvoiceItem[]
+  payments Payment[]
+
+  @@index([patientId])
+  @@index([clinicId])
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  invoiceId   String  @map("invoice_id") @db.Uuid
+  description String
+  quantity    Int     @default(1)
+  unitPrice   Decimal @map("unit_price") @db.Decimal(10, 2)
+  totalPrice  Decimal @map("total_price") @db.Decimal(10, 2)
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@map("invoice_items")
+}
+
+model Payment {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clinicId    String   @map("clinic_id") @db.Uuid
+  invoiceId   String   @map("invoice_id") @db.Uuid
+  amount      Decimal  @db.Decimal(10, 2)
+  method      String
+  paidAt      DateTime @default(now()) @map("paid_at")
+  referenceNo String?  @map("reference_no")
+  receivedBy  String?  @map("received_by") @db.Uuid
+
+  clinic  Clinic  @relation(fields: [clinicId], references: [id])
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
+
+  @@index([clinicId])
+  @@map("payments")
+}
+
+// ─── Leads ────────────────────────────────────────────────────────────────────
+
+model Lead {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clinicId     String    @map("clinic_id") @db.Uuid
+  fullName     String    @map("full_name")
+  phone        String
+  email        String?
+  interestedIn String?   @map("interested_in")
+  source       String?
+  status       String    @default("new")
+  assignedTo   String?   @map("assigned_to") @db.Uuid
+  followUpDate DateTime? @map("follow_up_date") @db.Date
+  notes        String?
+  patientId    String?   @map("patient_id") @db.Uuid
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  clinic  Clinic   @relation(fields: [clinicId], references: [id])
+  patient Patient? @relation(fields: [patientId], references: [id])
+
+  @@index([clinicId])
+  @@map("leads")
+}
+
+// ─── Expenses ─────────────────────────────────────────────────────────────────
+
+model Expense {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clinicId    String   @map("clinic_id") @db.Uuid
+  description String
+  amount      Decimal  @db.Decimal(10, 2)
+  category    String
+  expenseDate DateTime @map("expense_date") @db.Date
+  notes       String?
+  receiptUrl  String?  @map("receipt_url")
+  recordedBy  String?  @map("recorded_by") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  clinic Clinic @relation(fields: [clinicId], references: [id])
+
+  @@index([clinicId])
+  @@map("expenses")
+}
+
+// ─── Documents ────────────────────────────────────────────────────────────────
+
+model PatientDocument {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  patientId     String    @map("patient_id") @db.Uuid
+  visitId       String?   @map("visit_id") @db.Uuid
+  docType       String?   @map("doc_type")
+  fileName      String    @map("file_name")
+  fileUrl       String    @map("file_url")
+  fileSizeBytes Int?      @map("file_size_bytes")
+  notes         String?
+  uploadedBy    String?   @map("uploaded_by") @db.Uuid
+  docDate       DateTime? @map("doc_date") @db.Date
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  visit   Visit?  @relation(fields: [visitId], references: [id])
+
+  @@map("patient_documents")
+}
+
+// ─── Blocked Slots ────────────────────────────────────────────────────────────
+
+model BlockedSlot {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clinicId       String   @map("clinic_id") @db.Uuid
+  doctorId       String   @map("doctor_id") @db.Uuid
+  blockDate      DateTime @map("block_date") @db.Date
+  startTime      String?  @map("start_time")
+  endTime        String?  @map("end_time")
+  reason         String?
+  isRecurring    Boolean  @default(false) @map("is_recurring")
+  recurDayOfWeek Int?     @map("recur_day_of_week")
+  createdBy      String?  @map("created_by") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  clinic Clinic @relation(fields: [clinicId], references: [id])
+
+  @@map("blocked_slots")
+}
+
+// ─── WhatsApp ─────────────────────────────────────────────────────────────────
+
+model WhatsappMessage {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clinicId      String    @map("clinic_id") @db.Uuid
+  patientId     String?   @map("patient_id") @db.Uuid
+  direction     String
+  templateName  String?   @map("template_name")
+  messageBody   String?   @map("message_body")
+  mediaUrl      String?   @map("media_url")
+  watiMessageId String?   @map("wati_message_id")
+  status        String    @default("queued")
+  sentBy        String?   @map("sent_by") @db.Uuid
+  deliveredAt   DateTime? @map("delivered_at")
+  readAt        DateTime? @map("read_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  clinic  Clinic   @relation(fields: [clinicId], references: [id])
+  patient Patient? @relation(fields: [patientId], references: [id])
+  sender  User?    @relation(fields: [sentBy], references: [id])
+
+  @@index([patientId])
+  @@map("whatsapp_messages")
+}
+
+// ─── Audit Log ────────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id         BigInt   @id @default(autoincrement())
+  clinicId   String?  @map("clinic_id") @db.Uuid
+  userId     String?  @map("user_id") @db.Uuid
+  action     String
+  entityType String?  @map("entity_type")
+  entityId   String?  @map("entity_id") @db.Uuid
+  oldData    Json?    @map("old_data")
+  newData    Json?    @map("new_data")
+  ipAddress  String?  @map("ip_address")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  clinic Clinic? @relation(fields: [clinicId], references: [id])
+  user   User?   @relation(fields: [userId], references: [id])
+
+  @@map("audit_log")
+}
