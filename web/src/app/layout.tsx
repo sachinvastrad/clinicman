@@ -1,18 +1,25 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { SmoothScrollProvider } from "@/providers/SmoothScrollProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
-  title: "DrMan.ai — Homeopathic Clinic OS",
-  description: "WhatsApp-first Homeopathy Clinic Management System",
+  title: "Sachi Homeopathic Clinic",
+  description: "Sachi Homeopathic Clinic — Infer Remidiate Cure",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={inter.variable}>
+      <body className="font-sans antialiased">
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+      </body>
     </html>
   );
 }

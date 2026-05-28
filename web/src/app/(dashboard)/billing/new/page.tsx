@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Header } from "@/components/shared/header";
-import { ArrowLeft, Plus, Trash2, Loader2, FileText } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Loader2, FileText, Search, X } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { formatCurrency } from "@/lib/utils";
@@ -18,19 +18,54 @@ function NewInvoiceForm() {
   const [patientSearch, setPatientSearch] = useState("");
   const [selectedPatientId, setSelectedPatientId] = useState(patientId);
   const [selectedPatientName, setSelectedPatientName] = useState("");
-  const [patients, setPatients] = useState<{ id: string; fullName: string; phone: string }[]>([]);
+  const [patients, setPatients] = useState<{ id: string; fullName: string; phone: string; patientCode: string }[]>([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [noResults, setNoResults] = useState(false);
   const [items, setItems] = useState<LineItem[]>([{ description: "Consultation Fee", quantity: 1, unitPrice: 0 }]);
   const [discount, setDiscount] = useState(0);
   const [notes, setNotes] = useState("");
+  const [documentDate, setDocumentDate] = useState(() => new Date().toISOString().split("T")[0]);
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState("");
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  // Pre-fill patient name when patientId comes from URL
+  useEffect(() => {
+    if (!patientId) return;
+    fetch(`/api/patients/${patientId}`)
+      .then((r) => r.json())
+      .then((d) => { if (d.data?.fullName) setSelectedPatientName(d.data.fullName); })
+      .catch(() => {});
+  }, [patientId]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handle(e: MouseEvent) {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) setShowDropdown(false);
+    }
+    document.addEventListener("mousedown", handle);
+    return () => document.removeEventListener("mousedown", handle);
+  }, []);
 
   async function searchPatients(q: string) {
     setPatientSearch(q);
-    if (q.length < 2) { setPatients([]); return; }
-    const res = await fetch(`/api/patients?q=${encodeURIComponent(q)}&limit=5`);
+    setNoResults(false);
+    if (q.length < 2) { setPatients([]); setShowDropdown(false); return; }
+    setShowDropdown(true);
+    const res = await fetch(`/api/patients?q=${encodeURIComponent(q)}&limit=8`);
     const json = await res.json();
-    setPatients(json.data ?? []);
+    const results = json.data ?? [];
+    setPatients(results);
+    setNoResults(results.length === 0);
+  }
+
+  function selectPatient(p: { id: string; fullName: string; phone: string }) {
+    setSelectedPatientId(p.id);
+    setSelectedPatientName(p.fullName);
+    setPatients([]);
+    setPatientSearch("");
+    setShowDropdown(false);
+    setNoResults(false);
   }
 
   const subtotal = items.reduce((sum, i) => sum + i.quantity * i.unitPrice, 0);
@@ -51,7 +86,7 @@ function NewInvoiceForm() {
     const res = await fetch("/api/billing", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ patientId: selectedPatientId, items, discount, notes: notes || null }),
+      body: JSON.stringify({ patientId: selectedPatientId, items, discount, notes: notes || null, date: documentDate }),
     });
     const json = await res.json();
     if (!res.ok) { setServerError(json.error?.message ?? "Failed to create invoice"); setSubmitting(false); return; }
@@ -83,24 +118,36 @@ function NewInvoiceForm() {
                 <div className="flex items-center justify-between p-3 bg-primary/5 border border-primary/20 rounded-lg">
                   <span className="text-sm font-medium">{selectedPatientName}</span>
                   <button type="button" onClick={() => { setSelectedPatientId(""); setSelectedPatientName(""); }}
-                    className="text-xs text-muted-foreground hover:text-destructive">Change</button>
+                    className="flex items-center gap-1 text-xs text-muted-foreground hover:text-destructive">
+                    <X className="w-3 h-3" /> Change
+                  </button>
                 </div>
               ) : (
-                <div className="relative">
-                  <input value={patientSearch} onChange={(e) => searchPatients(e.target.value)}
-                    placeholder="Search patient…" className={inputCls} />
-                  {patients.length > 0 && (
-                    <div className="absolute z-10 mt-1 w-full bg-card border border-border rounded-lg shadow-lg overflow-hidden">
-                      {patients.map((p) => (
+                <div ref={searchRef} className="relative">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground pointer-events-none" />
+                    <input value={patientSearch} onChange={(e) => searchPatients(e.target.value)}
+                      onFocus={() => { if (patients.length > 0 || noResults) setShowDropdown(true); }}
+                      placeholder="Search by name, phone or patient ID…"
+                      className={inputCls + " pl-9"} />
+                  </div>
+                  {showDropdown && (
+                    <div className="absolute z-50 mt-1 w-full bg-card border border-border rounded-lg shadow-xl overflow-hidden">
+                      {patients.length > 0 ? patients.map((p) => (
                         <button key={p.id} type="button"
-                          onClick={() => { setSelectedPatientId(p.id); setSelectedPatientName(p.fullName); setPatients([]); setPatientSearch(""); }}
+                          onMouseDown={(e) => { e.preventDefault(); selectPatient(p); }}
                           className="w-full px-4 py-2.5 text-left hover:bg-muted border-b border-border last:border-0">
                           <p className="text-sm font-medium">{p.fullName}</p>
-                          <p className="text-xs text-muted-foreground">{p.phone}</p>
+                          <p className="text-xs text-muted-foreground">{p.patientCode} · {p.phone}</p>
                         </button>
-                      ))}
+                      )) : noResults ? (
+                        <div className="px-4 py-3 text-sm text-muted-foreground text-center">
+                          No patients found for &quot;{patientSearch}&quot;
+                        </div>
+                      ) : null}
                     </div>
                   )}
+                  <p className="text-xs text-muted-foreground mt-1">Type at least 2 characters to search</p>
                 </div>
               )}
             </section>
@@ -154,10 +201,16 @@ function NewInvoiceForm() {
               </div>
             </section>
 
-            <section className="bg-card rounded-xl border border-border p-6 space-y-3">
-              <h3 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">Notes</h3>
-              <textarea value={notes} onChange={(e) => setNotes(e.target.value)}
-                rows={2} className={inputCls + " resize-none"} placeholder="Additional notes for the invoice…" />
+            <section className="bg-card rounded-xl border border-border p-6 space-y-4">
+              <div className="space-y-1.5">
+                <label className="block text-sm font-medium">Invoice Date</label>
+                <input type="date" value={documentDate} onChange={(e) => setDocumentDate(e.target.value)} className={inputCls} required />
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">Notes</h3>
+                <textarea value={notes} onChange={(e) => setNotes(e.target.value)}
+                  rows={2} className={inputCls + " resize-none"} placeholder="Additional notes for the invoice…" />
+              </div>
             </section>
 
             {serverError && <div className="p-3 bg-destructive/10 text-destructive rounded-lg text-sm">{serverError}</div>}

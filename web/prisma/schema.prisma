@@ -3,15 +3,14 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 // ─── Clinic ──────────────────────────────────────────────────────────────────
 
 model Clinic {
-  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id             String   @id @default(uuid())
   name           String
   address        String?
   phone          String?
@@ -36,28 +35,32 @@ model Clinic {
   visits       Visit[]
   auditLogs    AuditLog[]
 
+  dietTemplates       DietTemplate[]
+  yogaAsanas          YogaAsana[]
+  diseaseTemplates    DiseaseTemplate[]
+  vendors             Vendor[]
+  stockIns            StockIn[]
+  treatmentPackages   TreatmentPackage[]
+  packageEnrollments  PatientPackageEnrollment[]
+
   @@map("clinics")
 }
 
 // ─── Users / Auth ─────────────────────────────────────────────────────────────
-
-enum Role {
-  admin
-  doctor
-  receptionist
-}
+// Role values: "admin" | "doctor" | "receptionist"
 
 model User {
-  id        String   @id @db.Uuid
-  clinicId  String   @map("clinic_id") @db.Uuid
-  fullName  String   @map("full_name")
-  phone     String   @unique
-  email     String?
-  role      Role
-  isActive  Boolean  @default(true) @map("is_active")
-  avatarUrl String?  @map("avatar_url")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id           String   @id
+  clinicId     String   @map("clinic_id")
+  fullName     String   @map("full_name")
+  phone        String   @unique
+  email        String?  @unique
+  passwordHash String?  @map("password_hash")
+  role         String
+  isActive     Boolean  @default(true) @map("is_active")
+  avatarUrl    String?  @map("avatar_url")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
   clinic        Clinic            @relation(fields: [clinicId], references: [id])
   visits        Visit[]
@@ -71,26 +74,16 @@ model User {
 }
 
 // ─── Patients ─────────────────────────────────────────────────────────────────
-
-enum Gender {
-  male
-  female
-  other
-}
-
-enum CaseType {
-  new
-  chronic
-  acute
-}
+// gender:   "male" | "female" | "other"
+// caseType: "new"  | "chronic" | "acute"
 
 model Patient {
-  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clinicId      String    @map("clinic_id") @db.Uuid
+  id            String    @id @default(uuid())
+  clinicId      String    @map("clinic_id")
   patientCode   String    @unique @map("patient_code")
   fullName      String    @map("full_name")
-  dateOfBirth   DateTime? @map("date_of_birth") @db.Date
-  gender        Gender?
+  dateOfBirth   DateTime? @map("date_of_birth")
+  gender        String?
   phone         String
   email         String?
   address       String?
@@ -98,11 +91,73 @@ model Patient {
   referredBy    String?   @map("referred_by")
   photoUrl      String?   @map("photo_url")
   whatsappOptin Boolean   @default(true) @map("whatsapp_optin")
-  allergies     String?
-  caseType      CaseType? @map("case_type")
-  registeredBy  String?   @map("registered_by") @db.Uuid
+  allergies     String?   // legacy free-text; structured list lives in allergens
+  caseType      String?   @map("case_type")
+  registeredBy  String?   @map("registered_by")
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // ── Diet-profile extensions (DCG v1 — all optional; arrays/json stored as TEXT) ──
+  heightCm           Float?   @map("height_cm")
+  currentWeightKg    Float?   @map("current_weight_kg")
+  targetWeightKg     Float?   @map("target_weight_kg")
+  waistCm            Float?   @map("waist_cm")
+  hipCm              Float?   @map("hip_cm")
+  bodyFatPct         Float?   @map("body_fat_pct")
+  skeletalMuscleKg   Float?   @map("skeletal_muscle_kg")
+  pregnancyStatus    String?  @map("pregnancy_status")
+  menstrualPhase     String?  @map("menstrual_phase")
+  menopauseStatus    String?  @map("menopause_status")
+  activityLevel     String?  @map("activity_level")
+  exerciseTypes     String?  @map("exercise_types")        // json array
+  exerciseMinsWeek  Int?     @map("exercise_mins_week")
+  workShift         String?  @map("work_shift")
+  avgStepsPerDay    Int?     @map("avg_steps_per_day")
+  dietType            String?  @map("diet_type")
+  therapeuticPatterns String?  @map("therapeutic_patterns")  // json array
+  religiousTags       String?  @map("religious_tags")        // json array
+  fastingDays         String?  @map("fasting_days")          // json array
+  fastingWindow       String?  @map("fasting_window")        // json {start,end}
+  ayurvedicPrakriti String?  @map("ayurvedic_prakriti")
+  ayurvedicVikriti  String?  @map("ayurvedic_vikriti")
+  homeoConstitution String?  @map("homeo_constitution")
+  somatotype        String?
+  bloodGroup        String?  @map("blood_group")
+  allergens         String?                                  // json array (structured)
+  foodIntolerances  String?  @map("food_intolerances")       // json array
+  foodLoves         String?  @map("food_loves")              // json array
+  foodDislikes      String?  @map("food_dislikes")           // json array
+  textureAversions  String?  @map("texture_aversions")       // json array
+  spiceTolerance    String?  @map("spice_tolerance")
+  sweetTooth        String?  @map("sweet_tooth")
+  macroRegion       String?  @map("macro_region")
+  state             String?
+  subRegion         String?  @map("sub_region")
+  city              String?
+  climate           String?
+  diasporaVariant   String?  @map("diaspora_variant")
+  cuisineRegion     String?  @map("cuisine_region")
+  sleepHoursAvg     Float?   @map("sleep_hours_avg")
+  sleepQuality      String?  @map("sleep_quality")
+  bedtimeClock      String?  @map("bedtime_clock")
+  waketimeClock     String?  @map("waketime_clock")
+  stressLevel       String?  @map("stress_level")
+  waterIntakeL      Float?   @map("water_intake_l")
+  caffeineCupsDay   Int?     @map("caffeine_cups_day")
+  alcoholFreq       String?  @map("alcohol_freq")
+  tobaccoUse        String?  @map("tobacco_use")
+  bowelFreqDay      Float?   @map("bowel_freq_day")
+  bristolStool      Int?     @map("bristol_stool")
+  eatOutFreq        String?  @map("eat_out_freq")
+  cookedBy            String?  @map("cooked_by")
+  equipmentAvailable  String?  @map("equipment_available")    // json array
+  cookingTimeTier    String?  @map("cooking_time_tier")
+  mealPrepStyle      String?  @map("meal_prep_style")
+  householdSize      Int?     @map("household_size")
+  travelDaysMonth    Int?     @map("travel_days_month")
+  budgetTier         String?  @map("budget_tier")
+  localeTier         String?  @map("locale_tier")
+  seasonalityPref    String?  @map("seasonality_pref")
 
   clinic       Clinic            @relation(fields: [clinicId], references: [id])
   caseHistory  CaseHistory?
@@ -112,6 +167,8 @@ model Patient {
   documents    PatientDocument[]
   leads        Lead[]
   waMessages   WhatsappMessage[]
+  packageEnrollments PatientPackageEnrollment[]
+  biomarkers   PatientBiomarker[]
 
   @@index([clinicId])
   @@index([phone])
@@ -121,8 +178,8 @@ model Patient {
 // ─── Case History (Homeopathic Case Taking) ───────────────────────────────────
 
 model CaseHistory {
-  id                    String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  patientId             String   @unique @map("patient_id") @db.Uuid
+  id                    String   @id @default(uuid())
+  patientId             String   @unique @map("patient_id")
   hopi                  String?
   pastHistory           String?  @map("past_history")
   familyHistory         String?  @map("family_history")
@@ -149,38 +206,26 @@ model CaseHistory {
 }
 
 // ─── Visits ───────────────────────────────────────────────────────────────────
-
-enum VisitType {
-  consultation
-  follow_up
-  emergency
-  teleconsultation
-  case_taking
-}
-
-enum VisitStatus {
-  in_progress
-  completed
-  locked
-}
+// visitType:    "consultation" | "follow_up" | "emergency" | "teleconsultation" | "case_taking"
+// visit status: "in_progress"  | "completed" | "locked"
 
 model Visit {
-  id               String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clinicId         String      @map("clinic_id") @db.Uuid
-  patientId        String      @map("patient_id") @db.Uuid
-  doctorId         String      @map("doctor_id") @db.Uuid
-  visitDate        DateTime    @default(now()) @map("visit_date")
-  visitType        VisitType?  @map("visit_type")
-  chiefComplaint   String?     @map("chief_complaint")
-  clinicalFindings String?     @map("clinical_findings")
+  id               String    @id @default(uuid())
+  clinicId         String    @map("clinic_id")
+  patientId        String    @map("patient_id")
+  doctorId         String    @map("doctor_id")
+  visitDate        DateTime  @default(now()) @map("visit_date")
+  visitType        String?   @map("visit_type")
+  chiefComplaint   String?   @map("chief_complaint")
+  clinicalFindings String?   @map("clinical_findings")
   diagnosis        String?
-  planOfAction     String?     @map("plan_of_action")
-  improvementScore Int?        @map("improvement_score")
-  followUpDate     DateTime?   @map("follow_up_date") @db.Date
-  status           VisitStatus @default(in_progress)
+  planOfAction     String?   @map("plan_of_action")
+  improvementScore Int?      @map("improvement_score")
+  followUpDate     DateTime? @map("follow_up_date")
+  status           String    @default("in_progress")
   notes            String?
-  createdAt        DateTime    @default(now()) @map("created_at")
-  updatedAt        DateTime    @updatedAt @map("updated_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
 
   clinic       Clinic            @relation(fields: [clinicId], references: [id])
   patient      Patient           @relation(fields: [patientId], references: [id])
@@ -188,6 +233,8 @@ model Visit {
   vitals       Vitals?
   prescription Prescription?
   documents    PatientDocument[]
+  dietChart    PatientDietChart?
+  yogaPlan     PatientYogaPlan?
 
   @@index([patientId])
   @@index([doctorId])
@@ -198,14 +245,14 @@ model Visit {
 // ─── Vitals ───────────────────────────────────────────────────────────────────
 
 model Vitals {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  visitId     String   @unique @map("visit_id") @db.Uuid
-  patientId   String   @map("patient_id") @db.Uuid
+  id          String   @id @default(uuid())
+  visitId     String   @unique @map("visit_id")
+  patientId   String   @map("patient_id")
   bp          String?
   pulse       Int?
-  temperature Decimal? @db.Decimal(4, 1)
-  weight      Decimal? @db.Decimal(5, 2)
-  height      Decimal? @db.Decimal(5, 1)
+  temperature Decimal?
+  weight      Decimal?
+  height      Decimal?
   spo2        Int?
   recordedAt  DateTime @default(now()) @map("recorded_at")
 
@@ -218,12 +265,12 @@ model Vitals {
 // ─── Prescriptions ────────────────────────────────────────────────────────────
 
 model Prescription {
-  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  visitId       String    @unique @map("visit_id") @db.Uuid
-  patientId     String    @map("patient_id") @db.Uuid
-  doctorId      String    @map("doctor_id") @db.Uuid
+  id            String    @id @default(uuid())
+  visitId       String    @unique @map("visit_id")
+  patientId     String    @map("patient_id")
+  doctorId      String    @map("doctor_id")
   dietaryNotes  String?   @map("dietary_notes")
-  followUpDate  DateTime? @map("follow_up_date") @db.Date
+  followUpDate  DateTime? @map("follow_up_date")
   pdfUrl        String?   @map("pdf_url")
   whatsappSent  Boolean   @default(false) @map("whatsapp_sent")
   createdAt     DateTime  @default(now()) @map("created_at")
@@ -237,8 +284,8 @@ model Prescription {
 }
 
 model PrescriptionItem {
-  id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  prescriptionId String  @map("prescription_id") @db.Uuid
+  id             String  @id @default(uuid())
+  prescriptionId String  @map("prescription_id")
   remedyName     String  @map("remedy_name")
   potency        String
   form           String?
@@ -254,41 +301,26 @@ model PrescriptionItem {
 }
 
 // ─── Appointments ─────────────────────────────────────────────────────────────
-
-enum AppointmentType {
-  consultation
-  follow_up
-  emergency
-  teleconsultation
-}
-
-enum AppointmentStatus {
-  scheduled
-  confirmed
-  arrived
-  in_progress
-  completed
-  cancelled
-  no_show
-}
+// appointmentType: "consultation" | "follow_up" | "emergency" | "teleconsultation"
+// status:          "scheduled"    | "confirmed" | "arrived"   | "in_progress" | "completed" | "cancelled" | "no_show"
 
 model Appointment {
-  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clinicId        String            @map("clinic_id") @db.Uuid
-  patientId       String            @map("patient_id") @db.Uuid
-  doctorId        String?           @map("doctor_id") @db.Uuid
-  scheduledAt     DateTime          @map("scheduled_at")
-  duration        Int               @default(30)
-  appointmentType AppointmentType   @default(consultation) @map("appointment_type")
-  status          AppointmentStatus @default(scheduled)
+  id              String   @id @default(uuid())
+  clinicId        String   @map("clinic_id")
+  patientId       String   @map("patient_id")
+  doctorId        String?  @map("doctor_id")
+  scheduledAt     DateTime @map("scheduled_at")
+  duration        Int      @default(30)
+  appointmentType String   @default("consultation") @map("appointment_type")
+  status          String   @default("scheduled")
   notes           String?
-  createdBy       String?           @map("created_by") @db.Uuid
-  createdAt       DateTime          @default(now()) @map("created_at")
-  updatedAt       DateTime          @updatedAt @map("updated_at")
+  createdBy       String?  @map("created_by")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
 
-  clinic    Clinic   @relation(fields: [clinicId], references: [id])
-  patient   Patient  @relation(fields: [patientId], references: [id])
-  doctor    User?    @relation(fields: [doctorId], references: [id])
+  clinic  Clinic  @relation(fields: [clinicId], references: [id])
+  patient Patient @relation(fields: [patientId], references: [id])
+  doctor  User?   @relation(fields: [doctorId], references: [id])
 
   @@index([scheduledAt, clinicId])
   @@index([patientId])
@@ -298,36 +330,38 @@ model Appointment {
 // ─── Inventory ────────────────────────────────────────────────────────────────
 
 model Inventory {
-  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clinicId     String    @map("clinic_id") @db.Uuid
+  id           String    @id @default(uuid())
+  clinicId     String    @map("clinic_id")
   name         String
   category     String?
   potency      String?
   unit         String    @default("unit")
   currentStock Int       @default(0) @map("current_stock")
   reorderLevel Int       @default(5) @map("reorder_level")
-  costPrice    Decimal?  @map("cost_price") @db.Decimal(10, 2)
-  sellingPrice Decimal?  @map("selling_price") @db.Decimal(10, 2)
-  vendorId     String?   @map("vendor_id") @db.Uuid
-  expiryDate   DateTime? @map("expiry_date") @db.Date
+  costPrice    Decimal?  @map("cost_price")
+  sellingPrice Decimal?  @map("selling_price")
+  vendorId     String?   @map("vendor_id")
+  expiryDate   DateTime? @map("expiry_date")
   createdAt    DateTime  @default(now()) @map("created_at")
   updatedAt    DateTime  @updatedAt @map("updated_at")
 
-  clinic    Clinic              @relation(fields: [clinicId], references: [id])
-  movements InventoryMovement[]
+  clinic       Clinic              @relation(fields: [clinicId], references: [id])
+  vendor       Vendor?             @relation(fields: [vendorId], references: [id])
+  movements    InventoryMovement[]
+  stockInItems StockInItem[]
 
   @@index([clinicId])
   @@map("inventory")
 }
 
 model InventoryMovement {
-  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  inventoryId  String   @map("inventory_id") @db.Uuid
+  id           String   @id @default(uuid())
+  inventoryId  String   @map("inventory_id")
   movementType String   @map("movement_type")
   quantity     Int
-  referenceId  String?  @map("reference_id") @db.Uuid
+  referenceId  String?  @map("reference_id")
   notes        String?
-  performedBy  String?  @map("performed_by") @db.Uuid
+  performedBy  String?  @map("performed_by")
   createdAt    DateTime @default(now()) @map("created_at")
 
   inventory Inventory @relation(fields: [inventoryId], references: [id])
@@ -338,18 +372,18 @@ model InventoryMovement {
 // ─── Billing / Invoices ───────────────────────────────────────────────────────
 
 model Invoice {
-  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clinicId       String   @map("clinic_id") @db.Uuid
-  patientId      String   @map("patient_id") @db.Uuid
-  visitId        String?  @map("visit_id") @db.Uuid
+  id             String   @id @default(uuid())
+  clinicId       String   @map("clinic_id")
+  patientId      String   @map("patient_id")
+  visitId        String?  @map("visit_id")
   invoiceNumber  String   @unique @map("invoice_number")
-  subtotalAmount Decimal  @map("subtotal_amount") @db.Decimal(10, 2)
-  discountAmount Decimal  @default(0) @map("discount_amount") @db.Decimal(10, 2)
-  totalAmount    Decimal  @map("total_amount") @db.Decimal(10, 2)
+  subtotalAmount Decimal  @map("subtotal_amount")
+  discountAmount Decimal  @default(0) @map("discount_amount")
+  totalAmount    Decimal  @map("total_amount")
   status         String   @default("draft")
   notes          String?
   pdfUrl         String?  @map("pdf_url")
-  createdBy      String?  @map("created_by") @db.Uuid
+  createdBy      String?  @map("created_by")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
@@ -364,12 +398,12 @@ model Invoice {
 }
 
 model InvoiceItem {
-  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  invoiceId   String  @map("invoice_id") @db.Uuid
+  id          String  @id @default(uuid())
+  invoiceId   String  @map("invoice_id")
   description String
   quantity    Int     @default(1)
-  unitPrice   Decimal @map("unit_price") @db.Decimal(10, 2)
-  totalPrice  Decimal @map("total_price") @db.Decimal(10, 2)
+  unitPrice   Decimal @map("unit_price")
+  totalPrice  Decimal @map("total_price")
 
   invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
 
@@ -377,14 +411,14 @@ model InvoiceItem {
 }
 
 model Payment {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clinicId    String   @map("clinic_id") @db.Uuid
-  invoiceId   String   @map("invoice_id") @db.Uuid
-  amount      Decimal  @db.Decimal(10, 2)
+  id          String   @id @default(uuid())
+  clinicId    String   @map("clinic_id")
+  invoiceId   String   @map("invoice_id")
+  amount      Decimal
   method      String
   paidAt      DateTime @default(now()) @map("paid_at")
   referenceNo String?  @map("reference_no")
-  receivedBy  String?  @map("received_by") @db.Uuid
+  receivedBy  String?  @map("received_by")
 
   clinic  Clinic  @relation(fields: [clinicId], references: [id])
   invoice Invoice @relation(fields: [invoiceId], references: [id])
@@ -396,18 +430,18 @@ model Payment {
 // ─── Leads ────────────────────────────────────────────────────────────────────
 
 model Lead {
-  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clinicId     String    @map("clinic_id") @db.Uuid
+  id           String    @id @default(uuid())
+  clinicId     String    @map("clinic_id")
   fullName     String    @map("full_name")
   phone        String
   email        String?
   interestedIn String?   @map("interested_in")
   source       String?
   status       String    @default("new")
-  assignedTo   String?   @map("assigned_to") @db.Uuid
-  followUpDate DateTime? @map("follow_up_date") @db.Date
+  assignedTo   String?   @map("assigned_to")
+  followUpDate DateTime? @map("follow_up_date")
   notes        String?
-  patientId    String?   @map("patient_id") @db.Uuid
+  patientId    String?   @map("patient_id")
   createdAt    DateTime  @default(now()) @map("created_at")
   updatedAt    DateTime  @updatedAt @map("updated_at")
 
@@ -421,15 +455,15 @@ model Lead {
 // ─── Expenses ─────────────────────────────────────────────────────────────────
 
 model Expense {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clinicId    String   @map("clinic_id") @db.Uuid
+  id          String   @id @default(uuid())
+  clinicId    String   @map("clinic_id")
   description String
-  amount      Decimal  @db.Decimal(10, 2)
+  amount      Decimal
   category    String
-  expenseDate DateTime @map("expense_date") @db.Date
+  expenseDate DateTime @map("expense_date")
   notes       String?
   receiptUrl  String?  @map("receipt_url")
-  recordedBy  String?  @map("recorded_by") @db.Uuid
+  recordedBy  String?  @map("recorded_by")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
@@ -442,16 +476,16 @@ model Expense {
 // ─── Documents ────────────────────────────────────────────────────────────────
 
 model PatientDocument {
-  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  patientId     String    @map("patient_id") @db.Uuid
-  visitId       String?   @map("visit_id") @db.Uuid
+  id            String    @id @default(uuid())
+  patientId     String    @map("patient_id")
+  visitId       String?   @map("visit_id")
   docType       String?   @map("doc_type")
   fileName      String    @map("file_name")
   fileUrl       String    @map("file_url")
   fileSizeBytes Int?      @map("file_size_bytes")
   notes         String?
-  uploadedBy    String?   @map("uploaded_by") @db.Uuid
-  docDate       DateTime? @map("doc_date") @db.Date
+  uploadedBy    String?   @map("uploaded_by")
+  docDate       DateTime? @map("doc_date")
   createdAt     DateTime  @default(now()) @map("created_at")
 
   patient Patient @relation(fields: [patientId], references: [id])
@@ -463,16 +497,16 @@ model PatientDocument {
 // ─── Blocked Slots ────────────────────────────────────────────────────────────
 
 model BlockedSlot {
-  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clinicId       String   @map("clinic_id") @db.Uuid
-  doctorId       String   @map("doctor_id") @db.Uuid
-  blockDate      DateTime @map("block_date") @db.Date
+  id             String   @id @default(uuid())
+  clinicId       String   @map("clinic_id")
+  doctorId       String   @map("doctor_id")
+  blockDate      DateTime @map("block_date")
   startTime      String?  @map("start_time")
   endTime        String?  @map("end_time")
   reason         String?
   isRecurring    Boolean  @default(false) @map("is_recurring")
   recurDayOfWeek Int?     @map("recur_day_of_week")
-  createdBy      String?  @map("created_by") @db.Uuid
+  createdBy      String?  @map("created_by")
   createdAt      DateTime @default(now()) @map("created_at")
 
   clinic Clinic @relation(fields: [clinicId], references: [id])
@@ -483,16 +517,16 @@ model BlockedSlot {
 // ─── WhatsApp ─────────────────────────────────────────────────────────────────
 
 model WhatsappMessage {
-  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clinicId      String    @map("clinic_id") @db.Uuid
-  patientId     String?   @map("patient_id") @db.Uuid
+  id            String    @id @default(uuid())
+  clinicId      String    @map("clinic_id")
+  patientId     String?   @map("patient_id")
   direction     String
   templateName  String?   @map("template_name")
   messageBody   String?   @map("message_body")
   mediaUrl      String?   @map("media_url")
   watiMessageId String?   @map("wati_message_id")
   status        String    @default("queued")
-  sentBy        String?   @map("sent_by") @db.Uuid
+  sentBy        String?   @map("sent_by")
   deliveredAt   DateTime? @map("delivered_at")
   readAt        DateTime? @map("read_at")
   createdAt     DateTime  @default(now()) @map("created_at")
@@ -506,16 +540,17 @@ model WhatsappMessage {
 }
 
 // ─── Audit Log ────────────────────────────────────────────────────────────────
+// SQLite has no Json type — oldData/newData are stored as JSON-encoded strings.
 
 model AuditLog {
-  id         BigInt   @id @default(autoincrement())
-  clinicId   String?  @map("clinic_id") @db.Uuid
-  userId     String?  @map("user_id") @db.Uuid
+  id         Int      @id @default(autoincrement())
+  clinicId   String?  @map("clinic_id")
+  userId     String?  @map("user_id")
   action     String
   entityType String?  @map("entity_type")
-  entityId   String?  @map("entity_id") @db.Uuid
-  oldData    Json?    @map("old_data")
-  newData    Json?    @map("new_data")
+  entityId   String?  @map("entity_id")
+  oldData    String?  @map("old_data")
+  newData    String?  @map("new_data")
   ipAddress  String?  @map("ip_address")
   createdAt  DateTime @default(now()) @map("created_at")
 
@@ -523,4 +558,420 @@ model AuditLog {
   user   User?   @relation(fields: [userId], references: [id])
 
   @@map("audit_log")
+}
+
+// ─── Diet Templates ───────────────────────────────────────────────────────────
+
+model DietTemplate {
+  id          String   @id @default(uuid())
+  clinicId    String   @map("clinic_id")                       // v1: seeded under each clinic; v2: nullable for true globals
+  name        String
+  description String?
+  content     String                                             // @deprecated — legacy freeform body; new rows pass ""
+  tags        String?
+
+  // Classification
+  dietType        String? @map("diet_type")                       // VEG|NON_VEG|EGGETARIAN|VEGAN|JAIN|SATVIK
+  ageGroup        String? @map("age_group")                       // INFANT|TODDLER|CHILD|TEEN|ADULT|ELDERLY|PREGNANT|LACTATING
+  goal            String?                                          // see DietGoal list in PRD §6.9
+  conditionTags   String? @map("condition_tags")                  // json array
+  cuisineRegions  String? @map("cuisine_regions")                 // json array
+
+  // Generator targets
+  targetKcal      Int?    @map("target_kcal")
+  macroSplit      String? @map("macro_split")                     // json {c,p,f}
+  proteinPerKg    Float?  @map("protein_per_kg")
+  giCap           Int?    @map("gi_cap")
+  saltCapG        Float?  @map("salt_cap_g")
+  addedSugarCapG  Float?  @map("added_sugar_cap_g")
+  oilCapMl        Float?  @map("oil_cap_ml")
+  potassiumCapMg  Float?  @map("potassium_cap_mg")
+  waterTargetL    Float?  @map("water_target_l")
+
+  // Slot scaffolds (json)
+  slotDistribution String? @map("slot_distribution")              // json {slot: pct}
+  slotFoodGroups   String? @map("slot_food_groups")               // json {slot: [groups]}
+
+  // Do's & don'ts (json arrays)
+  allowedFoods     String? @map("allowed_foods")                  // json array
+  avoidFoods       String? @map("avoid_foods")                    // json array
+  lifestyleNotes   String? @map("lifestyle_notes")
+  supplementHints  String? @map("supplement_hints")
+
+  requiresDietitianReview Boolean @default(false) @map("requires_dietitian_review")
+  isActive   Boolean @default(true) @map("is_active")
+  source     String?
+
+  createdBy   String?  @map("created_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  clinic     Clinic             @relation(fields: [clinicId], references: [id])
+  dietCharts PatientDietChart[]
+
+  @@index([clinicId])
+  @@index([dietType, goal])
+  @@map("diet_templates")
+}
+
+model PatientDietChart {
+  id             String   @id @default(uuid())
+  visitId        String   @unique @map("visit_id")
+  patientId      String   @map("patient_id")
+  clinicId       String   @map("clinic_id")
+  dietTemplateId String?  @map("diet_template_id")
+  customContent  String?  @map("custom_content")               // @deprecated — legacy freeform body
+  notes          String?
+
+  // ── DCG v1 generator output ──
+  inputs            String?  // json — patient input bundle used
+  snapshot          String?  // json — full 7-day plan {summary, days[], weeklyRollup, dosAndDonts}
+  groceryList       String?  @map("grocery_list")               // json — aisle-grouped
+  patientOverrides  String?  @map("patient_overrides")          // json — post-gen edits
+  avgDailyKcal      Int?     @map("avg_daily_kcal")
+  avgDailyGi        Int?     @map("avg_daily_gi")
+  pdfUrl            String?  @map("pdf_url")
+  whatsappSentAt    DateTime? @map("whatsapp_sent_at")
+  version           Int      @default(1)
+  createdBy         String?  @map("created_by")
+
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  visit        Visit         @relation(fields: [visitId], references: [id])
+  dietTemplate DietTemplate? @relation(fields: [dietTemplateId], references: [id])
+
+  @@index([patientId])
+  @@index([clinicId])
+  @@map("patient_diet_charts")
+}
+
+// ─── Diet Chart Generator — Food / Recipe / Substitution Library ──────────────
+
+model Food {
+  id              String   @id @default(uuid())
+  name            String   @unique
+  nameLocal       String?  @map("name_local")                  // json {hi,kn,ta,bn,...}
+  category        String                                        // see PRD §9 FoodCategory enum (kept as String for SQLite)
+  subCategory     String?  @map("sub_category")
+  vegType         String   @map("veg_type")                    // VEG|EGG|NON_VEG|VEGAN|JAIN
+  cuisineRegions  String?  @map("cuisine_regions")             // json array
+
+  kcal            Float
+  proteinG        Float    @map("protein_g")
+  carbG           Float    @map("carb_g")
+  fatG            Float    @map("fat_g")
+  fiberG          Float?   @map("fiber_g")
+  sugarG          Float?   @map("sugar_g")
+  sodiumMg        Float?   @map("sodium_mg")
+  potassiumMg     Float?   @map("potassium_mg")
+  calciumMg       Float?   @map("calcium_mg")
+  ironMg          Float?   @map("iron_mg")
+  vitaminAUg      Float?   @map("vitamin_a_ug")
+  vitaminCMg      Float?   @map("vitamin_c_mg")
+  vitaminDUg      Float?   @map("vitamin_d_ug")
+  vitaminB12Ug    Float?   @map("vitamin_b12_ug")
+  folateUg        Float?   @map("folate_ug")
+  omega3G         Float?   @map("omega3_g")
+
+  gi                  Int?
+  glycemicLoadPer100g Float? @map("glycemic_load_per_100g")
+
+  allergens         String?  // json array
+  fodmapLevel       String?  @map("fodmap_level")
+  diseaseAllowed    String?  @map("disease_allowed")            // json array
+  diseaseRestricted String?  @map("disease_restricted")         // json array
+  seasonality       String?                                      // json array (months)
+  costTier          String?  @map("cost_tier")
+  unitCostInr       Float?   @map("unit_cost_inr")
+
+  defaultPortionG    Float   @map("default_portion_g")
+  defaultPortionDesc String? @map("default_portion_desc")
+  source             String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  recipesAsIngredient RecipeIngredient[]
+  swapsFrom           FoodSubstitution[] @relation("FromFood")
+  swapsTo             FoodSubstitution[] @relation("ToFood")
+
+  @@index([category, vegType])
+  @@index([gi])
+  @@map("foods")
+}
+
+model Recipe {
+  id            String   @id @default(uuid())
+  name          String   @unique
+  cuisine       String?
+  mealSlots     String?  @map("meal_slots")                    // json array
+  vegType       String   @map("veg_type")
+  prepTimeMin   Int      @map("prep_time_min")
+  difficulty    String?
+
+  servingsBase       Int   @default(1) @map("servings_base")
+  kcalPerServing     Float @map("kcal_per_serving")
+  proteinGPerServing Float @map("protein_g_per_serving")
+  carbGPerServing    Float @map("carb_g_per_serving")
+  fatGPerServing     Float @map("fat_g_per_serving")
+  giEstimate         Int?  @map("gi_estimate")
+
+  instructions  String?
+  mustPairWith  String?  @map("must_pair_with")                 // json array
+  tags          String?                                          // json array
+  source        String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  ingredients RecipeIngredient[]
+
+  @@map("recipes")
+}
+
+model RecipeIngredient {
+  id        String  @id @default(uuid())
+  recipeId  String  @map("recipe_id")
+  foodId    String  @map("food_id")
+  qtyG      Float   @map("qty_g")
+  note      String?
+
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  food   Food   @relation(fields: [foodId],   references: [id])
+
+  @@index([recipeId])
+  @@index([foodId])
+  @@map("recipe_ingredients")
+}
+
+model FoodSubstitution {
+  id              String  @id @default(uuid())
+  fromFoodId      String  @map("from_food_id")
+  toFoodId        String  @map("to_food_id")
+  contextSlot     String? @map("context_slot")
+  reason          String?
+  similarityScore Float   @default(0.7) @map("similarity_score")
+
+  fromFood Food @relation("FromFood", fields: [fromFoodId], references: [id])
+  toFood   Food @relation("ToFood",   fields: [toFoodId],   references: [id])
+
+  @@unique([fromFoodId, toFoodId, contextSlot])
+  @@index([fromFoodId])
+  @@map("food_substitutions")
+}
+
+model PatientBiomarker {
+  id         String   @id @default(uuid())
+  patientId  String   @map("patient_id")
+  visitId    String?  @map("visit_id")
+  marker     String                                              // hba1c|fbs|ldl|tsh|hb|ferritin|...
+  value      Float
+  unit       String
+  measuredAt DateTime @map("measured_at")
+  source     String?                                             // manual | document_parse
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  patient Patient @relation(fields: [patientId], references: [id])
+
+  @@index([patientId, marker, measuredAt])
+  @@map("patient_biomarkers")
+}
+
+// ─── Yoga Library ─────────────────────────────────────────────────────────────
+
+model YogaAsana {
+  id                String   @id @default(uuid())
+  clinicId          String   @map("clinic_id")
+  name              String
+  sanskritName      String?  @map("sanskrit_name")
+  category          String?
+  description       String?
+  duration          String?
+  benefits          String?
+  contraindications String?
+  imageUrl          String?  @map("image_url")
+  isActive          Boolean  @default(true) @map("is_active")
+  createdBy         String?  @map("created_by")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  clinic    Clinic                @relation(fields: [clinicId], references: [id])
+  planItems PatientYogaPlanItem[]
+
+  @@index([clinicId])
+  @@map("yoga_asanas")
+}
+
+model PatientYogaPlan {
+  id        String   @id @default(uuid())
+  visitId   String   @unique @map("visit_id")
+  patientId String   @map("patient_id")
+  clinicId  String   @map("clinic_id")
+  notes     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  visit Visit                 @relation(fields: [visitId], references: [id])
+  items PatientYogaPlanItem[]
+
+  @@index([patientId])
+  @@index([clinicId])
+  @@map("patient_yoga_plans")
+}
+
+model PatientYogaPlanItem {
+  id           String  @id @default(uuid())
+  yogaPlanId   String  @map("yoga_plan_id")
+  yogaAsanaId  String  @map("yoga_asana_id")
+  duration     String?
+  repetitions  String?
+  instructions String?
+  sortOrder    Int     @default(0) @map("sort_order")
+
+  yogaPlan  PatientYogaPlan @relation(fields: [yogaPlanId], references: [id], onDelete: Cascade)
+  yogaAsana YogaAsana       @relation(fields: [yogaAsanaId], references: [id])
+
+  @@map("patient_yoga_plan_items")
+}
+
+// ─── Disease / Prescription Templates ────────────────────────────────────────
+
+model DiseaseTemplate {
+  id        String   @id @default(uuid())
+  clinicId  String   @map("clinic_id")
+  name      String
+  diagnosis String?
+  notes     String?
+  isActive  Boolean  @default(true) @map("is_active")
+  createdBy String?  @map("created_by")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  clinic Clinic                @relation(fields: [clinicId], references: [id])
+  items  DiseaseTemplateItem[]
+
+  @@index([clinicId])
+  @@map("disease_templates")
+}
+
+model DiseaseTemplateItem {
+  id                String  @id @default(uuid())
+  diseaseTemplateId String  @map("disease_template_id")
+  remedyName        String  @map("remedy_name")
+  potency           String
+  form              String?
+  dose              String?
+  frequency         String?
+  duration          String?
+  instructions      String?
+  sortOrder         Int     @default(0) @map("sort_order")
+
+  diseaseTemplate DiseaseTemplate @relation(fields: [diseaseTemplateId], references: [id], onDelete: Cascade)
+
+  @@map("disease_template_items")
+}
+
+// ─── Vendors ──────────────────────────────────────────────────────────────────
+
+model Vendor {
+  id          String   @id @default(uuid())
+  clinicId    String   @map("clinic_id")
+  name        String
+  contactName String?  @map("contact_name")
+  phone       String?
+  email       String?
+  address     String?
+  gstin       String?
+  notes       String?
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  clinic    Clinic      @relation(fields: [clinicId], references: [id])
+  inventory Inventory[]
+  stockIns  StockIn[]
+
+  @@index([clinicId])
+  @@map("vendors")
+}
+
+// ─── Stock-In (Purchase Records) ──────────────────────────────────────────────
+
+model StockIn {
+  id           String   @id @default(uuid())
+  clinicId     String   @map("clinic_id")
+  vendorId     String?  @map("vendor_id")
+  invoiceNo    String?  @map("invoice_no")
+  purchaseDate DateTime @map("purchase_date")
+  totalAmount  Decimal? @map("total_amount")
+  notes        String?
+  recordedBy   String?  @map("recorded_by")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  clinic Clinic        @relation(fields: [clinicId], references: [id])
+  vendor Vendor?       @relation(fields: [vendorId], references: [id])
+  items  StockInItem[]
+
+  @@index([clinicId])
+  @@map("stock_ins")
+}
+
+model StockInItem {
+  id          String  @id @default(uuid())
+  stockInId   String  @map("stock_in_id")
+  inventoryId String  @map("inventory_id")
+  quantity    Int
+  costPrice   Decimal @map("cost_price")
+  totalPrice  Decimal @map("total_price")
+
+  stockIn   StockIn   @relation(fields: [stockInId], references: [id], onDelete: Cascade)
+  inventory Inventory @relation(fields: [inventoryId], references: [id])
+
+  @@map("stock_in_items")
+}
+
+// ─── Treatment Packages ───────────────────────────────────────────────────────
+
+model TreatmentPackage {
+  id           String   @id @default(uuid())
+  clinicId     String   @map("clinic_id")
+  name         String
+  description  String?
+  sessionCount Int      @map("session_count")
+  validityDays Int?     @map("validity_days")
+  price        Decimal
+  isActive     Boolean  @default(true) @map("is_active")
+  createdBy    String?  @map("created_by")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  clinic             Clinic                     @relation(fields: [clinicId], references: [id])
+  packageEnrollments PatientPackageEnrollment[]
+
+  @@index([clinicId])
+  @@map("treatment_packages")
+}
+
+model PatientPackageEnrollment {
+  id                 String    @id @default(uuid())
+  clinicId           String    @map("clinic_id")
+  patientId          String    @map("patient_id")
+  treatmentPackageId String    @map("treatment_package_id")
+  invoiceId          String?   @map("invoice_id")
+  sessionsTotal      Int       @map("sessions_total")
+  sessionsUsed       Int       @default(0) @map("sessions_used")
+  startDate          DateTime  @map("start_date")
+  expiryDate         DateTime? @map("expiry_date")
+  status             String    @default("active")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+
+  clinic           Clinic           @relation(fields: [clinicId], references: [id])
+  patient          Patient          @relation(fields: [patientId], references: [id])
+  treatmentPackage TreatmentPackage @relation(fields: [treatmentPackageId], references: [id])
+
+  @@index([patientId])
+  @@index([clinicId])
+  @@map("patient_package_enrollments")
 }

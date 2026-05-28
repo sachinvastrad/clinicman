@@ -12,7 +12,8 @@ export function formatDate(date: Date | string | null | undefined): string {
   });
 }
 
-export function formatCurrency(amount: number | string): string {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function formatCurrency(amount: number | string | any): string {
   return new Intl.NumberFormat("en-IN", {
     style: "currency", currency: "INR", maximumFractionDigits: 0,
   }).format(Number(amount));

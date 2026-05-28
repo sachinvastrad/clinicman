@@ -15,6 +15,7 @@ const createInvoiceSchema = z.object({
   items:     z.array(lineItemSchema).min(1),
   discount:  z.number().nonnegative().default(0),
   notes:     z.string().optional().nullable(),
+  date:      z.string().optional().nullable(),
 });
 
 export async function GET(req: NextRequest) {
@@ -62,6 +63,7 @@ export async function POST(req: NextRequest) {
       clinicId:      user.clinic_id,
       patientId:     parsed.data.patientId,
       visitId:       parsed.data.visitId ?? null,
+      createdAt:     parsed.data.date ? new Date(parsed.data.date) : undefined,
       invoiceNumber,
       subtotalAmount:subtotal,
       discountAmount:parsed.data.discount,

@@ -1,0 +1,31 @@
+{
+  "name": "Muscle Gain — Non-Veg — 2800 kcal",
+  "description": "High-protein lean bulk plan; eggs/chicken/fish daily, 1.8 g/kg protein.",
+  "diet_type": "NON_VEG",
+  "age_group": "ADULT",
+  "goal": "MUSCLE_GAIN",
+  "condition_tags": ["muscle_gain","sports"],
+  "cuisine_regions": ["pan_indian"],
+  "target_kcal": 2800,
+  "macro_split": { "carbs_pct": 45, "protein_pct": 30, "fat_pct": 25 },
+  "protein_per_kg": 1.8,
+  "salt_cap_g": 5,
+  "added_sugar_cap_g": 20,
+  "oil_cap_ml": 30,
+  "water_target_l": 3.5,
+  "slot_distribution": { "early_morning": 4, "breakfast": 22, "mid_morning": 10, "lunch": 25, "evening_snack": 13, "dinner": 22, "bedtime": 4 },
+  "slot_food_groups": {
+    "early_morning": ["NUT_OILSEED","DAIRY"],
+    "breakfast": ["CEREAL_MILLET","EGG","DAIRY","FRUIT"],
+    "mid_morning": ["FRUIT","DAIRY","PROCESSED"],
+    "lunch": ["CEREAL_MILLET","FLESH_FOOD","GLV","VEGETABLE","DAIRY"],
+    "evening_snack": ["NUT_OILSEED","PROCESSED","DAIRY"],
+    "dinner": ["CEREAL_MILLET","FLESH_FOOD","VEGETABLE"],
+    "bedtime": ["DAIRY"]
+  },
+  "allowed_foods": ["eggs","chicken","fish","greek yogurt","whey","quinoa","brown rice","oats","sweet potato"],
+  "avoid_foods": ["alcohol","late-night junk","sugary drinks"],
+  "lifestyle_notes": "Resistance training 4-5 days/week; sleep 8 hours; protein in every slot; track weight weekly.",
+  "supplement_hints": "Whey protein 1 scoop post-workout; creatine 3 g/day if performance focus.",
+  "source": "Clinic-Curated"
+}

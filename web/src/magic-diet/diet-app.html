@@ -1,0 +1,3465 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Sachi Homeo Clinic — Professional AI-powered 7-day Indian diet chart generator with NIN guidelines, disease-specific rules, and smart food substitutions." />
+<title>Sachi Homeo Clinic — Diet Chart Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   DrMan.ai — Premium Design System
+   Grid: 8px · Font: Inter · Palette: Teal-Emerald + Warm Slate
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Design Tokens ── */
+:root {
+  /* Accent */
+  --accent: #0d9488;
+  --accent2: #0f766e;
+  --accent-light: #14b8a6;
+  --accent-glow: rgba(20, 184, 166, 0.12);
+  --accent-surface: #f0fdfa;
+  --accent-chip: #ccfbf1;
+  --accent-chip-ink: #115e59;
+
+  /* Surfaces */
+  --bg: #f4f7f9;
+  --bg-subtle: #eef2f6;
+  --panel: #ffffff;
+  --panel-glass: rgba(255,255,255,0.72);
+  --panel-hover: #fafcfe;
+
+  /* Text */
+  --ink: #0f172a;
+  --ink-secondary: #334155;
+  --muted: #64748b;
+  --muted-light: #94a3b8;
+
+  /* Borders */
+  --line: #e2e8f0;
+  --line-light: #f1f5f9;
+  --line-focus: var(--accent);
+
+  /* Semantic */
+  --ok: #059669;
+  --ok-light: #ecfdf5;
+  --warn: #d97706;
+  --warn-light: #fffbeb;
+  --bad: #dc2626;
+  --bad-light: #fef2f2;
+  --info: #0284c7;
+  --info-light: #e0f2fe;
+
+  /* Chips */
+  --chip: var(--accent-chip);
+  --chip-ink: var(--accent-chip-ink);
+
+  /* Radii */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-pill: 999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-sm: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-md: 0 4px 12px rgba(15,23,42,0.07), 0 1px 3px rgba(15,23,42,0.04);
+  --shadow-lg: 0 12px 40px rgba(15,23,42,0.10), 0 4px 12px rgba(15,23,42,0.05);
+  --shadow-glow: 0 0 24px rgba(20,184,166,0.18);
+
+  /* Transitions */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 150ms;
+  --dur: 200ms;
+  --dur-slow: 350ms;
+}
+
+/* ── Dark Mode ── */
+[data-theme="dark"] {
+  --bg: #0c1222;
+  --bg-subtle: #111827;
+  --panel: rgba(30, 41, 59, 0.75);
+  --panel-glass: rgba(30, 41, 59, 0.65);
+  --panel-hover: rgba(51, 65, 85, 0.5);
+  --ink: #f1f5f9;
+  --ink-secondary: #cbd5e1;
+  --muted: #94a3b8;
+  --muted-light: #64748b;
+  --line: rgba(148, 163, 184, 0.12);
+  --line-light: rgba(148, 163, 184, 0.06);
+  --accent-surface: rgba(20, 184, 166, 0.08);
+  --accent-chip: rgba(20, 184, 166, 0.15);
+  --accent-chip-ink: #5eead4;
+  --chip: var(--accent-chip);
+  --chip-ink: var(--accent-chip-ink);
+  --accent-glow: rgba(20, 184, 166, 0.2);
+  --ok-light: rgba(5, 150, 105, 0.1);
+  --warn-light: rgba(217, 119, 6, 0.1);
+  --bad-light: rgba(220, 38, 38, 0.1);
+  --info-light: rgba(2, 132, 199, 0.1);
+}
+[data-theme="dark"] body { background: var(--bg); }
+[data-theme="dark"] header { background: linear-gradient(135deg, #134e4a 0%, #0c1222 100%); }
+[data-theme="dark"] .section.essential { background: rgba(20,184,166,0.06); }
+[data-theme="dark"] .tip-banner { background: rgba(5,150,105,0.08); border-color: rgba(5,150,105,0.2); color: #6ee7b7; }
+[data-theme="dark"] .tip-banner b { color: #a7f3d0; }
+[data-theme="dark"] input, [data-theme="dark"] select, [data-theme="dark"] textarea {
+  background: rgba(15, 23, 42, 0.5); border-color: var(--line); color: var(--ink);
+}
+[data-theme="dark"] table.plan th { background: rgba(30, 41, 59, 0.8); }
+[data-theme="dark"] table.plan td.day { background: rgba(30, 41, 59, 0.5); }
+[data-theme="dark"] .stat { background: rgba(30, 41, 59, 0.5); }
+[data-theme="dark"] .item { background: rgba(20, 184, 166, 0.06); }
+[data-theme="dark"] .item:hover { background: rgba(20, 184, 166, 0.12); }
+[data-theme="dark"] .item .nm { color: #5eead4; }
+[data-theme="dark"] .violations { background: rgba(217,119,6,0.08); border-color: rgba(217,119,6,0.2); color: #fbbf24; }
+[data-theme="dark"] .modal { background: #1e293b; }
+[data-theme="dark"] .modal .swap-item:hover { background: rgba(20,184,166,0.08); border-color: var(--accent); }
+[data-theme="dark"] .modal .swap-item .nm { color: #5eead4; }
+[data-theme="dark"] .day-menu { background: #1e293b; }
+[data-theme="dark"] .dos-donts .dos { background: rgba(5,150,105,0.06); border-color: rgba(5,150,105,0.15); }
+[data-theme="dark"] .dos-donts .donts { background: rgba(220,38,38,0.06); border-color: rgba(220,38,38,0.15); }
+[data-theme="dark"] .grocery-aisle h4 { background: rgba(30,41,59,0.6); }
+[data-theme="dark"] .footer-note { background: rgba(30,41,59,0.5); }
+[data-theme="dark"] .diff-added { background: rgba(22,163,74,0.1); }
+[data-theme="dark"] .diff-removed { background: rgba(220,38,38,0.1); }
+[data-theme="dark"] button.ghost { background: transparent; color: var(--accent-light); border-color: var(--accent); }
+[data-theme="dark"] button.ghost:hover { background: rgba(20,184,166,0.08); }
+
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 14px/1.6 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.006em;
+}
+
+/* ── Header ── */
+header {
+  background: linear-gradient(135deg, #0f766e 0%, #0d9488 40%, #134e4a 100%);
+  color: #fff;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 50%, rgba(94,234,212,0.12) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(45,212,191,0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+header > * { position: relative; z-index: 1; }
+header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+header h1 .logo-dot {
+  width: 8px; height: 8px;
+  background: #5eead4;
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(94,234,212,0.6);
+  animation: pulse-dot 3s ease-in-out infinite;
+}
+header small {
+  opacity: 0.7;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+header .controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+header .controls label {
+  margin: 0;
+  color: rgba(255,255,255,0.75);
+  font-size: 11px;
+  font-weight: 500;
+}
+header select, header button {
+  padding: 6px 12px;
+  border-radius: var(--r-sm);
+  border: 1px solid rgba(255,255,255,0.15);
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 500;
+  transition: all var(--dur) var(--ease);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+header select {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+header select option { background: #1e293b; color: #f1f5f9; }
+header button {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+header button:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.3);
+  transform: translateY(-1px);
+}
+header button:active { transform: translateY(0); }
+
+/* Theme Toggle */
+.theme-toggle {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #fff;
+  width: 36px; height: 36px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all var(--dur) var(--ease);
+  flex-shrink: 0;
+  padding: 0;
+}
+.theme-toggle:hover { background: rgba(255,255,255,0.2); transform: translateY(-1px); }
+
+/* ── Layout ── */
+main {
+  display: grid;
+  grid-template-columns: 460px 1fr;
+  gap: 24px;
+  padding: 24px;
+  max-width: 1600px;
+  margin: 0 auto;
+  align-items: start;
+}
+@media (max-width: 1024px) { main { grid-template-columns: 1fr; padding: 16px; gap: 16px; } }
+
+/* ── Panels ── */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: box-shadow var(--dur-slow) var(--ease);
+}
+.input-panel {
+  position: sticky;
+  top: 24px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.input-panel::-webkit-scrollbar { width: 5px; }
+.input-panel::-webkit-scrollbar-track { background: transparent; }
+.input-panel::-webkit-scrollbar-thumb { background: var(--line); border-radius: 99px; }
+@media (max-width: 1024px) {
+  .input-panel { position: static; max-height: none; }
+}
+.panel h2 {
+  margin: 0 0 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── Sections ── */
+.section {
+  margin: 16px 0;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.section.first { border-top: none; padding-top: 0; margin-top: 0; }
+.section.essential {
+  border-left: 3px solid var(--accent);
+  padding-left: 16px;
+  background: var(--accent-surface);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  margin-left: -8px;
+  padding-right: 12px;
+}
+.optional-tag {
+  font-weight: 400;
+  color: var(--muted-light);
+  font-size: 10px;
+  letter-spacing: 0;
+  text-transform: none;
+  margin-left: 8px;
+  font-style: italic;
+}
+.req-tag {
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  margin-left: 8px;
+  background: var(--accent-glow);
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+}
+.tip-banner {
+  background: var(--ok-light);
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+  padding: 12px 16px;
+  border-radius: var(--r-md);
+  font-size: 12px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.tip-banner b { color: #14532d; }
+.section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  padding: 4px 0;
+  transition: color var(--dur) var(--ease);
+}
+.section-title:hover { color: var(--accent); }
+.section-title::after {
+  content: "▾";
+  opacity: 0.5;
+  font-size: 10px;
+  transition: transform var(--dur-slow) var(--ease);
+}
+.section.closed .section-title::after { transform: rotate(-90deg); }
+.section-body {
+  overflow: hidden;
+  max-height: 600px;
+  transition: max-height var(--dur-slow) var(--ease), opacity var(--dur) var(--ease), margin var(--dur-slow) var(--ease);
+  opacity: 1;
+  margin-top: 8px;
+}
+.section.closed .section-body {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+}
+
+/* ── Form Elements ── */
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+input, select, textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+input::placeholder, textarea::placeholder { color: var(--muted-light); }
+textarea { resize: vertical; min-height: 40px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.row-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
+
+/* ── Chips ── */
+.chip-group { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  background: var(--chip);
+  color: var(--chip-ink);
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--dur) var(--ease-spring);
+}
+.chip:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-xs);
+}
+.chip.on {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 2px 8px rgba(13,148,136,0.25);
+  transform: scale(1.02);
+}
+.chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.disease-cat { margin-top: 8px; }
+.disease-cat .cat-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 8px 0 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color var(--dur) var(--ease);
+}
+.disease-cat .cat-title:hover { color: var(--accent); }
+.disease-cat .cat-title::after { content: "▾"; opacity: 0.4; font-size: 10px; transition: transform var(--dur-slow) var(--ease); }
+.disease-cat.closed .cat-title::after { content: "▸"; }
+.disease-cat .chip-group {
+  overflow: hidden;
+  max-height: 300px;
+  transition: max-height var(--dur-slow) var(--ease), opacity var(--dur) var(--ease);
+  opacity: 1;
+}
+.disease-cat.closed .chip-group {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* ── Buttons ── */
+button.primary {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  color: #fff;
+  border: none;
+  padding: 14px 20px;
+  border-radius: var(--r-md);
+  font-weight: 700;
+  font-size: 15px;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 16px;
+  letter-spacing: -0.01em;
+  transition: all var(--dur) var(--ease);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(13,148,136,0.25);
+}
+button.primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(13,148,136,0.3), var(--shadow-glow);
+}
+button.primary:hover::after { opacity: 1; }
+button.primary:active { transform: translateY(0); }
+button.primary:focus-visible { outline: 3px solid var(--accent-glow); outline-offset: 2px; }
+button.primary:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  box-shadow: none;
+}
+button.ghost {
+  background: var(--panel);
+  color: var(--accent2);
+  border: 1px solid var(--line);
+  padding: 8px 14px;
+  border-radius: var(--r-sm);
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all var(--dur) var(--ease);
+}
+button.ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-surface);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-xs);
+}
+button.ghost:active { transform: translateY(0); }
+button.ghost:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button.ghost.danger { color: var(--bad); border-color: #fca5a5; }
+button.ghost.danger:hover { background: var(--bad-light); border-color: var(--bad); }
+
+/* ── Stats ── */
+.summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.stat {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 16px;
+  transition: all var(--dur) var(--ease);
+  animation: stat-enter 0.5s var(--ease) both;
+}
+.stat:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.stat .num {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent2);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.stat .lbl {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+}
+@keyframes stat-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.stat:nth-child(1) { animation-delay: 0.05s; }
+.stat:nth-child(2) { animation-delay: 0.1s; }
+.stat:nth-child(3) { animation-delay: 0.15s; }
+.stat:nth-child(4) { animation-delay: 0.2s; }
+
+/* ── Tabs ── */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid var(--line-light);
+  flex-wrap: wrap;
+  padding-bottom: 0;
+}
+.tab {
+  padding: 10px 16px;
+  cursor: pointer;
+  border-radius: var(--r-sm) var(--r-sm) 0 0;
+  font-weight: 600;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  position: relative;
+  transition: all var(--dur) var(--ease);
+}
+.tab::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 1px;
+  transform: scaleX(0);
+  transition: transform var(--dur) var(--ease);
+}
+.tab:hover { color: var(--ink-secondary); background: var(--accent-surface); }
+.tab.on {
+  color: var(--accent2);
+  background: transparent;
+}
+.tab.on::after { transform: scaleX(1); }
+
+/* ── Tables ── */
+.grid7 { overflow-x: auto; border-radius: var(--r-md); }
+table.plan {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 900px;
+}
+table.plan th, table.plan td {
+  border: 1px solid var(--line);
+  padding: 8px;
+  vertical-align: top;
+  font-size: 12px;
+}
+table.plan th {
+  background: var(--bg-subtle);
+  font-weight: 600;
+  text-align: left;
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+table.plan tbody tr { transition: background var(--dur) var(--ease); }
+table.plan tbody tr:hover { background: var(--accent-surface); }
+table.plan tbody tr:nth-child(even) td { background: var(--line-light); }
+table.plan tbody tr:nth-child(even):hover td { background: var(--accent-surface); }
+table.plan td.day {
+  background: var(--panel);
+  font-weight: 700;
+  width: 90px;
+  color: var(--accent2);
+  position: relative;
+  font-size: 13px;
+}
+table.plan td.day.mode-cheat { background: var(--warn-light); }
+table.plan td.day.mode-veg { background: var(--ok-light); }
+table.plan td.day.mode-lighter { background: var(--info-light); }
+.day-actions {
+  position: absolute;
+  top: 4px; right: 4px;
+  display: flex;
+  gap: 3px;
+  flex-direction: column;
+}
+.day-actions button {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 3px 6px;
+  font-size: 10px;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 6px;
+  line-height: 1.1;
+  transition: all var(--dur) var(--ease);
+}
+.day-actions button:hover {
+  background: var(--accent-surface);
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+.day-mode-tag {
+  font-size: 10px;
+  font-weight: 600;
+  color: #92400e;
+  background: #fffbeb;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  margin-top: 4px;
+  display: inline-block;
+}
+
+/* ── Food Items ── */
+.item {
+  margin: 0 0 4px;
+  padding: 6px 8px;
+  background: var(--accent-surface);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+}
+.item:hover {
+  background: var(--accent-glow);
+  transform: translateX(2px);
+  box-shadow: var(--shadow-xs);
+}
+.item.locked {
+  background: var(--warn-light);
+  border-left-color: var(--warn);
+}
+.item.locked::after {
+  content: "🔒";
+  position: absolute;
+  top: 4px; right: 6px;
+  font-size: 9px;
+}
+.item.edited { border-left-color: var(--ok); }
+.item.edited::before {
+  content: "✏";
+  position: absolute;
+  top: 4px; right: 6px;
+  font-size: 9px;
+  color: var(--ok);
+}
+.item .nm { font-weight: 600; color: var(--accent2); font-size: 12px; line-height: 1.4; }
+.item .qty { color: var(--muted); font-size: 11px; }
+.item .nut { color: var(--muted-light); font-size: 10px; }
+.slot-note {
+  font-size: 11px;
+  color: #92400e;
+  background: var(--warn-light);
+  padding: 4px 8px;
+  border-radius: 6px;
+  margin-top: 4px;
+  font-style: italic;
+}
+.add-btn {
+  font-size: 10px;
+  font-family: inherit;
+  padding: 3px 8px;
+  margin-top: 4px;
+  background: transparent;
+  border: 1px dashed var(--line);
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all var(--dur) var(--ease);
+}
+.add-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-surface);
+}
+
+/* ── Grocery ── */
+.grocery-aisle { margin-bottom: 16px; }
+.grocery-aisle h4 {
+  margin: 0 0 8px;
+  padding: 8px 12px;
+  background: var(--bg-subtle);
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent2);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.grocery-aisle ul { margin: 0; padding: 8px 0 0 24px; columns: 2; column-gap: 32px; }
+.grocery-aisle li { font-size: 12px; margin-bottom: 4px; break-inside: avoid; line-height: 1.5; }
+
+/* ── Do's & Don'ts ── */
+.dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.dos-donts .col { padding: 16px; border-radius: var(--r-md); }
+.dos-donts .dos { background: var(--ok-light); border: 1px solid #bbf7d0; }
+.dos-donts .donts { background: var(--bad-light); border: 1px solid #fecaca; }
+.dos-donts h4 { margin: 0 0 8px; font-size: 13px; font-weight: 700; }
+.dos-donts ul { margin: 0; padding-left: 20px; }
+.dos-donts li { font-size: 12px; margin-bottom: 4px; line-height: 1.5; }
+@media (max-width: 640px) { .dos-donts { grid-template-columns: 1fr; } }
+
+/* ── Empty State ── */
+.empty {
+  text-align: center;
+  padding: 80px 32px;
+  color: var(--muted);
+}
+.empty svg {
+  width: 64px; height: 64px;
+  opacity: 0.25;
+  margin-bottom: 16px;
+  animation: float 4s ease-in-out infinite;
+}
+.empty div { font-size: 14px; line-height: 1.6; max-width: 360px; margin: 0 auto; }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ── Alerts / Violations ── */
+.violations {
+  background: var(--warn-light);
+  border: 1px solid #fde68a;
+  color: #92400e;
+  padding: 12px 16px;
+  border-radius: var(--r-md);
+  margin-bottom: 12px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.violations strong { display: block; margin-bottom: 4px; font-weight: 700; }
+.footer-note {
+  margin-top: 20px;
+  padding: 12px 16px;
+  background: var(--bg-subtle);
+  border-radius: var(--r-md);
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+  border-left: 3px solid var(--accent);
+  line-height: 1.6;
+}
+
+/* ── Toolbar ── */
+.toolbar {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+/* ── Modals ── */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 24px;
+  animation: modal-bg-in 0.2s var(--ease);
+}
+@keyframes modal-bg-in { from { opacity: 0; } to { opacity: 1; } }
+.modal {
+  background: var(--panel);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 88vh;
+  overflow: auto;
+  box-shadow: var(--shadow-lg);
+  animation: modal-in 0.3s var(--ease-spring);
+  border: 1px solid var(--line);
+}
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal h3 { margin: 0 0 12px; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+.modal .swap-list { display: flex; flex-direction: column; gap: 8px; }
+.modal .swap-item {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+}
+.modal .swap-item:hover {
+  border-color: var(--accent);
+  background: var(--accent-surface);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+.modal .swap-item .nm { font-weight: 600; color: var(--accent2); font-size: 14px; }
+.modal .swap-item .meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.modal-actions { display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end; flex-wrap: wrap; }
+.modal .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.modal .form-row label { margin-top: 0; }
+
+/* ── Day Menu ── */
+.day-menu {
+  position: absolute;
+  top: 24px; right: 4px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 4px;
+  z-index: 5;
+  box-shadow: var(--shadow-md);
+  display: none;
+  min-width: 140px;
+  animation: modal-in 0.2s var(--ease);
+}
+.day-menu.on { display: block; }
+.day-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background var(--dur) var(--ease);
+}
+.day-menu button:hover { background: var(--accent-surface); }
+
+/* ── Diff ── */
+.diff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.diff-col h4 { font-size: 14px; margin: 0 0 8px; color: var(--accent2); font-weight: 700; }
+.diff-changed { background: var(--warn-light); border-left-color: var(--warn) !important; }
+.diff-added { background: var(--ok-light); border-left-color: var(--ok) !important; }
+.diff-removed { background: var(--bad-light); border-left-color: var(--bad) !important; opacity: 0.7; }
+
+/* ── Toast Notifications ── */
+.toast-container {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+.toast {
+  background: var(--ink);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: var(--r-md);
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  animation: toast-in 0.4s var(--ease-spring), toast-out 0.3s var(--ease) 2.7s forwards;
+  pointer-events: auto;
+  max-width: 360px;
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes toast-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+/* ── Loading Shimmer ── */
+.shimmer-wrap {
+  padding: 32px;
+}
+.shimmer-bar {
+  height: 14px;
+  background: linear-gradient(90deg, var(--line-light) 25%, var(--line) 50%, var(--line-light) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--r-sm);
+  margin-bottom: 12px;
+}
+.shimmer-bar.short { width: 60%; }
+.shimmer-bar.med { width: 80%; }
+.shimmer-bar.stat-block {
+  height: 72px;
+  width: 100%;
+  border-radius: var(--r-md);
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Pulse Dot Animation ── */
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 12px rgba(94,234,212,0.6); }
+  50% { box-shadow: 0 0 20px rgba(94,234,212,0.9), 0 0 40px rgba(94,234,212,0.3); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  header { padding: 12px 16px; }
+  header h1 { font-size: 17px; }
+  main { padding: 12px; }
+  .panel { padding: 16px; }
+  .summary { grid-template-columns: repeat(2, 1fr); }
+  table.plan th, table.plan td { padding: 6px; font-size: 11px; }
+}
+@media (max-width: 480px) {
+  .summary { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .row, .row-3 { grid-template-columns: 1fr; }
+  .dos-donts { grid-template-columns: 1fr; }
+}
+
+/* ── Screen Print View Hidden ── */
+#print-view {
+  display: none;
+}
+
+/* ── Print ── */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+  
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    font-family: 'Inter', -apple-system, sans-serif !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    font-size: 11px !important;
+  }
+  
+  header, main, #modalRoot, .toast-container, .toolbar, .tabs {
+    display: none !important;
+  }
+  
+  #print-view {
+    display: block !important;
+    width: 100% !important;
+  }
+  
+  .print-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #0d9488;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .print-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .print-header-left img {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+  }
+  
+  .print-clinic-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #0f766e;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+  
+  .print-clinic-sub {
+    font-size: 11px;
+    color: #475569;
+    margin: 2px 0 0;
+  }
+  
+  .print-patient-info {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 11px;
+  }
+  
+  .print-info-item {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .print-info-lbl {
+    font-size: 8.5px;
+    text-transform: uppercase;
+    color: #64748b;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  
+  .print-info-val {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 2px;
+  }
+  
+  .print-section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #0f766e;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding-bottom: 4px;
+    margin: 20px 0 10px;
+    letter-spacing: 0.05em;
+  }
+  
+  .print-notes {
+    background: #f0fdfa;
+    border-left: 4px solid #0d9488;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 16px;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  
+  .print-notes strong {
+    display: block;
+    color: #0f766e;
+    margin-bottom: 4px;
+    font-size: 11px;
+  }
+  
+  .print-day-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  
+  .print-day-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1.5px solid #ccfbf1;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+  }
+  
+  .print-day-name {
+    font-size: 13px;
+    font-weight: 800;
+    color: #0f766e;
+  }
+  
+  .print-day-macros {
+    font-size: 9.5px;
+    color: #475569;
+    font-weight: 500;
+  }
+  
+  .print-meal-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  
+  .print-meal-row:last-child {
+    border-bottom: none;
+  }
+  
+  .print-meal-time {
+    font-size: 9.5px;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .print-meal-time-val {
+    font-size: 8px;
+    font-weight: 400;
+    color: #94a3b8;
+    margin-top: 1px;
+  }
+  
+  .print-meal-content {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  
+  .print-food-item {
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 1px;
+  }
+  
+  .print-food-desc {
+    font-size: 9px;
+    color: #64748b;
+    font-weight: 400;
+  }
+  
+  .print-meal-note {
+    font-size: 9px;
+    color: #b45309;
+    background: #fffbeb;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 4px;
+    font-style: italic;
+    display: inline-block;
+  }
+  
+  .print-dos-donts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 10px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  
+  .print-dos-box, .print-donts-box {
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 11px;
+  }
+  
+  .print-dos-box {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+  }
+  
+  .print-donts-box {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+  }
+  
+  .print-dos-box h4 {
+    color: #065f46;
+    margin: 0 0 6px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  
+  .print-donts-box h4 {
+    color: #991b1b;
+    margin: 0 0 6px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  
+  .print-dos-donts ul {
+    margin: 0;
+    padding-left: 14px;
+  }
+  
+  .print-dos-donts li {
+    margin-bottom: 3px;
+    line-height: 1.4;
+  }
+  
+  .print-grocery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  
+  .print-grocery-aisle {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 10px;
+  }
+  
+  .print-grocery-aisle h4 {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #0f766e;
+    margin: 0 0 6px;
+    border-bottom: 1.5px solid #ccfbf1;
+    padding-bottom: 3px;
+  }
+  
+  .print-grocery-aisle ul {
+    margin: 0;
+    padding-left: 12px;
+    list-style-type: square;
+  }
+  
+  .print-grocery-aisle li {
+    font-size: 9.5px;
+    margin-bottom: 2px;
+    line-height: 1.3;
+  }
+  
+  .print-footer {
+    border-top: 1.5px solid #e2e8f0;
+    padding-top: 8px;
+    margin-top: 20px;
+    font-size: 9px;
+    color: #64748b;
+    text-align: center;
+    font-style: italic;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    line-height: 1.4;
+  }
+  .print-signature-block {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .signature-line {
+    width: 160px;
+    border-bottom: 1.2px solid #475569;
+    margin-bottom: 4px;
+  }
+  .print-signature-block p {
+    font-size: 9px;
+    color: #475569;
+    margin: 0;
+    line-height: 1.3;
+    text-align: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div style="display: flex; align-items: center; gap: 16px;">
+    <img src="data:image/png;base64,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" alt="Sachi Homeo Clinic" style="height: 48px; width: auto; object-fit: contain; border-radius: var(--r-sm);" />
+    <div>
+      <h1 style="display: flex; align-items: center; gap: 8px; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.02em;">Sachi Homeo Clinic</h1>
+      <small style="opacity: 0.9; font-size: 12px; font-weight: 500;">Diet Chart Generator · Professional 7-day Indian meal planner · NIN-aligned</small>
+    </div>
+  </div>
+  <div class="controls">
+    <label>Recent:</label>
+    <select id="recentSel" onchange="loadRecent(this.value)" aria-label="Load recent patient">
+      <option value="">— select —</option>
+    </select>
+    <label>Saved:</label>
+    <select id="savedSel" onchange="loadSavedPlan(this.value)" aria-label="Load saved plan">
+      <option value="">— plans —</option>
+    </select>
+    <button onclick="openPresetMenu()" title="Load a golden-scenario preset">🎯 Preset</button>
+    <button onclick="openDiffMenu()" title="Compare two saved plans">⇆ Diff</button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
+    <small id="date"></small>
+  </div>
+</header>
+
+<main>
+  <!-- ============================ INPUT PANEL ============================ -->
+  <section class="panel input-panel">
+    <h2>Patient Profile</h2>
+    <div class="tip-banner">
+      <b>Only the blue-bar sections are needed.</b> Everything else is optional — leave blank if not relevant, the generator uses safe defaults.
+    </div>
+
+    <div class="section first essential">
+      <div style="font-size:10px;font-weight:700;color:var(--accent2);letter-spacing:.4px;text-transform:uppercase;margin-bottom:4px">Essentials <span class="req-tag">REQUIRED</span></div>
+      <label>Patient name</label>
+      <input id="pname" placeholder="e.g., Priyanka G." value="Priyanka G."/>
+      <div class="row">
+        <div><label>Age (yrs)</label><input id="age" type="number" value="31" min="1" max="100"/></div>
+        <div><label>Gender</label>
+          <select id="gender"><option value="F">Female</option><option value="M">Male</option></select>
+        </div>
+      </div>
+      <div class="row">
+        <div><label>Height (cm)</label><input id="height" type="number" value="161"/></div>
+        <div><label>Weight (kg)</label><input id="weight" type="number" value="64"/></div>
+      </div>
+    </div>
+
+    <div class="section closed">
+      <div class="section-title" onclick="this.parentElement.classList.toggle('closed')">Extended anthropometry<span class="optional-tag">optional</span></div>
+      <div class="section-body">
+        <div class="row-3">
+          <div><label>Waist (cm)</label><input id="waist" type="number" placeholder="—"/></div>
+          <div><label>Hip (cm)</label><input id="hip" type="number" placeholder="—"/></div>
+          <div><label>Body fat %</label><input id="bodyFat" type="number" placeholder="—"/></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section essential">
+      <div class="section-title" onclick="this.parentElement.classList.toggle('closed')">Activity, Goal & Cooking<span class="req-tag">REQUIRED</span></div>
+      <div class="section-body">
+        <label>Activity level</label>
+        <select id="activity">
+          <option value="1.2">Sedentary / desk job</option>
+          <option value="1.375">Light (1–3 days exercise)</option>
+          <option value="1.55" selected>Moderate (3–5 days)</option>
+          <option value="1.725">Heavy / manual labour</option>
+          <option value="1.9">Athlete</option>
+        </select>
+        <label>Primary goal</label>
+        <select id="goal">
+          <option value="maintenance">Maintenance / wellness</option>
+          <option value="wl_mild">Weight loss (mild)</option>
+          <option value="wl_mod" selected>Weight loss (moderate)</option>
+          <option value="wg">Weight gain</option>
+          <option value="mg">Muscle gain</option>
+          <option value="diabetes_t2">Diabetes T2 management</option>
+          <option value="pcos">PCOS / PCOD support</option>
+          <option value="htn">Hypertension control</option>
+          <option value="hypothyroid">Hypothyroid support</option>
+          <option value="hyperthyroid">Hyperthyroid support</option>
+          <option value="pregnancy_t1">Pregnancy T1</option>
+          <option value="pregnancy_t2">Pregnancy T2/T3</option>
+          <option value="lactation">Lactation</option>
+          <option value="elderly">Elderly longevity</option>
+          <option value="immunity">Immunity boost</option>
+          <option value="post_surgery">Post-surgical recovery</option>
+        </select>
+        <div class="row">
+          <div><label>Cooking time/meal</label>
+            <select id="cookTime">
+              <option value="0" selected>No limit</option>
+              <option value="10">≤ 10 min</option>
+              <option value="20">≤ 20 min</option>
+              <option value="45">≤ 45 min</option>
+            </select>
+          </div>
+          <div><label>Fasting window</label>
+            <select id="ifWindow">
+              <option value="none" selected>None</option>
+              <option value="12_12">12:12</option>
+              <option value="14_10">14:10</option>
+              <option value="16_8">16:8</option>
+              <option value="omad">OMAD</option>
+              <option value="52">5:2 weekly</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section closed">
+      <div class="section-title" onclick="this.parentElement.classList.toggle('closed')">Lifestyle<span class="optional-tag">optional · adds dos/don'ts</span></div>
+      <div class="section-body">
+        <div class="row">
+          <div><label>Sleep (hrs)</label><input id="sleepHrs" type="number" step="0.5" placeholder="7"/></div>
+          <div><label>Stress level</label>
+            <select id="stress">
+              <option value="">—</option>
+              <option value="low">Low</option>
+              <option value="mod">Moderate</option>
+              <option value="high">High</option>
+              <option value="burnout">Burnout</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div><label>Caffeine (cups/day)</label><input id="caffeine" type="number" placeholder="0"/></div>
+          <div><label>Alcohol</label>
+            <select id="alcohol">
+              <option value="">—</option>
+              <option value="none">None</option>
+              <option value="occasional">Occasional</option>
+              <option value="weekly">Weekly</option>
+              <option value="daily">Daily</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section closed">
+      <div class="section-title" onclick="this.parentElement.classList.toggle('closed')">Biomarkers (lab values)<span class="optional-tag">optional · auto-derives tags</span></div>
+      <div class="section-body">
+        <div class="row">
+          <div><label>HbA1c (%)</label><input id="bm_hba1c" type="number" step="0.1" placeholder="—"/></div>
+          <div><label>FBS (mg/dL)</label><input id="bm_fbs" type="number" placeholder="—"/></div>
+        </div>
+        <div class="row">
+          <div><label>LDL (mg/dL)</label><input id="bm_ldl" type="number" placeholder="—"/></div>
+          <div><label>Triglycerides</label><input id="bm_tg" type="number" placeholder="—"/></div>
+        </div>
+        <div class="row">
+          <div><label>Hb (g/dL)</label><input id="bm_hb" type="number" step="0.1" placeholder="—"/></div>
+          <div><label>TSH (mIU/L)</label><input id="bm_tsh" type="number" step="0.1" placeholder="—"/></div>
+        </div>
+        <div class="row">
+          <div><label>eGFR</label><input id="bm_egfr" type="number" placeholder="—"/></div>
+          <div><label>Uric acid (mg/dL)</label><input id="bm_uric" type="number" step="0.1" placeholder="—"/></div>
+        </div>
+        <div class="row">
+          <div><label>Sys BP</label><input id="bm_sbp" type="number" placeholder="—"/></div>
+          <div><label>Dia BP</label><input id="bm_dbp" type="number" placeholder="—"/></div>
+        </div>
+        <div class="row">
+          <div><label>Vit D (ng/mL)</label><input id="bm_vitd" type="number" placeholder="—"/></div>
+          <div><label>B12 (pg/mL)</label><input id="bm_b12" type="number" placeholder="—"/></div>
+        </div>
+        <div style="font-size:10px;color:var(--muted);font-style:italic;margin-top:4px">Out-of-range values auto-add disease tags and tighten rules.</div>
+      </div>
+    </div>
+
+    <div class="section closed">
+      <div class="section-title" onclick="this.parentElement.classList.toggle('closed')">Medications<span class="optional-tag">optional · adds drug-nutrient warnings</span></div>
+      <div class="section-body">
+        <div class="chip-group" id="medChips"></div>
+      </div>
+    </div>
+
+    <div class="section closed">
+      <div class="section-title" onclick="this.parentElement.classList.toggle('closed')">Constitutional (Ayurveda)<span class="optional-tag">optional · biases food choices</span></div>
+      <div class="section-body">
+        <label>Dominant dosha</label>
+        <select id="dosha">
+          <option value="">—</option>
+          <option value="vata">Vata</option>
+          <option value="pitta">Pitta</option>
+          <option value="kapha">Kapha</option>
+          <option value="vata_pitta">Vata-Pitta</option>
+          <option value="pitta_kapha">Pitta-Kapha</option>
+          <option value="vata_kapha">Vata-Kapha</option>
+          <option value="tridosha">Tridoshic</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section essential">
+      <div class="section-title" onclick="this.parentElement.classList.toggle('closed')">Diet & Cuisine<span class="req-tag">REQUIRED</span></div>
+      <div class="section-body">
+        <div class="row">
+          <div><label>Diet type</label>
+            <select id="dietType">
+              <option value="VEG" selected>Vegetarian</option>
+              <option value="EGG">Eggetarian</option>
+              <option value="NON_VEG">Non-vegetarian</option>
+              <option value="VEGAN">Vegan</option>
+              <option value="JAIN">Jain</option>
+              <option value="SATTVIC">Sattvic</option>
+            </select>
+          </div>
+          <div><label>Region</label>
+            <select id="region">
+              <option value="pan" selected>Pan-Indian (widest mix)</option>
+              <option value="south">South Indian</option>
+              <option value="north">North Indian</option>
+              <option value="east">East Indian</option>
+              <option value="west">West Indian</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section closed">
+      <div class="section-title" onclick="this.parentElement.classList.toggle('closed')">Allergens (exclude)<span class="optional-tag">optional · fill only if patient has any</span></div>
+      <div class="section-body"><div class="chip-group" id="allergenChips"></div></div>
+    </div>
+
+    <div class="section closed">
+      <div class="section-title" onclick="this.parentElement.classList.toggle('closed')">Disease tags<span class="optional-tag">optional · fill only known conditions</span></div>
+      <div class="section-body"><div id="diseaseGroups"></div></div>
+    </div>
+
+    <div class="section">
+      <label>Dislikes <span class="optional-tag">optional</span></label>
+      <input id="dislikes" placeholder="e.g., bitter gourd, mushroom"/>
+      <label>Budget tier</label>
+      <select id="budget">
+        <option value="3">Economy</option>
+        <option value="2" selected>Standard</option>
+        <option value="1">Premium</option>
+      </select>
+    </div>
+
+    <button class="primary" id="generateBtn" onclick="safeGenerate()">⚡ Generate 7-Day Plan</button>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);text-align:center">
+      <button class="ghost danger" style="font-size:11px;padding:6px 12px;opacity:0.7" onclick="resetStorage()" title="Wipe saved plans and recents (useful if app feels broken)">↻ Reset local data</button>
+    </div>
+  </section>
+
+  <!-- ============================ OUTPUT PANEL ============================ -->
+  <section class="panel" id="output">
+    <div class="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h18v18H3z M3 9h18 M9 21V9"/></svg>
+      <div>Fill the patient profile and click <b>⚡ Generate</b> to create a personalized 7-day diet plan, or pick a <b>🎯 Preset</b> from the header to try a demo scenario.</div>
+    </div>
+  </section>
+</main>
+
+<div id="modalRoot"></div>
+<div class="toast-container" id="toastContainer"></div>
+<div id="print-view"></div>
+
+<script>
+/* ============================================================
+   FOOD DATABASE — ~140 curated Indian foods with full metadata.
+   Field codes:
+     n   name
+     sl  slots ["em","bf","mm","ln","es","dn","bd"]
+     v   vegType: VEG | EGG | NON_VEG | VEGAN | JAIN
+     kcal, p (protein), c (carb), f (fat), fb (fibre), gi
+     al  allergens [dairy|gluten|nut|egg|soy|fish|shellfish|sesame|grapefruit]
+     rg  regions [south|north|east|west|pan]
+     ct  cost tier 1=premium 2=standard 3=economy
+     q   qty/serving description
+     cat aisle: beverage|breakfast|meal|snack|fruit|nut|protein|veg|spice|grain
+     ox  oxalate level: 0=low, 1=med, 2=high
+     pur purine: 0=low, 1=med, 2=high
+     na  sodium: 0=low, 1=med, 2=high
+     fm  FODMAP: 0=low, 1=med, 2=high
+     ty  tyramine (0/1)
+     gtg goitrogen raw (0/1)
+     ggn galactagogue (0/1)
+     ir  iron-rich (0/1)
+     cal calcium-rich (0/1)
+     om3 omega-3 (0/1)
+     sf  soluble fibre (0/1)
+     vk  vitamin-K high (0/1) — for warfarin warning
+     gf  gluten-free explicit (0/1)
+     pt  prep_time_min (cooking time)
+     temp food temperament: w=warming, c=cooling, n=neutral (Ayurveda)
+============================================================ */
+const FOODS = [
+  /* ===== Early morning ===== */
+  {n:"Warm water with lemon",sl:["em"],v:"VEGAN",kcal:5,p:0,c:1,f:0,fb:0,gi:0,al:[],rg:["pan"],ct:3,q:"1 glass",cat:"beverage",pt:2,temp:"w"},
+  {n:"Soaked almonds (5)",sl:["em"],v:"VEGAN",kcal:35,p:1.3,c:1.3,f:3,fb:0.6,gi:0,al:["nut"],rg:["pan"],ct:1,q:"5 nos",cat:"nut",ox:2,pt:0,temp:"w"},
+  {n:"Soaked walnuts (3)",sl:["em"],v:"VEGAN",kcal:55,p:1.4,c:1.1,f:5.5,fb:0.5,gi:0,al:["nut"],rg:["pan"],ct:1,q:"3 halves",cat:"nut",om3:1,pt:0,temp:"w"},
+  {n:"Methi seeds water",sl:["em"],v:"VEGAN",kcal:10,p:0.5,c:1.5,f:0.2,fb:0.8,gi:0,al:[],rg:["pan"],ct:3,q:"1 glass",cat:"beverage",sf:1,pt:2,temp:"w"},
+  {n:"Tulsi-ginger tea (no sugar)",sl:["em","bd"],v:"VEGAN",kcal:8,p:0,c:1.5,f:0,fb:0,gi:0,al:[],rg:["pan"],ct:3,q:"1 cup",cat:"beverage",pt:5,temp:"w"},
+  {n:"Cinnamon water",sl:["em"],v:"VEGAN",kcal:5,p:0,c:1,f:0,fb:0,gi:0,al:[],rg:["pan"],ct:3,q:"1 glass",cat:"beverage",pt:2,temp:"w"},
+  {n:"Cumin (jeera) water",sl:["em"],v:"VEGAN",kcal:5,p:0,c:1,f:0,fb:0,gi:0,al:[],rg:["pan"],ct:3,q:"1 glass",cat:"beverage",pt:2,temp:"w"},
+  {n:"Amla juice (fresh)",sl:["em"],v:"VEGAN",kcal:35,p:0.5,c:8,f:0.1,fb:3,gi:35,al:[],rg:["pan"],ct:3,q:"30 ml",cat:"beverage",pt:3,temp:"c"},
+  {n:"Soaked black raisins (10)",sl:["em"],v:"VEGAN",kcal:50,p:0.5,c:13,f:0,fb:0.6,gi:55,al:[],rg:["pan"],ct:2,q:"10 nos",cat:"snack",ir:1,pt:0,temp:"n"},
+  {n:"Soaked sabja (basil) seeds",sl:["em","bd"],v:"VEGAN",kcal:30,p:1,c:3,f:1,fb:3,gi:10,al:[],rg:["pan"],ct:3,q:"1 tsp",cat:"beverage",sf:1,om3:1,pt:0,temp:"c"},
+  {n:"Coriander seed water",sl:["em"],v:"VEGAN",kcal:5,p:0,c:1,f:0,fb:0,gi:0,al:[],rg:["pan"],ct:3,q:"1 glass",cat:"beverage",pt:2,temp:"c"},
+  {n:"Triphala water",sl:["em"],v:"VEGAN",kcal:8,p:0,c:1.5,f:0,fb:0.5,gi:0,al:[],rg:["pan"],ct:3,q:"1 glass",cat:"beverage",pt:5,temp:"n"},
+
+  /* ===== Breakfast — South ===== */
+  {n:"Idli (2) with sambar",sl:["bf"],v:"VEG",kcal:220,p:8,c:42,f:2,fb:3.5,gi:60,al:[],rg:["south","pan"],ct:3,q:"2 idli + sambar",cat:"breakfast",gf:1,pt:20,temp:"n"},
+  {n:"Ragi dosa with chutney",sl:["bf"],v:"VEG",kcal:280,p:9,c:48,f:5,fb:6,gi:48,al:[],rg:["south","pan"],ct:3,q:"2 dosa",cat:"breakfast",ir:1,cal:1,gf:1,pt:25,temp:"w"},
+  {n:"Pesarattu (moong dosa) with ginger chutney",sl:["bf"],v:"VEG",kcal:260,p:13,c:38,f:5,fb:6,gi:40,al:[],rg:["south"],ct:3,q:"2 dosa",cat:"breakfast",gf:1,pt:25,temp:"w"},
+  {n:"Vegetable uttapam",sl:["bf"],v:"VEG",kcal:270,p:8,c:48,f:4,fb:4,gi:55,al:[],rg:["south","pan"],ct:3,q:"1 large",cat:"breakfast",gf:1,pt:20,temp:"n"},
+  {n:"Akki rotti with coconut chutney",sl:["bf"],v:"VEG",kcal:290,p:6,c:50,f:7,fb:4,gi:65,al:[],rg:["south"],ct:3,q:"2 rotti",cat:"breakfast",gf:1,pt:25,temp:"n"},
+  {n:"Set dosa (2) with veg kurma",sl:["bf"],v:"VEG",kcal:300,p:8,c:50,f:7,fb:4,gi:62,al:[],rg:["south"],ct:3,q:"2 dosa",cat:"breakfast",gf:1,pt:30,temp:"n"},
+  {n:"Upma (rava) with veggies",sl:["bf"],v:"VEG",kcal:240,p:6,c:42,f:5,fb:3,gi:60,al:["gluten"],rg:["south","pan"],ct:3,q:"1 bowl",cat:"breakfast",pt:20,temp:"w"},
+  {n:"Pongal (low-ghee)",sl:["bf"],v:"VEG",kcal:280,p:9,c:45,f:6,fb:3,gi:60,al:[],rg:["south"],ct:3,q:"1 bowl",cat:"breakfast",gf:1,pt:25,temp:"w"},
+  {n:"Appam with veg stew",sl:["bf"],v:"VEG",kcal:310,p:7,c:52,f:8,fb:3,gi:60,al:[],rg:["south"],ct:3,q:"2 appam",cat:"breakfast",gf:1,pt:30,temp:"n"},
+  {n:"Adai (mixed dal dosa)",sl:["bf"],v:"VEG",kcal:290,p:14,c:38,f:8,fb:6,gi:45,al:[],rg:["south"],ct:3,q:"2 adai",cat:"breakfast",gf:1,pt:25,temp:"w"},
+  {n:"Foxtail millet pongal",sl:["bf"],v:"VEG",kcal:260,p:8,c:45,f:5,fb:5,gi:50,al:[],rg:["south"],ct:2,q:"1 bowl",cat:"breakfast",gf:1,pt:25,temp:"w"},
+
+  /* ===== Breakfast — North/West/East ===== */
+  {n:"Oats upma with vegetables",sl:["bf"],v:"VEG",kcal:260,p:9,c:42,f:6,fb:5,gi:52,al:["gluten"],rg:["pan"],ct:2,q:"1 bowl",cat:"breakfast",sf:1,pt:15,temp:"w"},
+  {n:"Vegetable poha",sl:["bf"],v:"VEG",kcal:230,p:5,c:42,f:5,fb:3,gi:55,al:[],rg:["west","pan"],ct:3,q:"1 bowl",cat:"breakfast",ir:1,gf:1,pt:15,temp:"w"},
+  {n:"Besan chilla (2)",sl:["bf"],v:"VEG",kcal:240,p:12,c:25,f:8,fb:4,gi:30,al:[],rg:["north","pan"],ct:3,q:"2 chillas",cat:"breakfast",gf:1,pt:15,temp:"w"},
+  {n:"Moong dal cheela (2)",sl:["bf"],v:"VEG",kcal:250,p:14,c:30,f:6,fb:5,gi:35,al:[],rg:["north","pan"],ct:3,q:"2 cheelas",cat:"breakfast",gf:1,pt:20,temp:"w"},
+  {n:"Stuffed besan paratha + curd",sl:["bf"],v:"VEG",kcal:340,p:13,c:42,f:12,fb:5,gi:50,al:["dairy"],rg:["north"],ct:3,q:"1 paratha",cat:"breakfast",pt:30,temp:"w"},
+  {n:"Daliya (broken wheat) porridge",sl:["bf"],v:"VEG",kcal:230,p:7,c:42,f:3,fb:5,gi:50,al:["gluten","dairy"],rg:["north"],ct:3,q:"1 bowl",cat:"breakfast",sf:1,pt:20,temp:"w"},
+  {n:"Sprouts paratha + raita",sl:["bf"],v:"VEG",kcal:320,p:13,c:42,f:10,fb:6,gi:48,al:["gluten","dairy"],rg:["north"],ct:3,q:"1 paratha",cat:"breakfast",pt:30,temp:"w"},
+  {n:"Thepla (methi) + curd",sl:["bf"],v:"VEG",kcal:280,p:10,c:38,f:9,fb:4,gi:52,al:["gluten","dairy"],rg:["west"],ct:3,q:"2 thepla",cat:"breakfast",pt:25,temp:"w"},
+  {n:"Khaman dhokla (3 pcs)",sl:["bf","es"],v:"VEG",kcal:210,p:9,c:30,f:5,fb:4,gi:50,al:[],rg:["west","pan"],ct:3,q:"3 pieces",cat:"breakfast",gf:1,pt:30,temp:"n"},
+  {n:"Luchi + alur dom",sl:["bf"],v:"VEG",kcal:320,p:7,c:42,f:12,fb:3,gi:65,al:["gluten"],rg:["east"],ct:3,q:"1 plate",cat:"breakfast",pt:30,temp:"n"},
+  {n:"Chana sundal + idli (1)",sl:["bf"],v:"VEGAN",kcal:240,p:11,c:38,f:4,fb:6,gi:50,al:[],rg:["south"],ct:3,q:"1 idli + sundal",cat:"breakfast",gf:1,pt:25,temp:"w"},
+
+  /* ===== Breakfast — Egg/Non-veg ===== */
+  {n:"Boiled egg whites (3) + 1 whole",sl:["bf"],v:"EGG",kcal:180,p:20,c:1,f:10,fb:0,gi:0,al:["egg"],rg:["pan"],ct:2,q:"3W + 1 whole",cat:"protein",gf:1,pt:10,temp:"w"},
+  {n:"Veg masala omelette + 1 multigrain toast",sl:["bf"],v:"EGG",kcal:280,p:18,c:22,f:14,fb:4,gi:55,al:["egg","gluten"],rg:["pan"],ct:2,q:"2-egg",cat:"breakfast",pt:15,temp:"w"},
+  {n:"Egg bhurji + 1 phulka",sl:["bf"],v:"EGG",kcal:260,p:17,c:20,f:13,fb:3,gi:55,al:["egg","gluten"],rg:["pan"],ct:2,q:"2 eggs + 1 phulka",cat:"breakfast",pt:15,temp:"w"},
+  {n:"Chicken sandwich (multigrain)",sl:["bf"],v:"NON_VEG",kcal:320,p:24,c:30,f:10,fb:4,gi:55,al:["gluten"],rg:["pan"],ct:2,q:"1 sandwich",cat:"breakfast",pt:10,temp:"w"},
+  {n:"Grilled fish + 1 toast (multigrain)",sl:["bf"],v:"NON_VEG",kcal:290,p:28,c:18,f:10,fb:3,gi:50,al:["fish","gluten"],rg:["south","east","pan"],ct:2,q:"100g fish",cat:"breakfast",om3:1,pt:20,temp:"w"},
+  {n:"Kheema (chicken) + 1 phulka",sl:["bf"],v:"NON_VEG",kcal:300,p:24,c:22,f:12,fb:3,gi:55,al:["gluten"],rg:["pan"],ct:2,q:"1/2 cup",cat:"breakfast",pur:1,pt:25,temp:"w"},
+
+  /* ===== Breakfast — Vegan/Yogurt ===== */
+  {n:"Greek yogurt with chia & berries",sl:["bf"],v:"VEG",kcal:200,p:14,c:18,f:7,fb:5,gi:30,al:["dairy"],rg:["pan"],ct:1,q:"1 cup",cat:"breakfast",cal:1,om3:1,gf:1,pt:3,temp:"c"},
+  {n:"Overnight oats (soy milk + chia + banana)",sl:["bf"],v:"VEGAN",kcal:280,p:10,c:48,f:7,fb:7,gi:48,al:["gluten","soy"],rg:["pan"],ct:2,q:"1 jar",cat:"breakfast",sf:1,om3:1,pt:5,temp:"c",gtg:1},
+  {n:"Tofu scramble + 1 multigrain toast",sl:["bf"],v:"VEGAN",kcal:260,p:18,c:22,f:12,fb:4,gi:50,al:["soy","gluten"],rg:["pan"],ct:2,q:"1 plate",cat:"breakfast",gtg:1,pt:15,temp:"n"},
+  {n:"Almond milk smoothie (banana + flax)",sl:["bf"],v:"VEGAN",kcal:240,p:6,c:32,f:9,fb:6,gi:45,al:["nut"],rg:["pan"],ct:2,q:"1 glass",cat:"breakfast",om3:1,pt:5,temp:"c"},
+  {n:"Quinoa porridge (almond milk)",sl:["bf"],v:"VEGAN",kcal:260,p:8,c:42,f:7,fb:5,gi:48,al:["nut"],rg:["pan"],ct:1,q:"1 bowl",cat:"breakfast",gf:1,pt:20,temp:"w"},
+
+  /* ===== Mid-morning / Evening snacks ===== */
+  {n:"Apple (medium)",sl:["mm","es"],v:"VEGAN",kcal:80,p:0.4,c:21,f:0.3,fb:4,gi:38,al:[],rg:["pan"],ct:3,q:"1 medium",cat:"fruit",sf:1,gf:1,pt:0,temp:"c"},
+  {n:"Guava (medium)",sl:["mm","es"],v:"VEGAN",kcal:65,p:2.6,c:14,f:1,fb:5,gi:24,al:[],rg:["pan"],ct:3,q:"1 medium",cat:"fruit",gf:1,pt:0,temp:"c"},
+  {n:"Papaya bowl",sl:["mm","es"],v:"VEGAN",kcal:90,p:1,c:23,f:0.5,fb:3,gi:60,al:[],rg:["pan"],ct:3,q:"1 cup",cat:"fruit",gf:1,pt:0,temp:"w"},
+  {n:"Pear (medium)",sl:["mm","es"],v:"VEGAN",kcal:85,p:0.5,c:22,f:0.2,fb:5,gi:38,al:[],rg:["pan"],ct:2,q:"1 medium",cat:"fruit",sf:1,gf:1,pt:0,temp:"c"},
+  {n:"Orange",sl:["mm","es"],v:"VEGAN",kcal:65,p:1.3,c:16,f:0.2,fb:3,gi:43,al:[],rg:["pan"],ct:3,q:"1 medium",cat:"fruit",gf:1,pt:0,temp:"c"},
+  {n:"Pomegranate (1/2 cup arils)",sl:["mm","es"],v:"VEGAN",kcal:70,p:1.5,c:16,f:1,fb:3.5,gi:35,al:[],rg:["pan"],ct:2,q:"1/2 cup",cat:"fruit",ir:1,gf:1,pt:0,temp:"c"},
+  {n:"Banana (small)",sl:["mm","es"],v:"VEGAN",kcal:90,p:1,c:23,f:0.3,fb:2.5,gi:55,al:[],rg:["pan"],ct:3,q:"1 small",cat:"fruit",gf:1,pt:0,temp:"c"},
+  {n:"Mosambi (sweet lime)",sl:["mm","es"],v:"VEGAN",kcal:50,p:1,c:13,f:0.2,fb:2,gi:43,al:[],rg:["pan"],ct:3,q:"1 medium",cat:"fruit",gf:1,pt:0,temp:"c"},
+  {n:"Watermelon cubes (1 cup)",sl:["mm","es"],v:"VEGAN",kcal:45,p:1,c:11,f:0.2,fb:1,gi:72,al:[],rg:["pan"],ct:3,q:"1 cup",cat:"fruit",gf:1,pt:0,temp:"c"},
+  {n:"Buttermilk (chaas) — no salt",sl:["mm","es"],v:"VEG",kcal:50,p:3,c:5,f:1.5,fb:0,gi:25,al:["dairy"],rg:["pan"],ct:3,q:"1 glass",cat:"beverage",cal:1,gf:1,pt:5,temp:"c"},
+  {n:"Roasted chana (handful)",sl:["mm","es"],v:"VEGAN",kcal:130,p:8,c:21,f:2,fb:5,gi:35,al:[],rg:["pan"],ct:3,q:"30 g",cat:"snack",gf:1,pt:0,temp:"w"},
+  {n:"Sprouts salad (moong)",sl:["mm","es"],v:"VEGAN",kcal:110,p:8,c:18,f:1,fb:6,gi:30,al:[],rg:["pan"],ct:3,q:"1 bowl",cat:"snack",gf:1,pt:5,temp:"c"},
+  {n:"Sprouts chaat (kala chana + cucumber)",sl:["mm","es"],v:"VEGAN",kcal:140,p:9,c:22,f:2,fb:7,gi:32,al:[],rg:["pan"],ct:3,q:"1 bowl",cat:"snack",ir:1,gf:1,pt:10,temp:"c"},
+  {n:"Tender coconut water",sl:["mm","es"],v:"VEGAN",kcal:45,p:0.5,c:11,f:0,fb:0,gi:35,al:[],rg:["south","pan"],ct:2,q:"1 glass",cat:"beverage",gf:1,pt:0,temp:"c"},
+  {n:"Mixed nuts (10 g)",sl:["mm","es"],v:"VEGAN",kcal:60,p:2,c:2,f:5,fb:1,gi:15,al:["nut"],rg:["pan"],ct:1,q:"10 g",cat:"nut",ox:2,gf:1,pt:0,temp:"w"},
+  {n:"Pumpkin seeds (15 g)",sl:["mm","es"],v:"VEGAN",kcal:90,p:5,c:3,f:7,fb:1,gi:10,al:[],rg:["pan"],ct:2,q:"15 g",cat:"nut",ir:1,om3:1,gf:1,pt:0,temp:"w"},
+  {n:"Sunflower seeds (15 g)",sl:["mm","es"],v:"VEGAN",kcal:90,p:3,c:3,f:8,fb:1.5,gi:10,al:[],rg:["pan"],ct:2,q:"15 g",cat:"nut",gf:1,pt:0,temp:"w"},
+  {n:"Vegetable sandwich (multigrain)",sl:["es"],v:"VEG",kcal:240,p:8,c:36,f:7,fb:5,gi:55,al:["gluten"],rg:["pan"],ct:3,q:"1 sandwich",cat:"snack",pt:10,temp:"n"},
+  {n:"Bhel (puffed rice + sprouts)",sl:["es"],v:"VEG",kcal:180,p:6,c:32,f:4,fb:4,gi:60,al:[],rg:["west","pan"],ct:3,q:"1 bowl",cat:"snack",gf:1,pt:10,temp:"n"},
+  {n:"Masala oats",sl:["es"],v:"VEG",kcal:200,p:7,c:35,f:4,fb:5,gi:52,al:["gluten"],rg:["pan"],ct:2,q:"1 bowl",cat:"snack",sf:1,pt:15,temp:"w"},
+  {n:"Boiled corn + lemon",sl:["es"],v:"VEGAN",kcal:160,p:5,c:34,f:2,fb:4,gi:55,al:[],rg:["pan"],ct:3,q:"1 cob",cat:"snack",gf:1,pt:15,temp:"w"},
+  {n:"Sundal (chana / kadalai)",sl:["es"],v:"VEGAN",kcal:170,p:9,c:25,f:4,fb:6,gi:32,al:[],rg:["south"],ct:3,q:"1 bowl",cat:"snack",gf:1,pt:15,temp:"w"},
+  {n:"Roasted makhana (fox nuts)",sl:["mm","es"],v:"VEGAN",kcal:120,p:4,c:20,f:1,fb:2,gi:50,al:[],rg:["pan"],ct:2,q:"30 g",cat:"snack",gf:1,pt:5,temp:"w"},
+  {n:"Steamed sweet potato",sl:["mm","es"],v:"VEGAN",kcal:120,p:2,c:28,f:0.1,fb:4,gi:54,al:[],rg:["pan"],ct:3,q:"1 medium",cat:"snack",sf:1,gf:1,pt:20,temp:"w"},
+  {n:"Cucumber & carrot sticks + hung curd dip",sl:["mm","es"],v:"VEG",kcal:90,p:5,c:10,f:3,fb:3,gi:25,al:["dairy"],rg:["pan"],ct:3,q:"1 plate",cat:"snack",gf:1,pt:5,temp:"c"},
+  {n:"Whey protein shake",sl:["mm","es"],v:"VEG",kcal:120,p:24,c:3,f:1,fb:0,gi:30,al:["dairy"],rg:["pan"],ct:1,q:"1 scoop",cat:"protein",gf:1,pt:2,temp:"n"},
+  {n:"Date + walnut bites (3)",sl:["mm","es"],v:"VEGAN",kcal:140,p:3,c:18,f:7,fb:2,gi:50,al:["nut"],rg:["pan"],ct:2,q:"3 bites",cat:"snack",ir:1,om3:1,gf:1,pt:0,temp:"w"},
+
+  /* ===== Lunch / Dinner — Veg ===== */
+  {n:"2 phulka + dal + sabzi + curd",sl:["ln","dn"],v:"VEG",kcal:520,p:22,c:75,f:14,fb:10,gi:55,al:["gluten","dairy"],rg:["north","pan"],ct:3,q:"thali",cat:"meal",pt:35,temp:"w"},
+  {n:"Brown rice + sambar + veg poriyal",sl:["ln","dn"],v:"VEG",kcal:480,p:14,c:80,f:10,fb:8,gi:55,al:[],rg:["south","pan"],ct:3,q:"1 plate",cat:"meal",gf:1,pt:40,temp:"w"},
+  {n:"Ragi mudde + huli + veg",sl:["ln","dn"],v:"VEG",kcal:460,p:13,c:78,f:8,fb:9,gi:54,al:[],rg:["south"],ct:3,q:"2 mudde",cat:"meal",cal:1,ir:1,gf:1,pt:30,temp:"w"},
+  {n:"Jowar bhakri + dal + bhaji",sl:["ln","dn"],v:"VEG",kcal:490,p:16,c:72,f:12,fb:10,gi:54,al:[],rg:["west","pan"],ct:3,q:"2 bhakri",cat:"meal",gf:1,pt:35,temp:"w"},
+  {n:"Khichdi (moong + brown rice) + curd",sl:["ln","dn"],v:"VEG",kcal:440,p:16,c:68,f:8,fb:7,gi:60,al:["dairy"],rg:["pan"],ct:3,q:"1 bowl",cat:"meal",gf:1,pt:30,temp:"w"},
+  {n:"Rajma + brown rice + cucumber",sl:["ln","dn"],v:"VEG",kcal:500,p:18,c:85,f:8,fb:12,gi:50,al:[],rg:["north","pan"],ct:3,q:"1 plate",cat:"meal",ir:1,sf:1,gf:1,pt:40,temp:"w"},
+  {n:"Chole + 2 jowar roti + onion salad",sl:["ln","dn"],v:"VEG",kcal:510,p:20,c:78,f:10,fb:13,gi:48,al:[],rg:["north","pan"],ct:3,q:"1 plate",cat:"meal",gf:1,pt:40,temp:"w"},
+  {n:"Paneer bhurji + 2 phulka + dal",sl:["ln","dn"],v:"VEG",kcal:530,p:25,c:55,f:18,fb:7,gi:50,al:["dairy","gluten"],rg:["north","pan"],ct:2,q:"1 plate",cat:"meal",cal:1,pt:30,temp:"w"},
+  {n:"Palak paneer (low oil) + 2 phulka",sl:["ln","dn"],v:"VEG",kcal:500,p:22,c:48,f:18,fb:8,gi:45,al:["dairy","gluten"],rg:["north"],ct:2,q:"1 plate",cat:"meal",ox:2,ir:1,cal:1,vk:1,pt:30,temp:"w"},
+  {n:"Bisi bele bath (mini) + raita",sl:["ln","dn"],v:"VEG",kcal:460,p:14,c:70,f:10,fb:6,gi:60,al:["dairy"],rg:["south"],ct:3,q:"1 bowl",cat:"meal",gf:1,pt:35,temp:"w"},
+  {n:"Curd rice + pickle (low salt)",sl:["ln","dn"],v:"VEG",kcal:380,p:10,c:60,f:8,fb:3,gi:62,al:["dairy"],rg:["south"],ct:3,q:"1 bowl",cat:"meal",cal:1,gf:1,pt:15,temp:"c"},
+  {n:"Mixed veg pulao + curd",sl:["ln","dn"],v:"VEG",kcal:440,p:12,c:72,f:10,fb:7,gi:58,al:["dairy"],rg:["pan"],ct:3,q:"1 plate",cat:"meal",gf:1,pt:30,temp:"w"},
+  {n:"Sambar rice + papad + chutney",sl:["ln","dn"],v:"VEG",kcal:470,p:14,c:78,f:8,fb:7,gi:60,al:[],rg:["south"],ct:3,q:"1 plate",cat:"meal",gf:1,pt:30,temp:"w"},
+  {n:"Vegetable handi + 2 missi roti",sl:["ln","dn"],v:"VEG",kcal:480,p:16,c:62,f:14,fb:9,gi:55,al:["gluten"],rg:["north"],ct:3,q:"1 plate",cat:"meal",pt:35,temp:"w"},
+  {n:"Dal tadka + jeera brown rice + salad",sl:["ln","dn"],v:"VEG",kcal:450,p:16,c:75,f:8,fb:8,gi:55,al:[],rg:["pan"],ct:3,q:"1 plate",cat:"meal",gf:1,pt:30,temp:"w"},
+  {n:"Stuffed aloo paratha (low oil) + curd",sl:["ln","dn"],v:"VEG",kcal:480,p:11,c:62,f:18,fb:5,gi:60,al:["gluten","dairy"],rg:["north"],ct:3,q:"2 paratha",cat:"meal",pt:30,temp:"w"},
+  {n:"Methi thepla (3) + chunda",sl:["ln","dn"],v:"VEG",kcal:440,p:12,c:60,f:14,fb:6,gi:55,al:["gluten"],rg:["west"],ct:3,q:"3 thepla",cat:"meal",ir:1,pt:25,temp:"w"},
+  {n:"Bhindi masala + 2 phulka + dal",sl:["ln","dn"],v:"VEG",kcal:470,p:18,c:60,f:14,fb:9,gi:50,al:["gluten"],rg:["pan"],ct:3,q:"1 plate",cat:"meal",pt:35,temp:"w"},
+  {n:"Drumstick sambar + brown rice",sl:["ln","dn"],v:"VEG",kcal:430,p:13,c:72,f:8,fb:8,gi:55,al:[],rg:["south"],ct:3,q:"1 plate",cat:"meal",ir:1,cal:1,gf:1,pt:35,temp:"w"},
+  {n:"Lauki kofta (steamed) + 2 phulka",sl:["ln","dn"],v:"VEG",kcal:420,p:14,c:55,f:12,fb:7,gi:50,al:["gluten"],rg:["north"],ct:3,q:"1 plate",cat:"meal",pt:35,temp:"c"},
+
+  /* ===== Lunch / Dinner — Egg/Non-veg ===== */
+  {n:"Chicken curry + 1 phulka + salad",sl:["ln","dn"],v:"NON_VEG",kcal:520,p:35,c:40,f:18,fb:6,gi:50,al:["gluten"],rg:["pan"],ct:2,q:"1 plate",cat:"meal",pur:1,pt:35,temp:"w"},
+  {n:"Grilled chicken breast + quinoa + greens",sl:["ln","dn"],v:"NON_VEG",kcal:480,p:42,c:38,f:12,fb:6,gi:50,al:[],rg:["pan"],ct:1,q:"150g chicken",cat:"meal",gf:1,vk:1,pur:1,pt:25,temp:"w"},
+  {n:"Fish curry (rohu) + brown rice + greens",sl:["ln","dn"],v:"NON_VEG",kcal:500,p:32,c:55,f:12,fb:6,gi:55,al:["fish"],rg:["east","south","pan"],ct:2,q:"1 piece",cat:"meal",om3:1,gf:1,pt:35,temp:"w"},
+  {n:"Pomfret tandoori + salad + 1 phulka",sl:["ln","dn"],v:"NON_VEG",kcal:440,p:38,c:30,f:14,fb:5,gi:50,al:["fish","gluten"],rg:["west","pan"],ct:1,q:"1 piece",cat:"meal",om3:1,pt:30,temp:"w"},
+  {n:"Egg curry (2) + 2 phulka",sl:["ln","dn"],v:"EGG",kcal:480,p:24,c:50,f:18,fb:6,gi:55,al:["egg","gluten"],rg:["pan"],ct:2,q:"2 eggs",cat:"meal",pt:30,temp:"w"},
+  {n:"Mutton stew (small) + appam (2)",sl:["ln","dn"],v:"NON_VEG",kcal:560,p:32,c:55,f:22,fb:5,gi:55,al:[],rg:["south"],ct:2,q:"1 plate",cat:"meal",pur:2,gf:1,pt:45,temp:"w"},
+  {n:"Chicken biryani (small) + raita",sl:["ln","dn"],v:"NON_VEG",kcal:550,p:28,c:65,f:18,fb:4,gi:60,al:["dairy"],rg:["pan"],ct:2,q:"1 cup",cat:"meal",gf:1,pur:1,pt:45,temp:"w"},
+  {n:"Prawn masala + 1 phulka + salad",sl:["ln","dn"],v:"NON_VEG",kcal:420,p:30,c:35,f:14,fb:5,gi:50,al:["shellfish","gluten"],rg:["south","west","east"],ct:2,q:"1 plate",cat:"meal",pur:2,pt:30,temp:"w"},
+  {n:"Sardine fry + brown rice + greens",sl:["ln","dn"],v:"NON_VEG",kcal:480,p:30,c:50,f:14,fb:6,gi:55,al:["fish"],rg:["south","west"],ct:2,q:"1 plate",cat:"meal",om3:1,pur:2,gf:1,pt:30,temp:"w"},
+
+  /* ===== Lunch / Dinner — Vegan ===== */
+  {n:"Tofu bhurji + 2 multigrain roti + salad",sl:["ln","dn"],v:"VEGAN",kcal:470,p:24,c:55,f:14,fb:9,gi:50,al:["soy","gluten"],rg:["pan"],ct:2,q:"1 plate",cat:"meal",gtg:1,pt:25,temp:"n"},
+  {n:"Chickpea + spinach curry + brown rice",sl:["ln","dn"],v:"VEGAN",kcal:490,p:18,c:78,f:10,fb:11,gi:50,al:[],rg:["pan"],ct:3,q:"1 plate",cat:"meal",ir:1,sf:1,vk:1,ox:2,gf:1,pt:35,temp:"w"},
+  {n:"Soya chunks curry + 2 phulka + salad",sl:["ln","dn"],v:"VEGAN",kcal:460,p:28,c:55,f:10,fb:8,gi:48,al:["soy","gluten"],rg:["pan"],ct:3,q:"1 plate",cat:"meal",gtg:1,pt:35,temp:"w"},
+  {n:"Lentil + millet bowl + tahini drizzle",sl:["ln","dn"],v:"VEGAN",kcal:470,p:20,c:65,f:14,fb:10,gi:50,al:["sesame"],rg:["pan"],ct:2,q:"1 bowl",cat:"meal",ir:1,gf:1,pt:35,temp:"w"},
+
+  /* ===== Dinner-specific / lighter ===== */
+  {n:"Vegetable clear soup + 1 phulka + grilled paneer 60g",sl:["dn"],v:"VEG",kcal:380,p:20,c:35,f:14,fb:6,gi:45,al:["dairy","gluten"],rg:["pan"],ct:2,q:"1 plate",cat:"meal",cal:1,pt:25,temp:"w"},
+  {n:"Moong dal cheela (2) + mint chutney",sl:["dn"],v:"VEG",kcal:280,p:14,c:32,f:8,fb:5,gi:35,al:[],rg:["pan"],ct:3,q:"2 cheelas",cat:"meal",gf:1,pt:20,temp:"w"},
+  {n:"Grilled fish + sautéed greens",sl:["dn"],v:"NON_VEG",kcal:340,p:32,c:12,f:14,fb:5,gi:30,al:["fish"],rg:["south","east","pan"],ct:2,q:"150g fish",cat:"meal",om3:1,gf:1,pur:1,pt:25,temp:"w"},
+  {n:"Vegetable khichdi (small) + curd",sl:["dn"],v:"VEG",kcal:350,p:14,c:55,f:6,fb:6,gi:55,al:["dairy"],rg:["pan"],ct:3,q:"1 bowl",cat:"meal",gf:1,pt:25,temp:"w"},
+
+  /* ===== Bedtime ===== */
+  {n:"Turmeric milk (haldi doodh, no sugar)",sl:["bd"],v:"VEG",kcal:120,p:8,c:12,f:4,fb:0,gi:30,al:["dairy"],rg:["pan"],ct:3,q:"1 glass",cat:"beverage",cal:1,gf:1,pt:8,temp:"w"},
+  {n:"Almond milk (unsweetened)",sl:["bd"],v:"VEGAN",kcal:50,p:1,c:2,f:4,fb:0.5,gi:25,al:["nut"],rg:["pan"],ct:2,q:"1 glass",cat:"beverage",gf:1,pt:2,temp:"c"},
+  {n:"Chamomile tea",sl:["bd"],v:"VEGAN",kcal:5,p:0,c:1,f:0,fb:0,gi:0,al:[],rg:["pan"],ct:2,q:"1 cup",cat:"beverage",gf:1,pt:5,temp:"c"},
+  {n:"Warm milk with cardamom (low fat)",sl:["bd"],v:"VEG",kcal:110,p:7,c:11,f:3,fb:0,gi:30,al:["dairy"],rg:["pan"],ct:3,q:"1 glass",cat:"beverage",cal:1,gf:1,pt:5,temp:"w"},
+  {n:"Soy milk warm (unsweetened)",sl:["bd"],v:"VEGAN",kcal:80,p:7,c:4,f:4,fb:1,gi:30,al:["soy"],rg:["pan"],ct:2,q:"1 glass",cat:"beverage",gtg:1,gf:1,pt:5,temp:"w"},
+  {n:"Methi water (sleep aid)",sl:["bd"],v:"VEGAN",kcal:5,p:0,c:1,f:0,fb:0.5,gi:0,al:[],rg:["pan"],ct:3,q:"1 cup",cat:"beverage",gf:1,pt:3,temp:"w"},
+  {n:"Tart cherry tea",sl:["bd"],v:"VEGAN",kcal:15,p:0,c:3,f:0,fb:0,gi:20,al:[],rg:["pan"],ct:1,q:"1 cup",cat:"beverage",gf:1,pt:5,temp:"c"},
+];
+
+/* ============================================================
+   SUBSTITUTIONS — [from, to, slotKey|"", reason, score]
+============================================================ */
+const SUBS = [
+  ["Greek yogurt with chia & berries","Overnight oats (soy milk + chia + banana)","bf","lactose-free / vegan",0.85],
+  ["Turmeric milk (haldi doodh, no sugar)","Almond milk (unsweetened)","bd","lactose-free",0.9],
+  ["Warm milk with cardamom (low fat)","Soy milk warm (unsweetened)","bd","lactose-free",0.92],
+  ["Buttermilk (chaas) — no salt","Tender coconut water","mm","lactose-free",0.7],
+  ["Curd rice + pickle (low salt)","Sambar rice + papad + chutney","ln","lactose-free",0.75],
+  ["Paneer bhurji + 2 phulka + dal","Tofu bhurji + 2 multigrain roti + salad","ln","lactose-free / vegan",0.9],
+  ["Oats upma with vegetables","Ragi dosa with chutney","bf","gluten-free",0.85],
+  ["Vegetable sandwich (multigrain)","Khaman dhokla (3 pcs)","es","gluten-free",0.8],
+  ["2 phulka + dal + sabzi + curd","Brown rice + sambar + veg poriyal","ln","gluten-free",0.85],
+  ["Chicken sandwich (multigrain)","Grilled fish + sautéed greens","bf","gluten-free / lower carb",0.7],
+  ["Vegetable poha","Besan chilla (2)","bf","lower GI",0.85],
+  ["Sambar rice + papad + chutney","Ragi mudde + huli + veg","ln","lower GI",0.85],
+  ["Mixed veg pulao + curd","Rajma + brown rice + cucumber","ln","lower GI",0.85],
+  ["Banana (small)","Guava (medium)","mm","lower GI",0.9],
+  ["Watermelon cubes (1 cup)","Pear (medium)","mm","lower GI",0.85],
+  ["Akki rotti with coconut chutney","Pesarattu (moong dosa) with ginger chutney","bf","lower GI",0.85],
+  ["Curd rice + pickle (low salt)","Khichdi (moong + brown rice) + curd","ln","lower sodium",0.85],
+  ["Soaked almonds (5)","Pumpkin seeds (15 g)","em","nut-free / low oxalate",0.85],
+  ["Mixed nuts (10 g)","Sunflower seeds (15 g)","mm","nut-free",0.85],
+  ["Tofu bhurji + 2 multigrain roti + salad","Chickpea + spinach curry + brown rice","ln","soy-free for hypothyroid",0.85],
+  ["Boiled egg whites (3) + 1 whole","Grilled fish + 1 toast (multigrain)","bf","omega-3 boost",0.85],
+  ["2 phulka + dal + sabzi + curd","Moong dal cheela (2) + mint chutney","dn","lighter dinner",0.75],
+  ["Brown rice + sambar + veg poriyal","Vegetable clear soup + 1 phulka + grilled paneer 60g","dn","lighter dinner",0.75],
+  ["Vegetable poha","Moong dal cheela (2)","bf","higher protein, lower GI",0.9],
+  ["Curd rice + pickle (low salt)","Rajma + brown rice + cucumber","ln","higher fibre",0.85],
+  ["Chicken curry + 1 phulka + salad","Grilled chicken breast + quinoa + greens","ln","less spicy for GERD",0.85],
+  ["Palak paneer (low oil) + 2 phulka","Lauki kofta (steamed) + 2 phulka","ln","low oxalate",0.85],
+  ["Chickpea + spinach curry + brown rice","Rajma + brown rice + cucumber","ln","low oxalate / low vit-K",0.8],
+  ["Tofu scramble + 1 multigrain toast","Boiled egg whites (3) + 1 whole","bf","soy-free",0.85],
+];
+
+const SLOT_DEF = [
+  {k:"em",label:"Early Morning",pct:0.03,time:"6:00 AM"},
+  {k:"bf",label:"Breakfast",pct:0.22,time:"8:00 AM"},
+  {k:"mm",label:"Mid-Morning",pct:0.08,time:"11:00 AM"},
+  {k:"ln",label:"Lunch",pct:0.30,time:"1:00 PM"},
+  {k:"es",label:"Evening Snack",pct:0.10,time:"4:30 PM"},
+  {k:"dn",label:"Dinner",pct:0.22,time:"7:30 PM"},
+  {k:"bd",label:"Bedtime",pct:0.05,time:"10:00 PM"},
+];
+
+const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+
+const ALLERGEN_OPTIONS = ["dairy","gluten","nut","egg","soy","fish","shellfish","sesame"];
+
+/* ============================================================
+   MEDICATIONS — drug-nutrient interactions
+============================================================ */
+const MED_OPTIONS = [
+  "warfarin","maoi","levothyroxine","statin","metformin","ppi",
+  "steroid","diuretic","iron_supplement","insulin","lithium","ssri"
+];
+
+const MED_RULES = {
+  warfarin: {filter:f=>f.vk===1, note:"Warfarin: keep vitamin-K (greens) CONSISTENT across days — not zero, just consistent. Hidden swings raise bleeding risk."},
+  maoi: {filter:f=>f.ty===1, note:"MAOI: HARD-EXCLUDE tyramine-containing foods (aged cheese, fermented, soy sauce, smoked meats)."},
+  levothyroxine: {note:"Levothyroxine: take on empty stomach. Wait ≥1 hr before soy/calcium/coffee/iron. Bedtime alternative if morning food gap is hard."},
+  statin: {filter:f=>f.al&&f.al.includes("grapefruit")||/grapefruit|pomelo/i.test(f.n), note:"Statin: NO grapefruit / pomelo (CYP3A4 interaction)."},
+  metformin: {note:"Metformin: monitor B12 yearly (long-term metformin depletes B12). Include B12-rich foods."},
+  ppi: {note:"PPI long-term: monitor B12 and magnesium. Calcium absorption reduced — consider citrate form supplement."},
+  steroid: {filter:f=>f.na===2, note:"Steroid: low sodium, high calcium, low simple carb. Monitor weight gain."},
+  diuretic: {note:"Diuretic (non-K-sparing): potassium emphasis — banana, coconut water, sweet potato, leafy greens."},
+  iron_supplement: {note:"Iron supplement: NO calcium/tea/coffee within 1 hr. Pair with Vit-C (lemon, amla) for absorption."},
+  insulin: {note:"Insulin: keep carb intake CONSISTENT meal-to-meal and day-to-day for predictable dosing."},
+  lithium: {note:"Lithium: keep sodium intake CONSISTENT. Don't crash-diet or fast — alters lithium levels."},
+  ssri: {note:"SSRI: avoid St John's Wort. Monitor weight (some SSRIs cause appetite changes)."},
+};
+
+/* ============================================================
+   DOSHA RULES — Ayurvedic food affinity scoring
+============================================================ */
+const DOSHA_RULES = {
+  vata: {note:"Vata: warming, oily, grounding foods; avoid raw cold; eat at consistent times.",
+    boost:f=>(f.temp==="w"?2:0)+(/ghee|rice|milk|dal/i.test(f.n)?1:0),
+    penalize:f=>(f.temp==="c"?2:0)+(/raw|salad|sprouts/i.test(f.n)?1:0)},
+  pitta: {note:"Pitta: cooling, sweet, bitter; avoid excess spicy/sour/fried/red-meat.",
+    boost:f=>(f.temp==="c"?2:0)+(/coconut|cucumber|mosambi|amla/i.test(f.n)?1:0),
+    penalize:f=>(/spicy|fried|chicken|chilli|sardine/i.test(f.n)?2:0)},
+  kapha: {note:"Kapha: light, dry, warming; avoid heavy/oily/sweet/cold/dairy-heavy.",
+    boost:f=>(f.temp==="w"?1:0)+(/millet|jowar|ginger|honey|sprouts/i.test(f.n)?2:0),
+    penalize:f=>(/paneer|ghee|fried|sweet|milk|cold/i.test(f.n)?2:0)},
+};
+function getDoshaList(d){
+  if(!d) return [];
+  if(d==="tridosha") return ["vata","pitta","kapha"];
+  return d.split("_");
+}
+
+/* ============================================================
+   BIOMARKER → AUTO-TAGS + SEVERITY MODULATION
+============================================================ */
+function deriveBiomarkerTags(b){
+  const tags = [];
+  if(b.hba1c){
+    if(b.hba1c >= 6.5) tags.push("diabetes_t2");
+    else if(b.hba1c >= 5.7) tags.push("pre_diabetes");
+  }
+  if(b.fbs && b.fbs >= 126) tags.push("diabetes_t2");
+  else if(b.fbs && b.fbs >= 100) tags.push("pre_diabetes");
+  if(b.ldl && b.ldl >= 130) tags.push("high_ldl");
+  if(b.tg && b.tg >= 200) tags.push("high_tg");
+  if(b.hb && b.hb < 12) tags.push("anaemia");
+  if(b.tsh && b.tsh > 5) tags.push("hypothyroid");
+  if(b.tsh && b.tsh < 0.4) tags.push("hyperthyroid");
+  if(b.egfr){
+    if(b.egfr < 30) tags.push("ckd_3");
+    else if(b.egfr < 60) tags.push("ckd_early");
+  }
+  if(b.uric && b.uric > 7) tags.push("gout");
+  if((b.sbp && b.sbp >= 140) || (b.dbp && b.dbp >= 90)) tags.push("hypertension");
+  if(b.vitd && b.vitd < 20) tags.push("vit_d_deficiency");
+  if(b.b12 && b.b12 < 200) tags.push("b12_deficiency");
+  return tags;
+}
+function biomarkerSeverity(t, b, p){
+  const notes = [];
+  if(b.hba1c){
+    if(b.hba1c >= 8.5){ t.gicap=50; notes.push(`HbA1c ${b.hba1c}% — GI cap tightened to 50; no fruit juice anywhere.`); }
+    else if(b.hba1c >= 7.5){ t.gicap=52; notes.push(`HbA1c ${b.hba1c}% — GI cap tightened to 52.`); }
+    else if(b.hba1c >= 6.5){ t.gicap=55; notes.push(`HbA1c ${b.hba1c}% — GI cap 55; 1 fruit/day allowed.`); }
+  }
+  if(b.ldl && b.ldl >= 160) notes.push(`LDL ${b.ldl} — sat-fat ≤7% kcal, soluble fibre ≥10g/day, statin therapy review.`);
+  if(b.tg && b.tg >= 500) notes.push(`TG ${b.tg} — urgent: zero alcohol, very low refined carb, omega-3 4g/day.`);
+  if(b.egfr && b.egfr < 30) notes.push(`eGFR ${b.egfr} — CKD-3+: refer dietitian for individualised K+/phosphorus plan.`);
+  if(b.hb){
+    if(p.gender==="F" && b.hb < 8) notes.push(`Hb ${b.hb} g/dL — severe anaemia; doctor review urgent.`);
+    if(p.gender==="M" && b.hb < 10) notes.push(`Hb ${b.hb} g/dL — severe anaemia; doctor review urgent.`);
+  }
+  return notes;
+}
+
+/* ============================================================
+   DISEASE TAXONOMY (UI-grouped) + RULES
+============================================================ */
+const DISEASE_GROUPS = [
+  {cat:"Endocrine / Metabolic",items:[
+    {k:"diabetes_t1",l:"Diabetes T1"},{k:"diabetes_t2",l:"Diabetes T2"},
+    {k:"pre_diabetes",l:"Pre-diabetes"},{k:"insulin_resistance",l:"Insulin resistance"},
+    {k:"pcos",l:"PCOS / PCOD"},{k:"hypothyroid",l:"Hypothyroid"},
+    {k:"hyperthyroid",l:"Hyperthyroid"},{k:"hashimoto",l:"Hashimoto's"},
+    {k:"obesity",l:"Obesity"},
+  ]},
+  {cat:"Cardiovascular",items:[
+    {k:"hypertension",l:"Hypertension"},{k:"hyperlipidemia",l:"Hyperlipidemia"},
+    {k:"high_ldl",l:"High LDL"},{k:"high_tg",l:"High triglycerides"},
+    {k:"low_hdl",l:"Low HDL"},{k:"cad",l:"CAD / post-MI"},
+    {k:"heart_failure",l:"Heart failure"},{k:"stroke_recovery",l:"Stroke recovery"},
+  ]},
+  {cat:"Renal / Urological",items:[
+    {k:"ckd_early",l:"CKD 1–2"},{k:"ckd_3",l:"CKD stage 3"},
+    {k:"kidney_stone_ox",l:"Kidney stones (ox)"},{k:"kidney_stone_uric",l:"Kidney stones (uric)"},
+    {k:"uti_recurrent",l:"UTI recurrent"},
+  ]},
+  {cat:"GI / Hepatic",items:[
+    {k:"ibs_d",l:"IBS-D"},{k:"ibs_c",l:"IBS-C"},{k:"gerd",l:"GERD"},
+    {k:"gastritis",l:"Gastritis"},{k:"peptic_ulcer",l:"Peptic ulcer"},
+    {k:"sibo",l:"SIBO"},{k:"coeliac",l:"Coeliac"},{k:"ncgs",l:"NCGS"},
+    {k:"lactose_intolerance",l:"Lactose intolerance"},{k:"nafld",l:"NAFLD"},
+    {k:"gallstones",l:"Gallstones"},{k:"constipation",l:"Constipation"},
+    {k:"diarrhoea",l:"Diarrhoea chronic"},{k:"haemorrhoids",l:"Haemorrhoids"},
+  ]},
+  {cat:"Musculoskeletal",items:[
+    {k:"osteoarthritis",l:"Osteoarthritis"},{k:"rheumatoid_arthritis",l:"Rheumatoid arthritis"},
+    {k:"osteoporosis",l:"Osteoporosis"},{k:"osteopenia",l:"Osteopenia"},
+    {k:"gout",l:"Gout"},{k:"fibromyalgia",l:"Fibromyalgia"},
+    {k:"sarcopenia",l:"Sarcopenia"},
+  ]},
+  {cat:"Haematology / Deficiency",items:[
+    {k:"anaemia",l:"Iron-deficiency anaemia"},{k:"b12_deficiency",l:"B12 deficiency"},
+    {k:"folate_deficiency",l:"Folate deficiency"},{k:"vit_d_deficiency",l:"Vitamin D deficiency"},
+    {k:"calcium_deficiency",l:"Calcium deficiency"},
+  ]},
+  {cat:"Respiratory / Immune",items:[
+    {k:"asthma",l:"Asthma"},{k:"copd",l:"COPD"},
+    {k:"allergic_rhinitis",l:"Allergic rhinitis"},{k:"sleep_apnoea",l:"Sleep apnoea"},
+  ]},
+  {cat:"Skin",items:[
+    {k:"eczema",l:"Eczema"},{k:"psoriasis",l:"Psoriasis"},
+    {k:"acne",l:"Acne"},{k:"rosacea",l:"Rosacea"},{k:"urticaria",l:"Urticaria"},
+  ]},
+  {cat:"Neuro / Mental",items:[
+    {k:"migraine",l:"Migraine"},{k:"anxiety",l:"Anxiety"},
+    {k:"depression",l:"Depression"},{k:"insomnia",l:"Insomnia"},
+    {k:"parkinson",l:"Parkinson's (early)"},
+  ]},
+  {cat:"Reproductive / Hormonal",items:[
+    {k:"endometriosis",l:"Endometriosis"},{k:"fibroids",l:"Uterine fibroids"},
+    {k:"pms",l:"PMS / PMDD"},{k:"menopause",l:"Menopausal symptoms"},
+    {k:"sub_fertility",l:"Sub-fertility"},
+  ]},
+];
+
+const DISEASE_RULES = {
+  diabetes_t1: {note:"Consistent carb timing across days; pair carbs with protein/fat", dos:["Pair every carb with protein or fat","Test pre- and post-meal weekly"], donts:["No standalone sugary snacks","No fruit juice"]},
+  diabetes_t2: {filter:f=>f.gi&&f.gi>55, note:"GI cap 55 · No added sugar · ≥25 g fibre/day", dos:["Walk 15 min after each main meal","2 servings low-GI fruit daily"], donts:["No white rice/maida","No fruit juice","No sugary beverages"]},
+  pre_diabetes: {filter:f=>f.gi&&f.gi>60, note:"Low-GI bias; 30 min/day exercise", dos:["10–12 hr eating window","Daily 30-min brisk walk"], donts:["Cut sugar-sweetened beverages","Limit refined flour"]},
+  insulin_resistance: {filter:f=>f.gi&&f.gi>60, note:"Low-GI + protein + resistance training", dos:["Strength training 2–3×/week","Spread carbs across meals"], donts:["Avoid late-night carb-heavy meals"]},
+  pcos: {filter:f=>f.gi&&f.gi>55, note:"Low-GI · High protein · Anti-inflammatory", dos:["Lift weights 3×/week","Cinnamon + methi seeds","≥1.4 g/kg protein"], donts:["Trial dairy elimination 4 weeks","Limit refined carbs"]},
+  hypothyroid: {filter:f=>f.gtg===1, note:"Goitrogens raw capped; 1-hr gap from levothyroxine", dos:["Levothyroxine empty stomach","Selenium-rich foods (Brazil nuts, fish)"], donts:["No raw cabbage/cauliflower/soy","No Ca/Fe supplement within 4 hr of thyroid med"]},
+  hyperthyroid: {note:"Calorie surplus; cap iodine excess", dos:["Add an extra meal","Cooked cruciferous (mildly suppress thyroid)"], donts:["No iodised salt excess, no seaweed","Limit caffeine"]},
+  hashimoto: {filter:f=>f.gtg===1, note:"Cooked goitrogens only; gluten-free trial often helps", dos:["6-week gluten-free trial","Selenium 200 µg/day"], donts:["No raw cruciferous","No soy in excess"]},
+  obesity: {note:"≥5% weight loss markedly improves comorbidities", dos:["High-fibre, high-protein meals","10,000 steps/day"], donts:["No liquid calories","No late-night snacking"]},
+
+  hypertension: {filter:f=>f.na===2||/pickle|papad|fried/i.test(f.n), note:"DASH-Indian · Sodium ≤1500 mg · K+-rich", dos:["Banana, coconut water, leafy greens","Herbs over salt"], donts:["No pickles/papad/packaged soups","No processed snacks"]},
+  hyperlipidemia: {filter:f=>/fried|butter chicken|biryani/i.test(f.n), note:"Sat fat ≤7% · soluble fibre ≥10 g/day · zero trans", dos:["Oats/barley/beans/apple","Rotate cold-pressed oils","Fatty fish/flax 2×/week"], donts:["No deep-fried","No vanaspati/margarine","Limit organ meats"]},
+  high_ldl: {filter:f=>/fried|ghee/i.test(f.n), note:"LDL elevated → sat-fat cap + soluble fibre", dos:["Plant sterols (nuts, olive oil)","Soluble fibre 10–25 g/day"], donts:["No daily coconut oil","Red meat ≤1×/week"]},
+  high_tg: {filter:f=>f.gi&&f.gi>60, note:"Cut refined carbs + alcohol + fructose", dos:["Whole grains over refined","Omega-3 2g/day"], donts:["No alcohol while TG elevated","No fruit juice"]},
+  low_hdl: {note:"Boost HDL via MUFA + exercise", dos:["Aerobic exercise 150 min/week","Olive/groundnut/mustard oil"], donts:["Quit smoking"]},
+  cad: {filter:f=>/fried|biryani|kebab/i.test(f.n), note:"Mediterranean-Indian + Na ≤2 g/day", dos:["30-min daily walk","Nuts 5 days/week"], donts:["No deep-fried","Red meat ≤1×/week"]},
+  heart_failure: {filter:f=>f.na===2, note:"Sodium ≤2 g/day; fluid restriction per cardiologist", dos:["Weigh daily","Smaller frequent meals"], donts:["No added salt","No pickles/papad"]},
+  stroke_recovery: {note:"DASH + Mediterranean overlap", dos:["Adequate hydration · soft texture if dysphagia","Leafy greens daily"], donts:["No high-sodium","Limit saturated fat"]},
+
+  ckd_early: {filter:f=>f.p>30, note:"Protein 0.8 g/kg · K+ tracked · phosphorus moderated", dos:["1.5–2 L/day","Plant-protein bias"], donts:["No high-K+ in excess if K+ high","Limit cola/processed meats"]},
+  ckd_3: {filter:f=>f.p>30||/coconut water|banana/i.test(f.n), note:"K+ ≤2 g/day · phosphorus restricted · refer dietitian", dos:["Leached vegetables","Track lab K+/phosphorus monthly"], donts:["No bananas/oranges/coconut water","No nuts/seeds/whole grains in excess"]},
+  kidney_stone_ox: {filter:f=>f.ox===2, note:"Low oxalate · pair Ca with meals · hydrate ≥2.5 L", dos:["2.5–3 L water daily","Pair Ca (curd/milk) with meals"], donts:["No spinach/beetroot/rhubarb/almonds excess","No chocolate/cocoa/dark tea","Limit Vit C >1g/day"]},
+  kidney_stone_uric: {filter:f=>f.pur===2, note:"Low-purine + alkaline urine (lemon)", dos:["Lemon water daily","2.5+ L/day"], donts:["No organ meats/sardines/mussels","Limit beer and alcohol"]},
+  uti_recurrent: {note:"High water · cranberry · low sugar", dos:["3 L/day","Unsweetened cranberry","Urinate after intercourse"], donts:["Cut sugary drinks","No urine-holding"]},
+
+  ibs_d: {filter:f=>f.fm===2, note:"Low FODMAP · soluble fibre", dos:["Soluble fibre (oats, banana, carrots)","6-week elimination + reintro"], donts:["Cut onion/garlic/wheat/dairy during trial","No artificial sweeteners"]},
+  ibs_c: {note:"High insoluble fibre + 3 L water + magnesium", dos:["3 L water","Pumpkin seeds/leafy greens","30-min walk daily"], donts:["No low-fibre processed foods"]},
+  gerd: {filter:f=>/spicy|fried|citrus|chocolate|caffeine/i.test(f.n), note:"No spicy/citrus/caffeine evenings · dinner 3 hr before bed", dos:["Smaller frequent meals","Elevate bed head 6 inches"], donts:["No spicy/citrus after 6 PM","No lying down within 3 hrs of eating"]},
+  gastritis: {filter:f=>/spicy|fried|pickle/i.test(f.n), note:"Bland · small frequent · no NSAIDs", dos:["BRAT during flares","Probiotic curd"], donts:["No spicy/sour/fried/pickled","No NSAIDs on empty stomach"]},
+  peptic_ulcer: {filter:f=>/spicy|fried|pickle|alcohol/i.test(f.n), note:"Bland, low-spice · H.pylori check", dos:["Small frequent meals","Probiotic yogurt"], donts:["No spicy during active phase","No NSAIDs"]},
+  sibo: {filter:f=>f.fm===2, note:"Low FODMAP + GI antimicrobial", dos:["6-week low FODMAP","Space meals 4–5 hrs (MMC)"], donts:["No fermentable fibres during treatment"]},
+  coeliac: {filter:f=>f.al.includes("gluten"), note:"Strict gluten-free for life · cross-contamination matters", dos:["Read every label","Build menu around rice/millet/jowar/ragi/quinoa"], donts:["No wheat/barley/rye/malt — zero tolerance"]},
+  ncgs: {filter:f=>f.al.includes("gluten"), note:"Gluten-free trial 4–6 weeks", dos:["Trial 4–6 weeks","Symptom journal"], donts:["No wheat-based snacks during trial"]},
+  lactose_intolerance: {filter:f=>f.al.includes("dairy"), note:"Lactose-free / plant milk; small curd OK", dos:["Aged hard cheese (low lactose)","Almond/soy milk"], donts:["No fresh milk in quantity"]},
+  nafld: {filter:f=>/fried|biryani|sweet/i.test(f.n)||(f.gi&&f.gi>60), note:"Mediterranean-Indian · 5–10% weight loss reverses early NAFLD", dos:["Olive/mustard oil · fish/flax 2×/week","2 cups coffee/day","30 min daily exercise"], donts:["Zero alcohol","No fructose/HFCS","Limit refined carbs and red meat"]},
+  gallstones: {filter:f=>/fried|cream|butter/i.test(f.n), note:"Low-fat · gradual weight loss only", dos:["High-fibre","Healthy fats in moderation"], donts:["No fried","No crash diets"]},
+  constipation: {note:"≥30 g fibre/day + 3 L water + 30 min walk", dos:["Soaked figs/prunes overnight","3 L water","30-min walk"], donts:["No low-fibre processed foods"]},
+  diarrhoea: {note:"BRAT during acute; ORS", dos:["ORS","Probiotic curd","Small frequent meals"], donts:["No raw vegetables during acute"]},
+  haemorrhoids: {note:"High fibre + water · avoid straining", dos:["≥30 g fibre · psyllium if needed","Sitz bath 2×/day"], donts:["No prolonged sitting"]},
+
+  osteoarthritis: {note:"Anti-inflammatory · maintain BMI · omega-3", dos:["Lose weight if BMI>25","Daily turmeric","Omega-3 2×/week"], donts:["Limit refined sugar/processed meats"]},
+  rheumatoid_arthritis: {note:"Mediterranean + omega-3 + curcumin", dos:["Fatty fish 2×/week","Daily turmeric + black pepper","Vit D if deficient"], donts:["Limit red meat","Trial dairy elimination"]},
+  osteoporosis: {note:"Ca 1200 mg/day + Vit D 800 IU + weight-bearing exercise", dos:["1200 mg Ca (ragi/sesame/leafy greens)","Vit D 800–1000 IU + 15-min sun","Weight-bearing exercise"], donts:["Limit caffeine >3 cups","Limit alcohol"]},
+  osteopenia: {note:"Same as osteoporosis (milder)", dos:["1000 mg Ca + 800 IU Vit D","30 min weight-bearing exercise"], donts:["Limit cola (phosphoric acid)"]},
+  gout: {filter:f=>f.pur===2||/organ|sardine|mussel|anchovy/i.test(f.n), note:"Low-purine · alcohol-free · hydrate 3 L · cherries", dos:["Tart cherries","3 L water","Coffee 2 cups/day"], donts:["No organ meats/sardines/anchovies/mussels","No beer","No fructose drinks"]},
+  fibromyalgia: {note:"Anti-inflammatory + Mg + Vit D", dos:["Magnesium foods (pumpkin seeds, greens)","Vit D 2000 IU","Gentle exercise"], donts:["Limit caffeine","Reduce ultra-processed"]},
+  sarcopenia: {note:"Protein 1.2–1.5 g/kg · resistance training 2–3×/wk", dos:["≥25 g protein every meal","Leucine-rich (whey, egg, paneer, fish)","Resistance training"], donts:["Don't skip meals","No extended fasting"]},
+
+  anaemia: {note:"Iron-rich × 2/day + Vit C pairing + no tea/coffee within 1 hr", dos:["Ragi/jaggery/drumstick/dates/dal/liver","Lemon over dal, amla, oranges","Sprouted moong/chana"], donts:["No tea/coffee within 1 hr of iron","No Ca-rich at same meal as iron"]},
+  b12_deficiency: {note:"Animal foods or supplement", dos:["Vegetarians: dairy, eggs, fortified","Strict vegans: B12 1000 µg/day supplement"], donts:["Don't rely on spirulina"]},
+  folate_deficiency: {note:"Leafy greens daily; supplement if pregnant", dos:["Spinach, methi, drumstick leaves","Beans, lentils, oranges"], donts:["Don't overcook greens"]},
+  vit_d_deficiency: {note:"15-min midday sun + fortified foods + supplement", dos:["15-min midday sun","Fortified milk, eggs, fatty fish","60K IU/week × 8 wks if deficient"], donts:["Sunscreen blocks Vit D synthesis"]},
+  calcium_deficiency: {note:"1000–1200 mg/day + Vit D", dos:["Ragi, sesame, leafy greens, milk, paneer","2 servings dairy or fortified plant milk"], donts:["Don't take Ca + iron together"]},
+
+  asthma: {filter:f=>/sulphite/i.test(f.n), note:"Anti-inflammatory · omega-3 · Mediterranean", dos:["Vit D adequacy","Omega-3 2×/week","5+ fruits/vegetables daily"], donts:["Limit sulphite foods","No trans fats"]},
+  copd: {note:"Higher kcal + protein", dos:["Small frequent meals","Protein every meal","Omega-3"], donts:["Limit gas-producing (cabbage, beans, fizzy)"]},
+  allergic_rhinitis: {note:"Quercetin + Vit C", dos:["Onion, apple, berries","Local honey (anecdotal)","Vit C 500–1000 mg/day"], donts:["Identify trigger foods"]},
+  sleep_apnoea: {note:"Weight loss primary lever", dos:["5–10% weight loss","Side-sleeping"], donts:["No alcohol within 3 hrs of bed"]},
+
+  eczema: {note:"Low-histamine + omega-3 ≥1 g/day", dos:["Omega-3 fish/flax 2×/week","Probiotic curd","Vit D"], donts:["Trial elimination IF confirmed: eggs/dairy/peanuts","No alcohol/fermented during flare"]},
+  psoriasis: {note:"Mediterranean + omega-3 + weight management", dos:["Fatty fish/walnuts/flax","Daily turmeric","BMI <25"], donts:["Limit alcohol","Reduce red meat"]},
+  acne: {filter:f=>f.gi&&f.gi>60, note:"Low-GI · trial dairy elimination 4 weeks", dos:["Low-GI diet","Zinc-rich (pumpkin seeds, lentils)","Omega-3"], donts:["Trial dairy 4 weeks","Limit added sugar"]},
+  rosacea: {filter:f=>/spicy|alcohol/i.test(f.n), note:"Avoid spicy/hot beverages/alcohol", dos:["Cool/lukewarm foods","Anti-inflammatory diet"], donts:["No spicy","No hot coffee/tea","Limit alcohol"]},
+  urticaria: {note:"Low-histamine 4-week trial", dos:["Fresh foods (not aged)","Quercetin"], donts:["No aged cheese/fermented/leftovers >24 hr","Limit shellfish/eggs/tomato"]},
+
+  migraine: {filter:f=>f.ty===1||/aged|fermented|chocolate|caffeine/i.test(f.n), note:"Avoid tyramine · consistent meal timing · hydration", dos:["Consistent meal times","Magnesium 400 mg/day","Riboflavin (B2) 400 mg/day"], donts:["No aged cheese/smoked meats/MSG","Limit chocolate/citrus/red wine","Caffeine ≤1 cup, consistent"]},
+  anxiety: {note:"Mg + B-vitamins + omega-3 · low caffeine", dos:["Mg-rich daily","Omega-3","Complex carbs (millets, oats)"], donts:["Caffeine ≤1 cup/day","No energy drinks","Reduce sugar"]},
+  depression: {note:"Mediterranean + omega-3 + Vit D + B12", dos:["EPA 1g/day","Vit D + B12","Fermented foods (gut-brain)"], donts:["Limit alcohol","Reduce ultra-processed"]},
+  insomnia: {filter:f=>/caffeine|coffee/i.test(f.n), note:"No caffeine after noon · tryptophan-rich evening", dos:["Warm milk + cardamom at bed","Mg-rich foods","Tart cherry"], donts:["No caffeine after noon","No screens 1 hr pre-bed","No heavy meals within 2 hrs of bed"]},
+  parkinson: {note:"Mediterranean + fibre + protein timing with levodopa", dos:["Levodopa 30 min before protein","High-fibre + 2 L water","Antioxidant-rich"], donts:["Don't take protein with levodopa"]},
+
+  endometriosis: {note:"Anti-inflammatory · omega-3 · phytoestrogen-balanced", dos:["Omega-3 fish 2–3×/wk","Cruciferous vegetables","Magnesium for cramps"], donts:["Limit red meat","Cut alcohol","Reduce trans fats"]},
+  fibroids: {note:"Plant-forward · reduce estrogen exposure", dos:["Cruciferous vegetables","Vit D","Iron-rich foods"], donts:["Limit red meat","Reduce alcohol"]},
+  pms: {note:"Mg + B6 + complex carbs · calcium", dos:["Mg 200 mg + B6 50 mg (luteal)","Complex carbs","Ca 1200 mg/day"], donts:["Reduce sodium (bloating)","Cut caffeine/alcohol luteal"]},
+  menopause: {note:"Ca + Vit D + phytoestrogens · weight-bearing exercise", dos:["Soy (tofu, soy milk), flax","Ca 1200 + Vit D 800 IU","Weight-bearing exercise"], donts:["Limit alcohol/caffeine (hot flashes)","Reduce refined sugar"]},
+  sub_fertility: {note:"Mediterranean fertility diet · folate · stable BMI", dos:["Folate 400 µg/day","BMI 20–25"], donts:["Limit alcohol","No trans fats"]},
+};
+
+/* ============================================================
+   GOLDEN SCENARIO PRESETS
+============================================================ */
+const PRESETS = {
+  diabetic_veg: {name:"Rajesh K. (Diabetic veg)",age:52,gender:"M",height:170,weight:78,activity:1.375,goal:"diabetes_t2",dietType:"VEG",region:"south",diseases:["diabetes_t2","hypertension"],biomarkers:{hba1c:7.8,ldl:140,sbp:145,dbp:92}},
+  pcos_veg: {name:"Priya M. (PCOS veg)",age:28,gender:"F",height:162,weight:72,activity:1.2,goal:"pcos",dietType:"VEG",region:"north",diseases:["pcos","insulin_resistance","acne"]},
+  htn_nonveg: {name:"Surinder S. (HTN non-veg)",age:58,gender:"M",height:175,weight:82,activity:1.375,goal:"htn",dietType:"NON_VEG",region:"north",diseases:["hypertension","high_ldl"],biomarkers:{sbp:152,dbp:96,ldl:158}},
+  pregnancy_t3: {name:"Anjali R. (Pregnancy T3)",age:30,gender:"F",height:161,weight:70,activity:1.375,goal:"pregnancy_t2",dietType:"VEG",region:"east",diseases:["anaemia"],biomarkers:{hb:10.5}},
+  elderly_wl: {name:"Rajamma G. (Elderly osteo+constipation)",age:68,gender:"F",height:155,weight:75,activity:1.2,goal:"elderly",dietType:"VEG",region:"south",diseases:["osteoarthritis","osteoporosis","constipation"]},
+  ckd_early: {name:"Mohan T. (CKD-early diabetic)",age:62,gender:"M",height:172,weight:80,activity:1.2,goal:"diabetes_t2",dietType:"VEG",region:"south",diseases:["diabetes_t2","ckd_early","hypertension"],biomarkers:{hba1c:7.2,egfr:52,sbp:138,dbp:88}},
+  migraine_anxiety: {name:"Sneha P. (Migraine + anxiety)",age:34,gender:"F",height:160,weight:58,activity:1.55,goal:"maintenance",dietType:"VEG",region:"west",diseases:["migraine","anxiety","insomnia"]},
+};
+
+/* ============================================================
+   GOAL TARGETS
+============================================================ */
+function goalTargets(goal, tdee, weightKg, gender){
+  const floor = gender==="F"?1200:1500;
+  let kcal=tdee, prot=1.0*weightKg, gicap=null, salt=5, addedSugar=25, notes=[];
+  switch(goal){
+    case "wl_mild": kcal=Math.max(tdee-300,floor); prot=1.2*weightKg; break;
+    case "wl_mod":  kcal=Math.max(tdee-500,floor); prot=1.2*weightKg; break;
+    case "wg":      kcal=tdee+500; prot=1.4*weightKg; break;
+    case "mg":      kcal=tdee+300; prot=1.6*weightKg; break;
+    case "diabetes_t2": kcal=Math.max(tdee-300,floor); prot=1.2*weightKg; gicap=55; addedSugar=0; notes.push("GI cap 55; no added sugar; ≥25g fibre/day"); break;
+    case "pcos": kcal=Math.max(tdee-300,floor); prot=1.4*weightKg; gicap=55; notes.push("Low-GI · high protein · anti-inflammatory"); break;
+    case "htn": prot=1.0*weightKg; salt=3; notes.push("DASH-Indian · Sodium ≤1500 mg · K+-rich foods"); break;
+    case "hypothyroid": prot=1.2*weightKg; notes.push("Goitrogens raw capped; 1-hr gap from levothyroxine"); break;
+    case "hyperthyroid": kcal=tdee+300; prot=1.4*weightKg; notes.push("Calorie surplus; cap iodised salt and seaweed"); break;
+    case "pregnancy_t1": kcal=tdee+100; prot=1.1*weightKg; notes.push("Small frequent meals · ginger for nausea · folate 600 µg/day"); break;
+    case "pregnancy_t2": kcal=tdee+350; prot=1.2*weightKg+25; notes.push("Iron-rich × 2/day · folate · calcium target"); break;
+    case "lactation": kcal=tdee+600; prot=1.2*weightKg+25; notes.push("Galactagogues encouraged · hydration 3.5 L/day"); break;
+    case "elderly": kcal=tdee*0.95; prot=1.1*weightKg; notes.push("Soft foods · oil ≤20g/day · ≥1g protein/kg"); break;
+    case "immunity": prot=1.2*weightKg; notes.push("Zinc · Vit C · Vit D · adequate sleep"); break;
+    case "post_surgery": kcal=tdee+200; prot=1.5*weightKg; notes.push("High protein · zinc · Vit C for wound healing"); break;
+  }
+  const carb = (kcal*0.50)/4, fat = (kcal*0.25)/9;
+  return {kcal:Math.round(kcal),protein:Math.round(prot),carb:Math.round(carb),fat:Math.round(fat),gicap,salt,addedSugar,notes};
+}
+
+/* ============================================================
+   ELIGIBILITY — applies all rules
+============================================================ */
+function eligibleForSlot(food, slot, p, t){
+  if(!food.sl.includes(slot)) return false;
+  const dt=p.dietType;
+  if(dt==="VEGAN"   && food.v!=="VEGAN") return false;
+  if(dt==="VEG"     && !["VEG","VEGAN"].includes(food.v)) return false;
+  if(dt==="EGG"     && !["VEG","VEGAN","EGG"].includes(food.v)) return false;
+  if(dt==="JAIN"    && !["VEG","VEGAN"].includes(food.v)) return false;
+  if(dt==="SATTVIC" && !["VEG","VEGAN"].includes(food.v)) return false;
+  if(dt==="SATTVIC" && /onion|garlic|mushroom/i.test(food.n)) return false;
+  for(const a of p.allergens) if(food.al.includes(a)) return false;
+  for(const d of p.dislikes){
+    if(d && food.n.toLowerCase().includes(d.toLowerCase())) return false;
+  }
+  if(t.gicap && food.gi>t.gicap) return false;
+  if(food.ct<p.budget) return false;
+  // Cooking time: soft filter — allow up to 50% over preference so pool doesn't collapse
+  if(p.cookTime>0 && (food.pt||20) > p.cookTime*1.5) return false;
+  for(const dk of p.diseases){
+    const rule = DISEASE_RULES[dk];
+    if(rule && rule.filter && rule.filter(food)) return false;
+  }
+  for(const mk of (p.meds||[])){
+    const rule = MED_RULES[mk];
+    if(rule && rule.filter && rule.filter(food)) return false;
+  }
+  return true;
+}
+
+function scoreFood(food, p){
+  let s=0;
+  if(food.rg.includes(p.region)) s+=2;
+  if(food.rg.includes("pan")) s+=1;
+  if(p.diseases.includes("diabetes_t2") && food.gi && food.gi<50) s+=2;
+  if(p.diseases.includes("anaemia") && food.ir===1) s+=3;
+  if(p.diseases.includes("osteoporosis") && food.cal===1) s+=3;
+  if(p.diseases.includes("calcium_deficiency") && food.cal===1) s+=3;
+  if((p.diseases.includes("hyperlipidemia")||p.diseases.includes("cad")||p.diseases.includes("high_ldl"))
+      && food.om3===1) s+=2;
+  if(p.diseases.includes("constipation") && food.fb>4) s+=2;
+  if(p.diseases.includes("ibs_c") && food.fb>4) s+=2;
+  if(p.diseases.includes("ibs_d") && food.sf===1) s+=2;
+  if(p.diseases.includes("hypertension") && /banana|coconut water|curd|sprouts|spinach/i.test(food.n)) s+=1;
+  if(p.diseases.includes("lactation") && food.ggn===1) s+=3;
+  if(p.diseases.includes("nafld") && food.om3===1) s+=2;
+  if(p.diseases.includes("vit_d_deficiency") && /fish|egg|milk/i.test(food.n)) s+=1;
+  if(p.diseases.includes("b12_deficiency") && /egg|fish|chicken|milk|paneer|curd/i.test(food.n)) s+=2;
+  // Dosha biasing
+  for(const d of getDoshaList(p.dosha)){
+    const r = DOSHA_RULES[d];
+    if(r){
+      s += (r.boost?r.boost(food):0);
+      s -= (r.penalize?r.penalize(food):0);
+    }
+  }
+  return s;
+}
+
+/* ============================================================
+   IF WINDOW — adjust slot distribution
+============================================================ */
+function applyFastingWindow(slots, ifWindow){
+  const out = slots.map(s=>({...s}));
+  if(ifWindow==="none"||!ifWindow) return out;
+  if(ifWindow==="12_12"){ // no early morning food, no bedtime food
+    out.forEach(s=>{ if(s.k==="em"||s.k==="bd") s.pct=0; });
+  } else if(ifWindow==="14_10"){
+    out.forEach(s=>{ if(s.k==="em"||s.k==="bd") s.pct=0; });
+  } else if(ifWindow==="16_8"){
+    out.forEach(s=>{ if(s.k==="em"||s.k==="bd"||s.k==="bf") s.pct=0; });
+  } else if(ifWindow==="omad"){
+    out.forEach(s=>{ s.pct = (s.k==="ln") ? 1.0 : 0; });
+  }
+  // Renormalize to 1.0
+  const total = out.reduce((a,s)=>a+s.pct,0);
+  if(total>0) out.forEach(s=>{ s.pct = s.pct/total; });
+  return out;
+}
+
+/* ============================================================
+   GENERATOR with hard-cap re-swap iteration
+============================================================ */
+let currentPlan = null;
+let editingItemRef = null;
+
+function generate(preservedLocks){
+  const p = readInputs();
+  // Merge biomarker-derived disease tags
+  const bmTags = deriveBiomarkerTags(p.biomarkers||{});
+  for(const tag of bmTags) if(!p.diseases.includes(tag)) p.diseases.push(tag);
+
+  const bmr = (10*p.weight) + (6.25*p.height) - (5*p.age) + (p.gender==="M"?5:-161);
+  const tdee = bmr * p.activity;
+  const t = goalTargets(p.goal, tdee, p.weight, p.gender);
+
+  // Biomarker severity modulation
+  const sevNotes = biomarkerSeverity(t, p.biomarkers||{}, p);
+  t.notes.push(...sevNotes);
+
+  // Medication notes
+  for(const mk of p.meds||[]){
+    const r = MED_RULES[mk];
+    if(r?.note) t.notes.push(`💊 ${mk.replace(/_/g," ")}: ${r.note}`);
+  }
+  // Dosha note
+  for(const d of getDoshaList(p.dosha)){
+    if(DOSHA_RULES[d]?.note) t.notes.push(`🪷 ${DOSHA_RULES[d].note}`);
+  }
+  // IF note
+  if(p.ifWindow && p.ifWindow!=="none"){
+    t.notes.push(`⏰ Intermittent fasting ${p.ifWindow.replace("_",":")} — slots redistributed to eating window.`);
+  }
+
+  // Apply IF window
+  const adjustedSlots = applyFastingWindow(SLOT_DEF, p.ifWindow);
+
+  const plan = [];
+  const used = {};
+  const violations = [];
+
+  for(let d=0; d<7; d++){
+    const day = {label:DAYS[d], idx:d, slots:[], totals:{kcal:0,p:0,c:0,f:0,fb:0}, mode:null};
+    let dayKcalTarget = t.kcal;
+
+    // 5:2 fasting day
+    if(p.ifWindow==="52" && (d===2 || d===5)){ dayKcalTarget = Math.max(500,t.kcal*0.25); day.mode="fast"; }
+
+    for(const slot of adjustedSlots){
+      if(slot.pct===0){
+        day.slots.push({...slot,items:[],kcal:0,p:0,c:0,f:0,fb:0,note:""});
+        continue;
+      }
+      const slotKcal = dayKcalTarget * slot.pct;
+      const slotState = {...slot, items:[], kcal:0, p:0, c:0, f:0, fb:0, note:""};
+
+      if(preservedLocks){
+        const prev = preservedLocks[d]?.[slot.k];
+        if(prev?.items?.length){
+          slotState.items = prev.items;
+          slotState.note = prev.note || "";
+          for(const it of prev.items){ used[it.n]=d; }
+        }
+      }
+
+      if(!slotState.items.length){
+        slotState.items = pickWithReswap(slot.k, slotKcal, p, t, used, d);
+        slotState.items.forEach(it=>{ used[it.n]=d; });
+      }
+
+      recomputeSlot(slotState);
+      day.slots.push(slotState);
+      day.totals.kcal += slotState.kcal;
+      day.totals.p    += slotState.p;
+      day.totals.c    += slotState.c;
+      day.totals.f    += slotState.f;
+      day.totals.fb   += slotState.fb;
+    }
+    if(Math.abs(day.totals.kcal - dayKcalTarget) > dayKcalTarget*0.15 && day.mode!=="fast"){
+      violations.push(`${day.label}: ${Math.round(day.totals.kcal)} kcal vs target ${Math.round(dayKcalTarget)} (±15% breach)`);
+    }
+    plan.push(day);
+  }
+
+  currentPlan = {id:uuid(), p, t, plan, violations, generatedAt:new Date().toISOString()};
+  saveCurrent(currentPlan);
+  saveToRecents(p);
+  renderOutput();
+}
+
+function pickWithReswap(slotKey, slotKcal, p, t, used, dayIdx){
+  let pool = FOODS.filter(f=>eligibleForSlot(f,slotKey,p,t));
+  pool.sort((a,b)=>{
+    const ua = (dayIdx - (used[a.n]??-99));
+    const ub = (dayIdx - (used[b.n]??-99));
+    if(ub!==ua) return ub-ua;
+    return scoreFood(b,p) - scoreFood(a,p);
+  });
+
+  let picked = pickItems(pool, slotKcal);
+  // Hard-cap re-swap iteration (up to 3 attempts) if pool collapsed
+  let iter=0;
+  while(picked.length===0 && pool.length===0 && iter<3){
+    // Fallback: drop region preference, then drop budget, then drop cook time
+    if(iter===0) pool = FOODS.filter(f=>{ const pp={...p,region:"pan"}; return eligibleForSlot(f,slotKey,pp,t); });
+    else if(iter===1) pool = FOODS.filter(f=>{ const pp={...p,region:"pan",budget:3}; return eligibleForSlot(f,slotKey,pp,t); });
+    else pool = FOODS.filter(f=>{ const pp={...p,region:"pan",budget:3,cookTime:0}; return eligibleForSlot(f,slotKey,pp,t); });
+    picked = pickItems(pool, slotKcal);
+    iter++;
+  }
+  return picked;
+}
+
+function pickItems(pool, target){
+  const picked = [];
+  let acc = 0;
+  const min = target*0.85, max = target*1.15;
+  for(const f of pool){
+    if(picked.length>=3) break;
+    if(acc >= min) break;
+    if(acc + f.kcal <= max*1.1){
+      picked.push({...f});
+      acc += f.kcal;
+    }
+  }
+  if(picked.length===0 && pool.length){ picked.push({...pool[0]}); }
+  return picked;
+}
+
+function regenerateDay(dayIdx){
+  if(!currentPlan) return;
+  const {p,t} = currentPlan;
+  const day = currentPlan.plan[dayIdx];
+  const used = {};
+  currentPlan.plan.forEach((d,di)=>{
+    if(di===dayIdx) return;
+    d.slots.forEach(s=>s.items.forEach(it=>{ used[it.n]=di; }));
+  });
+
+  // Day mode adjustments
+  let dayP = {...p};
+  let dayT = {...t};
+  if(day.mode==="cheat"){ dayT.gicap=null; dayT.kcal+=200; }
+  else if(day.mode==="veg"){ dayP.dietType="VEG"; }
+  else if(day.mode==="lighter"){ dayT.kcal-=300; }
+
+  for(const slot of day.slots){
+    const lockedItems = slot.items.filter(it=>it._locked);
+    const lockedKcal = sum(lockedItems,"kcal");
+    const slotKcalTarget = dayT.kcal * slot.pct - lockedKcal;
+    if(slotKcalTarget < 30 || slot.pct===0){
+      slot.items = lockedItems;
+    } else {
+      const pool = FOODS.filter(f=>eligibleForSlot(f,slot.k,dayP,dayT) && !lockedItems.some(li=>li.n===f.n));
+      pool.sort((a,b)=>{
+        const ua = (dayIdx - (used[a.n]??-99));
+        const ub = (dayIdx - (used[b.n]??-99));
+        if(ub!==ua) return ub-ua;
+        return scoreFood(b,dayP) - scoreFood(a,dayP);
+      });
+      const picked = pickItems(pool, slotKcalTarget);
+      slot.items = [...lockedItems, ...picked];
+    }
+    recomputeSlot(slot);
+  }
+  recomputeDay(day);
+  saveCurrent(currentPlan);
+  renderOutput();
+}
+
+function setDayMode(dayIdx, mode){
+  if(!currentPlan) return;
+  currentPlan.plan[dayIdx].mode = mode==="clear" ? null : mode;
+  closeDayMenu();
+  regenerateDay(dayIdx);
+}
+
+function sum(items,k){ return items.reduce((s,i)=>s+(i[k]||0),0); }
+function recomputeSlot(slot){
+  slot.kcal = sum(slot.items,"kcal");
+  slot.p = sum(slot.items,"p");
+  slot.c = sum(slot.items,"c");
+  slot.f = sum(slot.items,"f");
+  slot.fb = sum(slot.items,"fb");
+}
+function recomputeDay(day){
+  day.totals = {kcal:0,p:0,c:0,f:0,fb:0};
+  for(const s of day.slots){
+    day.totals.kcal += s.kcal;
+    day.totals.p += s.p;
+    day.totals.c += s.c;
+    day.totals.f += s.f;
+    day.totals.fb += s.fb;
+  }
+}
+
+function uuid(){ return "p_"+Date.now()+"_"+Math.random().toString(36).slice(2,8); }
+
+/* Safe wrapper around generate — surfaces errors instead of failing silently */
+function safeGenerate(preservedLocks){
+  const out = document.getElementById('output');
+  const btn = document.getElementById('generateBtn');
+  // Show shimmer loading state
+  out.innerHTML = `<div class="shimmer-wrap">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
+      <div class="shimmer-bar stat-block"></div>
+      <div class="shimmer-bar stat-block"></div>
+      <div class="shimmer-bar stat-block"></div>
+      <div class="shimmer-bar stat-block"></div>
+    </div>
+    <div class="shimmer-bar med"></div>
+    <div class="shimmer-bar"></div>
+    <div class="shimmer-bar short"></div>
+    <div class="shimmer-bar med" style="margin-top:24px"></div>
+    <div class="shimmer-bar"></div>
+    <div class="shimmer-bar short"></div>
+  </div>`;
+  if(btn) btn.disabled = true;
+  // Defer generation to next frame so shimmer renders
+  requestAnimationFrame(()=>{
+    setTimeout(()=>{
+      try{
+        generate(preservedLocks);
+        showToast('✅ 7-day plan generated successfully');
+      }catch(e){
+        console.error('Generate failed:',e);
+        out.innerHTML = `<div class="violations" style="background:var(--bad-light);border-color:#fca5a5;color:#991b1b">
+          <strong>⚠ Generation error</strong>
+          ${esc(e.message)}<br>
+          <small>Check browser console (F12) for full stack. Try <b>↻ Reset local data</b> below if this persists.</small>
+        </div>`;
+      } finally {
+        if(btn) btn.disabled = false;
+      }
+    }, 80);
+  });
+}
+
+/* Wipe localStorage (escape hatch if stale data from a broken version) */
+function resetStorage(){
+  if(!confirm("Reset all local data? This deletes saved plans, recent patients, and the current plan.")) return;
+  try{
+    localStorage.removeItem(LS_RECENTS);
+    localStorage.removeItem(LS_CURRENT);
+    localStorage.removeItem(LS_SAVED);
+    // also clear any old keys from earlier versions
+    localStorage.removeItem("dietapp_recents");
+    localStorage.removeItem("dietapp_history");
+    localStorage.removeItem("dietapp_current");
+    localStorage.removeItem("dietapp_saved");
+    currentPlan = null;
+    populateRecents();
+    populateSaved();
+    document.getElementById("output").innerHTML = `<div class="empty"><div>Local data cleared. Click <b>Generate</b> to start fresh.</div></div>`;
+  }catch(e){ alert("Reset failed: "+e.message); }
+}
+
+/* ============================================================
+   SWAP / EDIT MODAL
+============================================================ */
+function openSwap(dayIdx, slotKey, itemName){
+  const slot = currentPlan.plan[dayIdx].slots.find(s=>s.k===slotKey);
+  const item = slot.items.find(i=>i.n===itemName);
+  if(!item) return;
+  const p = currentPlan.p, t = currentPlan.t;
+
+  const fromSubs = SUBS.filter(([from,,slotMatch])=> from===itemName && (!slotMatch || slotMatch===slotKey))
+    .map(([,to,,reason,score])=>({to,reason,score}));
+  const fallback = FOODS.filter(f=>f.n!==itemName && eligibleForSlot(f,slotKey,p,t))
+    .filter(f=>Math.abs(f.kcal-item.kcal) < item.kcal*0.35)
+    .sort((a,b)=>scoreFood(b,p)-scoreFood(a,p))
+    .slice(0,5)
+    .map(f=>({to:f.n,reason:"similar kcal, slot-compatible",score:0.6}));
+  const seen = new Set();
+  const combined = [...fromSubs, ...fallback].filter(s=>{
+    if(seen.has(s.to)) return false; seen.add(s.to); return true;
+  }).slice(0,5);
+
+  const itemEsc = encodeURIComponent(itemName);
+  const html = `
+    <div class="modal-bg" data-modal="swap">
+      <div class="modal" role="dialog" aria-label="Swap food item">
+        <h3>Swap: <span style="color:var(--accent2)">${esc(itemName)}</span></h3>
+        <div style="color:var(--muted);font-size:11px;margin-bottom:8px">${slot.label} · ${currentPlan.plan[dayIdx].label}</div>
+        <div class="swap-list">
+          ${combined.map(s=>{
+            const tf = FOODS.find(f=>f.n===s.to);
+            if(!tf) return "";
+            return `<div class="swap-item" data-swap-to="${encodeURIComponent(s.to)}">
+              <div class="nm">${esc(s.to)}</div>
+              <div class="meta">${Math.round(tf.kcal)} kcal · P ${tf.p}g · C ${tf.c}g${tf.gi?` · GI ${tf.gi}`:""} · <i>${esc(s.reason)}</i></div>
+            </div>`;
+          }).join("")}
+          ${combined.length===0?'<div style="padding:12px;color:var(--muted);text-align:center">No substitutes found that match current rules. Try Edit instead.</div>':''}
+        </div>
+        <div class="modal-actions">
+          <button class="ghost" data-action="edit">✏️ Edit values</button>
+          <button class="ghost" data-action="lock">${item._locked?"🔓 Unlock":"🔒 Lock"}</button>
+          <button class="ghost danger" data-action="remove">🗑 Remove</button>
+          <button class="ghost" data-action="close">Cancel</button>
+        </div>
+      </div>
+    </div>`;
+  const root = document.getElementById("modalRoot");
+  root.innerHTML = html;
+  // attach listeners
+  root.querySelector(".modal-bg").addEventListener("click",e=>{ if(e.target.classList.contains("modal-bg")) closeModal(); });
+  root.querySelectorAll("[data-swap-to]").forEach(el=>{
+    el.addEventListener("click",()=>applySwap(dayIdx,slotKey,itemName,decodeURIComponent(el.dataset.swapTo)));
+  });
+  root.querySelector('[data-action="edit"]').addEventListener("click",()=>openEdit(dayIdx,slotKey,itemName));
+  root.querySelector('[data-action="lock"]').addEventListener("click",()=>toggleLockItem(dayIdx,slotKey,itemName));
+  root.querySelector('[data-action="remove"]').addEventListener("click",()=>removeItem(dayIdx,slotKey,itemName));
+  root.querySelector('[data-action="close"]').addEventListener("click",closeModal);
+}
+
+function openEdit(dayIdx, slotKey, itemName){
+  const slot = currentPlan.plan[dayIdx].slots.find(s=>s.k===slotKey);
+  const item = slot.items.find(i=>i.n===itemName);
+  if(!item) return;
+  editingItemRef = {dayIdx, slotKey, oldName:itemName};
+  const html = `
+    <div class="modal-bg" data-modal="edit">
+      <div class="modal" role="dialog" aria-label="Edit food item">
+        <h3>Edit: <span style="color:var(--accent2)">${esc(itemName)}</span></h3>
+        <label>Name</label>
+        <input id="ed_n" value="${esc(item.n)}"/>
+        <label>Quantity / serving</label>
+        <input id="ed_q" value="${esc(item.q||"")}"/>
+        <div class="form-row">
+          <div><label>kcal</label><input id="ed_kcal" type="number" value="${item.kcal}"/></div>
+          <div><label>Protein (g)</label><input id="ed_p" type="number" step="0.1" value="${item.p}"/></div>
+        </div>
+        <div class="form-row">
+          <div><label>Carbs (g)</label><input id="ed_c" type="number" step="0.1" value="${item.c}"/></div>
+          <div><label>Fat (g)</label><input id="ed_f" type="number" step="0.1" value="${item.f}"/></div>
+        </div>
+        <div class="form-row">
+          <div><label>Fibre (g)</label><input id="ed_fb" type="number" step="0.1" value="${item.fb||0}"/></div>
+          <div><label>GI</label><input id="ed_gi" type="number" value="${item.gi||0}"/></div>
+        </div>
+        <div class="modal-actions">
+          <button class="ghost danger" data-action="cancel">Cancel</button>
+          <button class="ghost" data-action="save" style="background:var(--accent);color:#fff">Save</button>
+        </div>
+      </div>
+    </div>`;
+  const root = document.getElementById("modalRoot");
+  root.innerHTML = html;
+  root.querySelector('[data-action="cancel"]').addEventListener("click",closeModal);
+  root.querySelector('[data-action="save"]').addEventListener("click",saveEdit);
+  root.querySelector(".modal-bg").addEventListener("click",e=>{ if(e.target.classList.contains("modal-bg")) closeModal(); });
+}
+
+function saveEdit(){
+  if(!editingItemRef) return;
+  const {dayIdx, slotKey, oldName} = editingItemRef;
+  const slot = currentPlan.plan[dayIdx].slots.find(s=>s.k===slotKey);
+  const idx = slot.items.findIndex(i=>i.n===oldName);
+  if(idx<0) return;
+  slot.items[idx] = {
+    ...slot.items[idx],
+    n: document.getElementById("ed_n").value,
+    q: document.getElementById("ed_q").value,
+    kcal: +document.getElementById("ed_kcal").value,
+    p: +document.getElementById("ed_p").value,
+    c: +document.getElementById("ed_c").value,
+    f: +document.getElementById("ed_f").value,
+    fb: +document.getElementById("ed_fb").value,
+    gi: +document.getElementById("ed_gi").value,
+    _edited: true,
+  };
+  recomputeSlot(slot);
+  recomputeDay(currentPlan.plan[dayIdx]);
+  saveCurrent(currentPlan);
+  editingItemRef = null;
+  closeModal();
+  renderOutput();
+}
+
+function applySwap(dayIdx, slotKey, oldName, newName){
+  const slot = currentPlan.plan[dayIdx].slots.find(s=>s.k===slotKey);
+  const idx = slot.items.findIndex(i=>i.n===oldName);
+  const newFood = FOODS.find(f=>f.n===newName);
+  if(idx>=0 && newFood){
+    slot.items[idx] = {...newFood};
+    recomputeSlot(slot);
+    recomputeDay(currentPlan.plan[dayIdx]);
+  }
+  saveCurrent(currentPlan);
+  closeModal();
+  renderOutput();
+}
+
+function toggleLockItem(dayIdx, slotKey, itemName){
+  const slot = currentPlan.plan[dayIdx].slots.find(s=>s.k===slotKey);
+  const item = slot.items.find(i=>i.n===itemName);
+  if(item) item._locked = !item._locked;
+  saveCurrent(currentPlan);
+  closeModal();
+  renderOutput();
+}
+function removeItem(dayIdx, slotKey, itemName){
+  const slot = currentPlan.plan[dayIdx].slots.find(s=>s.k===slotKey);
+  slot.items = slot.items.filter(i=>i.n!==itemName);
+  recomputeSlot(slot);
+  recomputeDay(currentPlan.plan[dayIdx]);
+  saveCurrent(currentPlan);
+  closeModal();
+  renderOutput();
+}
+function closeModal(){ document.getElementById("modalRoot").innerHTML=""; editingItemRef=null; }
+function editSlotNote(dayIdx, slotKey){
+  const slot = currentPlan.plan[dayIdx].slots.find(s=>s.k===slotKey);
+  const txt = prompt("Doctor note for this slot:", slot.note||"");
+  if(txt!==null){ slot.note = txt; saveCurrent(currentPlan); renderOutput(); }
+}
+
+/* ============================================================
+   DAY MENU
+============================================================ */
+function openDayMenu(dayIdx, anchor){
+  closeDayMenu();
+  const menu = document.createElement("div");
+  menu.className = "day-menu on";
+  menu.id = "dayMenu";
+  menu.innerHTML = `
+    <button data-mode="clear">↺ Clear mode</button>
+    <button data-mode="cheat">🍰 Cheat day (+200 kcal, no GI cap)</button>
+    <button data-mode="veg">🌿 Veg today</button>
+    <button data-mode="lighter">🪶 Lighter day (-300 kcal)</button>
+  `;
+  anchor.parentElement.appendChild(menu);
+  menu.querySelectorAll("button").forEach(b=>{
+    b.addEventListener("click",()=>setDayMode(dayIdx, b.dataset.mode));
+  });
+  setTimeout(()=>document.addEventListener("click",closeDayMenuOnce),0);
+}
+function closeDayMenuOnce(e){
+  if(!e.target.closest(".day-menu")&&!e.target.closest(".day-actions")) closeDayMenu();
+}
+function closeDayMenu(){
+  document.querySelectorAll(".day-menu").forEach(m=>m.remove());
+  document.removeEventListener("click", closeDayMenuOnce);
+}
+
+/* ============================================================
+   INPUTS / VALIDATION
+============================================================ */
+function readInputs(){
+  const v=id=>document.getElementById(id).value;
+  // num(): treat blank/zero/NaN as null so falsy fallback kicks in
+  const num=id=>{const x=+v(id); return (!x||isNaN(x))?null:x;};
+  // Smart defaults: a missing essential becomes a safe value, never blocks generation
+  const gender = v("gender") || "F";
+  const age = num("age") || 30;
+  const height = num("height") || (gender==="M"?170:160);
+  const weight = num("weight") || (gender==="M"?70:60);
+  return {
+    name: (v("pname")||"Patient").trim(),
+    age, gender, height, weight,
+    waist:num("waist"), hip:num("hip"), bodyFat:num("bodyFat"),
+    activity: num("activity") || 1.55,           // Moderate default
+    goal: v("goal") || "maintenance",
+    cookTime: +v("cookTime") || 0,               // 0 = no limit
+    ifWindow: v("ifWindow") || "none",
+    sleepHrs:num("sleepHrs"), stress:v("stress")||null,
+    caffeine:num("caffeine"), alcohol:v("alcohol")||null,
+    biomarkers: {
+      hba1c:num("bm_hba1c"), fbs:num("bm_fbs"),
+      ldl:num("bm_ldl"), tg:num("bm_tg"),
+      hb:num("bm_hb"), tsh:num("bm_tsh"),
+      egfr:num("bm_egfr"), uric:num("bm_uric"),
+      sbp:num("bm_sbp"), dbp:num("bm_dbp"),
+      vitd:num("bm_vitd"), b12:num("bm_b12"),
+    },
+    meds: readChips("medChips"),
+    dosha: v("dosha") || "",
+    dietType: v("dietType") || "VEG",
+    region: v("region") || "pan",
+    allergens: readChips("allergenChips"),
+    diseases: readChips("diseaseGroups"),
+    dislikes: v("dislikes").split(",").map(s=>s.trim()).filter(Boolean),
+    budget: +v("budget") || 2,                    // Standard default
+  };
+}
+function readChips(containerId){
+  return [...document.querySelectorAll(`#${containerId} .chip.on`)].map(c=>c.dataset.val);
+}
+function esc(s){ return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+
+/* ============================================================
+   RENDERING
+============================================================ */
+function renderOutput(){
+  if(!currentPlan){ return; }
+  const {p, t, plan, violations} = currentPlan;
+  const gl = (id,v)=>document.querySelector(`#${id} option[value="${v}"]`)?.textContent || v;
+  const goalLabel = gl("goal",p.goal);
+  const dietLabel = gl("dietType",p.dietType);
+  const regionLabel = gl("region",p.region);
+
+  const diseaseNotes = p.diseases
+    .map(dk=> DISEASE_RULES[dk]?.note ? `${diseaseLabel(dk)}: ${DISEASE_RULES[dk].note}` : null)
+    .filter(Boolean);
+  const allNotes = [...t.notes, ...diseaseNotes];
+
+  document.getElementById("output").innerHTML = `
+    <div class="toolbar">
+      <button class="ghost" onclick="window.print()">🖨 Print</button>
+      <button class="ghost" onclick="downloadJSON()">⬇ Export JSON</button>
+      <button class="ghost" onclick="promptSavePlan()">💾 Save plan as…</button>
+      <button class="ghost" onclick="safeGenerate(collectLocks())">🔄 Regen (keep locks)</button>
+      <button class="ghost" onclick="safeGenerate()">🎲 Fresh regen</button>
+    </div>
+
+    <h2>${esc(p.name)} — 7-Day Diet Plan</h2>
+    <div style="color:var(--muted);font-size:12px;margin-bottom:10px">
+      ${p.gender==="F"?"F":"M"}, ${p.age}y · ${p.weight} kg · ${p.height} cm · ${esc(dietLabel)} · ${esc(regionLabel)} · Goal: <b>${esc(goalLabel)}</b>
+      ${p.diseases.length ? ` · Tags: ${p.diseases.map(diseaseLabel).join(", ")}` : ""}
+      ${p.meds&&p.meds.length ? ` · Meds: ${p.meds.join(", ")}` : ""}
+      ${p.dosha ? ` · Dosha: ${p.dosha.replace("_","-")}` : ""}
+    </div>
+
+    <div class="summary">
+      <div class="stat"><div class="num">${t.kcal}</div><div class="lbl">kcal/day target</div></div>
+      <div class="stat"><div class="num">${t.protein} g</div><div class="lbl">protein</div></div>
+      <div class="stat"><div class="num">${t.carb} g</div><div class="lbl">carbs</div></div>
+      <div class="stat"><div class="num">${t.fat} g</div><div class="lbl">fat</div></div>
+    </div>
+
+    ${violations.length? `<div class="violations"><strong>⚠ Soft warnings (${violations.length})</strong>${violations.map(v=>`• ${esc(v)}`).join("<br>")}</div>` : ""}
+    ${allNotes.length? `<div class="violations" style="background:#dbeafe;border-color:#93c5fd;color:#1e3a8a"><strong>🔑 Clinical notes</strong>${allNotes.map(n=>`• ${esc(n)}`).join("<br>")}</div>` : ""}
+
+    <div class="tabs" role="tablist">
+      <button class="tab on" data-tab="plan" onclick="switchTab(this)">📅 Plan</button>
+      <button class="tab" data-tab="grocery" onclick="switchTab(this)">🛒 Grocery</button>
+      <button class="tab" data-tab="dos" onclick="switchTab(this)">✅ Do's & Don'ts</button>
+      <button class="tab" data-tab="rollup" onclick="switchTab(this)">📊 Rollup</button>
+      <button class="tab" data-tab="history" onclick="switchTab(this)">🕘 Saved Plans</button>
+    </div>
+
+    <div class="tab-pane" data-pane="plan">${renderPlanGrid(plan)}</div>
+    <div class="tab-pane" data-pane="grocery" style="display:none">${renderGrocery(plan)}</div>
+    <div class="tab-pane" data-pane="dos" style="display:none">${renderDosDonts(p,t)}</div>
+    <div class="tab-pane" data-pane="rollup" style="display:none">${renderRollup(plan,t)}</div>
+    <div class="tab-pane" data-pane="history" style="display:none">${renderHistory(p)}</div>
+
+    <div class="footer-note">
+      This diet chart is a clinical recommendation. It is not a substitute for emergency medical care.
+      Hydration: <b>${hydrationTarget(p)} L/day</b>. For changes consult your doctor.
+    </div>
+  `;
+  updatePrintView();
+}
+
+function hydrationTarget(p){
+  if(p.diseases.includes("ckd_3")) return 1.2;
+  if(p.diseases.includes("ckd_early")) return 1.8;
+  if(p.diseases.includes("uti_recurrent")||p.diseases.includes("ibs_c")||p.diseases.includes("kidney_stone_ox")||p.diseases.includes("kidney_stone_uric")||p.diseases.includes("gout")) return 3.0;
+  if(p.diseases.includes("lactation")) return 3.5;
+  return 2.5;
+}
+
+function updatePrintView() {
+  if (!currentPlan) return;
+  const { p, t, plan, violations } = currentPlan;
+  const gl = (id, v) => document.querySelector(`#${id} option[value="${v}"]`)?.textContent || v;
+  const goalLabel = gl("goal", p.goal);
+  const dietLabel = gl("dietType", p.dietType);
+  const regionLabel = gl("region", p.region);
+
+  const diseaseNotes = p.diseases
+    .map(dk => DISEASE_RULES[dk]?.note ? `${diseaseLabel(dk)}: ${DISEASE_RULES[dk].note}` : null)
+    .filter(Boolean);
+  const allNotes = [...t.notes, ...diseaseNotes];
+
+  let bmiStr = "—";
+  if (p.height && p.weight) {
+    const hM = p.height / 100;
+    const bmiVal = p.weight / (hM * hM);
+    bmiStr = bmiVal.toFixed(1);
+  }
+
+  let html = `
+    <div class="print-header">
+      <div class="print-header-left">
+        <img src="data:image/png;base64,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" alt="Sachi Homeo Clinic Logo" />
+        <div>
+          <h1 class="print-clinic-title">Sachi Homeo Clinic</h1>
+          <p class="print-clinic-sub">Diet Chart Generator · Professional 7-day Indian meal planner · NIN-aligned</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="print-patient-info">
+      <div class="print-info-item">
+        <span class="print-info-lbl">Patient Name</span>
+        <span class="print-info-val">${esc(p.name)}</span>
+      </div>
+      <div class="print-info-item">
+        <span class="print-info-lbl">Age / Gender</span>
+        <span class="print-info-val">${p.age} yrs / ${p.gender === "F" ? "Female" : "Male"}</span>
+      </div>
+      <div class="print-info-item">
+        <span class="print-info-lbl">Height / Weight (BMI)</span>
+        <span class="print-info-val">${p.height} cm / ${p.weight} kg (${bmiStr})</span>
+      </div>
+      <div class="print-info-item">
+        <span class="print-info-lbl">Primary Goal</span>
+        <span class="print-info-val">${esc(goalLabel)}</span>
+      </div>
+    </div>
+  `;
+
+  if (p.diseases.length || p.meds.length || p.dosha) {
+    html += `
+      <div style="font-size: 10px; color: #475569; margin-top: -12px; margin-bottom: 16px; padding: 0 4px; display: flex; gap: 16px; flex-wrap: wrap;">
+        ${p.diseases.length ? `<span><b>Conditions:</b> ${p.diseases.map(diseaseLabel).join(", ")}</span>` : ""}
+        ${p.meds && p.meds.length ? `<span><b>Medications:</b> ${p.meds.join(", ")}</span>` : ""}
+        ${p.dosha ? `<span><b>Ayurvedic Dosha:</b> ${p.dosha.replace("_", "-").toUpperCase()}</span>` : ""}
+        <span><b>Cuisine Region:</b> ${esc(regionLabel)}</span>
+        <span><b>Diet Type:</b> ${esc(dietLabel)}</span>
+      </div>
+    `;
+  }
+
+  if (violations.length || allNotes.length) {
+    html += `<div class="print-notes">`;
+    if (allNotes.length) {
+      html += `<strong>🔑 Clinical Guidelines & Notes</strong>`;
+      html += allNotes.map(n => `• ${esc(n)}`).join("<br>");
+    }
+    if (violations.length) {
+      if (allNotes.length) html += `<div style="margin-top:8px;"></div>`;
+      html += `<strong>⚠ Dietary Safety Adjustments</strong>`;
+      html += violations.map(v => `• ${esc(v)}`).join("<br>");
+    }
+    html += `</div>`;
+  }
+
+  html += `<h2 class="print-section-title">📅 Personalized 7-Day Diet Plan</h2>`;
+
+  const fullDayNames = { Mon: "Monday", Tue: "Tuesday", Wed: "Wednesday", Thu: "Thursday", Fri: "Friday", Sat: "Saturday", Sun: "Sunday" };
+
+  plan.forEach(day => {
+    html += `
+      <div class="print-day-card">
+        <div class="print-day-title">
+          <span class="print-day-name">${fullDayNames[day.label] || day.label} ${day.mode ? `<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:#e0f2fe;color:#0369a1;margin-left:8px;">${day.mode.toUpperCase()}</span>` : ""}</span>
+          <span class="print-day-macros">Target: <b>${t.kcal} kcal</b> · Protein: ${t.protein}g · Carbs: ${t.carb}g · Fat: ${t.fat}g</span>
+        </div>
+    `;
+
+    day.slots.forEach(slot => {
+      if (slot.items && slot.items.length) {
+        html += `
+          <div class="print-meal-row">
+            <div class="print-meal-time">
+              <span>${slot.label}</span>
+              <span class="print-meal-time-val">${slot.time}</span>
+            </div>
+            <div class="print-meal-content">
+        `;
+
+        slot.items.forEach(it => {
+          html += `
+            <div style="margin-bottom: 4px;">
+              <span class="print-food-item">${esc(it.n)}</span>
+              ${it.q ? `<span class="print-food-desc">(${esc(it.q)})</span>` : ""}
+              <span style="font-size: 8.5px; color: #64748b; margin-left: 6px;">${Math.round(it.kcal)} kcal · P: ${it.p}g · C: ${it.c}g · F: ${it.f}g</span>
+            </div>
+          `;
+        });
+
+        if (slot.note) {
+          html += `<div class="print-meal-note">📝 Note: ${esc(slot.note)}</div>`;
+        }
+
+        html += `
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    html += `</div>`;
+  });
+
+  const dos = new Set([
+    "Drink 2–3 L of water spread through the day",
+    "Eat slowly, chew thoroughly (20+ chews per bite)",
+    "30-min walk after dinner",
+    "7–8 hours of sleep, consistent timing",
+    "Include 1 seasonal local fruit daily",
+    "Use cold-pressed oils; rotate (groundnut/sesame/mustard)",
+  ]);
+  const donts = new Set([
+    "No sugary beverages",
+    "No ultra-processed snacks",
+    "Limit deep-fried items to ≤ 1 / week",
+    "Avoid eating within 2 hrs of bedtime",
+    `Salt ≤ ${t.salt} g/day`,
+  ]);
+
+  p.diseases.forEach(dk => {
+    const r = DISEASE_RULES[dk];
+    if (r) {
+      if (r.dos) r.dos.forEach(d => dos.add(d));
+      if (r.donts) r.donts.forEach(d => donts.add(d));
+    }
+  });
+
+  html += `
+    <h2 class="print-section-title">✅ Lifestyle Guidelines</h2>
+    <div class="print-dos-donts">
+      <div class="print-dos-box">
+        <h4>Do's & Recommendations</h4>
+        <ul>
+          ${Array.from(dos).map(d => `<li>${esc(d)}</li>`).join("")}
+        </ul>
+      </div>
+      <div class="print-donts-box">
+        <h4>Don'ts & Restrictions</h4>
+        <ul>
+          ${Array.from(donts).map(d => `<li>${esc(d)}</li>`).join("")}
+        </ul>
+      </div>
+    </div>
+  `;
+
+  html += `<h2 class="print-section-title">🛒 Grocery Shopping List</h2>`;
+  
+  const agg = {};
+  plan.forEach(day => {
+    day.slots.forEach(slot => {
+      slot.items.forEach(it => {
+        if (!agg[it.cat]) agg[it.cat] = {};
+        agg[it.cat][it.n] = (agg[it.cat][it.n] || 0) + 1;
+      });
+    });
+  });
+
+  const aisleNames = {
+    beverage: "Beverages",
+    breakfast: "Breakfast staples",
+    meal: "Meal items",
+    snack: "Snacks",
+    fruit: "Fruits",
+    nut: "Nuts & seeds",
+    protein: "Protein sources",
+    veg: "Vegetables"
+  };
+
+  html += `<div class="print-grocery">`;
+  Object.keys(agg).forEach(cat => {
+    html += `
+      <div class="print-grocery-aisle">
+        <h4>${aisleNames[cat] || cat}</h4>
+        <ul>
+    `;
+    Object.entries(agg[cat])
+      .sort((a, b) => b[1] - a[1])
+      .forEach(([name, count]) => {
+        html += `<li>${esc(name)} <span style="color:#64748b">× ${count}</span></li>`;
+      });
+    html += `
+        </ul>
+      </div>
+    `;
+  });
+  html += `</div>`;
+
+  html += `
+    <div class="print-signature-block">
+      <div class="signature-line"></div>
+      <p>Authorized Signature & Stamp</p>
+      <p>Sachi Homeo Clinic</p>
+    </div>
+    <div class="print-footer">
+      This diet chart is a clinical recommendation personalized by Sachi Homeo Clinic. It is not a substitute for emergency medical care.<br />
+      Daily Hydration Target: <b>${hydrationTarget(p)} L/day</b> · Generated on ${new Date().toLocaleDateString("en-IN", { day: 'numeric', month: 'short', year: 'numeric' })} · For changes or adjustments, consult your attending doctor.
+    </div>
+  `;
+
+  document.getElementById("print-view").innerHTML = html;
+}
+
+function diseaseLabel(k){
+  for(const g of DISEASE_GROUPS){ for(const d of g.items) if(d.k===k) return d.l; }
+  return k;
+}
+
+function renderPlanGrid(plan){
+  let html = `<div class="grid7"><table class="plan"><thead><tr><th>Day</th>`;
+  for(const s of SLOT_DEF) html += `<th>${s.label}<br><span style="font-weight:400;font-size:9px">${s.time}</span></th>`;
+  html += `</tr></thead><tbody>`;
+  for(const day of plan){
+    const modeCls = day.mode ? `mode-${day.mode}` : "";
+    html += `<tr><td class="day ${modeCls}">${day.label}
+      <div class="day-actions">
+        <button onclick="regenerateDay(${day.idx})" title="Regenerate this day">🔄</button>
+        <button onclick="openDayMenu(${day.idx}, this)" title="Day mode">⋯</button>
+      </div>
+      <div style="font-weight:400;color:var(--muted);font-size:10px;margin-top:30px">${Math.round(day.totals.kcal)} kcal<br>P ${Math.round(day.totals.p)}g<br>C ${Math.round(day.totals.c)}g<br>F ${Math.round(day.totals.f)}g</div>
+      ${day.mode?`<div class="day-mode-tag">${day.mode.toUpperCase()}</div>`:""}
+    </td>`;
+    for(const slot of day.slots){
+      html += `<td>`;
+      for(const it of slot.items){
+        const cls = (it._locked?"locked ":"") + (it._edited?"edited ":"");
+        const enc = encodeURIComponent(it.n);
+        html += `<div class="item ${cls}" data-day="${day.idx}" data-slot="${slot.k}" data-item="${enc}">
+          <div class="nm">${esc(it.n)}</div>
+          <div class="qty">${esc(it.q||"")}</div>
+          <div class="nut">${Math.round(it.kcal)} kcal · P ${it.p}g · C ${it.c}g${it.gi?` · GI ${it.gi}`:""}</div>
+        </div>`;
+      }
+      if(slot.note){
+        html += `<div class="slot-note">📝 ${esc(slot.note)}</div>`;
+      }
+      html += `<button class="add-btn" onclick="editSlotNote(${day.idx},'${slot.k}')">+ note</button>`;
+      html += `</td>`;
+    }
+    html += `</tr>`;
+  }
+  html += `</tbody></table></div>`;
+  return html;
+}
+
+function renderGrocery(plan){
+  const agg = {};
+  for(const day of plan) for(const slot of day.slots) for(const it of slot.items){
+    if(!agg[it.cat]) agg[it.cat]={};
+    agg[it.cat][it.n] = (agg[it.cat][it.n]||0) + 1;
+  }
+  const aisleNames = {beverage:"Beverages",breakfast:"Breakfast staples",meal:"Meal items",snack:"Snacks",fruit:"Fruits",nut:"Nuts & seeds",protein:"Protein sources",veg:"Vegetables"};
+  let html = `<div style="margin-bottom:8px;color:var(--muted);font-size:11px">Weekly aggregate by aisle 🛒</div>`;
+  for(const cat of Object.keys(agg)){
+    html += `<div class="grocery-aisle"><h4>${aisleNames[cat]||cat}</h4><ul>`;
+    for(const [name,count] of Object.entries(agg[cat]).sort((a,b)=>b[1]-a[1])){
+      html += `<li>${esc(name)} <span style="color:var(--muted)">× ${count}</span></li>`;
+    }
+    html += `</ul></div>`;
+  }
+  return html;
+}
+
+function renderDosDonts(p,t){
+  const dos = new Set([
+    "Drink 2–3 L of water spread through the day",
+    "Eat slowly, chew thoroughly (20+ chews per bite)",
+    "30-min walk after dinner",
+    "7–8 hours of sleep, consistent timing",
+    "Include 1 seasonal local fruit daily",
+    "Use cold-pressed oils; rotate (groundnut/sesame/mustard)",
+  ]);
+  const donts = new Set([
+    "No sugary beverages",
+    "No ultra-processed snacks",
+    "Limit deep-fried items to ≤ 1 / week",
+    "Avoid eating within 2 hrs of bedtime",
+    `Salt ≤ ${t.salt} g/day`,
+  ]);
+  for(const dk of p.diseases){
+    const r = DISEASE_RULES[dk];
+    if(r?.dos) r.dos.forEach(d=>dos.add(d));
+    if(r?.donts) r.donts.forEach(d=>donts.add(d));
+  }
+  // Lifestyle dos/donts
+  if(p.stress==="high"||p.stress==="burnout"){
+    dos.add("Daily 10-min breathing exercise or meditation");
+    dos.add("Magnesium-rich foods (pumpkin seeds, leafy greens)");
+  }
+  if(p.caffeine>=4){ donts.add("Cut caffeine to ≤2 cups/day"); }
+  if(p.alcohol==="daily"){ donts.add("Cut daily alcohol — limit to 2 nights/week"); }
+  if(p.sleepHrs && p.sleepHrs<6){ dos.add("Prioritise sleep — aim for 7+ hours"); }
+
+  return `<div class="dos-donts">
+    <div class="col dos"><h4>✅ Do's</h4><ul>${[...dos].map(d=>`<li>${esc(d)}</li>`).join("")}</ul></div>
+    <div class="col donts"><h4>🚫 Don'ts</h4><ul>${[...donts].map(d=>`<li>${esc(d)}</li>`).join("")}</ul></div>
+  </div>`;
+}
+
+function renderRollup(plan,t){
+  const avgK = plan.reduce((s,d)=>s+d.totals.kcal,0)/7;
+  const avgP = plan.reduce((s,d)=>s+d.totals.p,0)/7;
+  const avgC = plan.reduce((s,d)=>s+d.totals.c,0)/7;
+  const avgF = plan.reduce((s,d)=>s+d.totals.f,0)/7;
+  const avgFb= plan.reduce((s,d)=>s+d.totals.fb,0)/7;
+  const distinct = new Set();
+  plan.forEach(d=>d.slots.forEach(s=>s.items.forEach(i=>distinct.add(i.n))));
+  const pctTarget = Math.round((avgK/t.kcal)*100);
+  return `
+    <div class="summary">
+      <div class="stat"><div class="num">${Math.round(avgK)}</div><div class="lbl">avg kcal (${pctTarget}% of target)</div></div>
+      <div class="stat"><div class="num">${Math.round(avgP)} g</div><div class="lbl">avg protein</div></div>
+      <div class="stat"><div class="num">${Math.round(avgC)} g</div><div class="lbl">avg carbs</div></div>
+      <div class="stat"><div class="num">${Math.round(avgF)} g</div><div class="lbl">avg fat</div></div>
+    </div>
+    <div class="summary">
+      <div class="stat"><div class="num">${Math.round(avgFb)} g</div><div class="lbl">avg fibre/day</div></div>
+      <div class="stat"><div class="num">${distinct.size}</div><div class="lbl">distinct foods</div></div>
+      <div class="stat"><div class="num">${Math.round((avgC*4/avgK)*100)}%</div><div class="lbl">carbs % kcal</div></div>
+      <div class="stat"><div class="num">${Math.round((avgP*4/avgK)*100)}%</div><div class="lbl">protein % kcal</div></div>
+    </div>
+    <h3 style="margin-top:16px;color:var(--muted);font-size:11px;text-transform:uppercase">Daily breakdown</h3>
+    <table class="plan" style="min-width:auto">
+      <thead><tr><th>Day</th><th>kcal</th><th>P</th><th>C</th><th>F</th><th>Fibre</th><th>% target</th></tr></thead>
+      <tbody>${plan.map(d=>`<tr>
+        <td class="day">${d.label}${d.mode?` <span class="day-mode-tag">${d.mode}</span>`:""}</td>
+        <td>${Math.round(d.totals.kcal)}</td>
+        <td>${Math.round(d.totals.p)}g</td>
+        <td>${Math.round(d.totals.c)}g</td>
+        <td>${Math.round(d.totals.f)}g</td>
+        <td>${Math.round(d.totals.fb)}g</td>
+        <td>${Math.round((d.totals.kcal/t.kcal)*100)}%</td>
+      </tr>`).join("")}</tbody>
+    </table>`;
+}
+
+function renderHistory(p){
+  const saved = listSavedPlans().filter(sp=>sp.patientName===p.name);
+  if(!saved.length) return `<div style="color:var(--muted);text-align:center;padding:20px">No saved plans for <b>${esc(p.name)}</b> yet. Click <b>💾 Save plan as…</b> above to save the current plan.</div>`;
+  return `
+    <div style="margin-bottom:8px;color:var(--muted);font-size:11px">${saved.length} saved plan(s) for ${esc(p.name)} · click to load · select two for diff</div>
+    <table class="plan" style="min-width:auto">
+      <thead><tr><th>Name</th><th>Goal</th><th>kcal</th><th>Saved</th><th>Actions</th></tr></thead>
+      <tbody>${saved.map(sp=>`<tr>
+        <td>${esc(sp.name)}</td>
+        <td>${esc(sp.goal||"")}</td>
+        <td>${sp.kcal||"-"}</td>
+        <td style="font-size:10px">${new Date(sp.savedAt).toLocaleString()}</td>
+        <td>
+          <button class="ghost" onclick="loadSavedPlan('${sp.id}')">↺ Load</button>
+          <button class="ghost danger" onclick="deleteSavedPlan('${sp.id}')">🗑</button>
+        </td>
+      </tr>`).join("")}</tbody>
+    </table>`;
+}
+
+function switchTab(el){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));
+  el.classList.add("on");
+  const k = el.dataset.tab;
+  document.querySelectorAll(".tab-pane").forEach(p=>{
+    p.style.display = (p.dataset.pane===k) ? "block" : "none";
+  });
+}
+
+function downloadJSON(){
+  if(!currentPlan) return;
+  const blob = new Blob([JSON.stringify(currentPlan,null,2)],{type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `diet-plan-${currentPlan.p.name.replace(/\s+/g,"_")}-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  showToast('⬇ Plan exported as JSON');
+}
+
+function collectLocks(){
+  if(!currentPlan) return null;
+  const out = {};
+  currentPlan.plan.forEach((d,di)=>{
+    out[di] = {};
+    d.slots.forEach(s=>{
+      const lockedItems = s.items.filter(i=>i._locked);
+      if(lockedItems.length){
+        out[di][s.k] = {items: lockedItems, note:s.note};
+      }
+    });
+  });
+  return out;
+}
+
+/* ============================================================
+   LOCALSTORAGE PERSISTENCE
+============================================================ */
+const LS_RECENTS = "dietapp_recents_v2";
+const LS_CURRENT = "dietapp_current_v2";
+const LS_SAVED   = "dietapp_saved_v2";
+
+function saveToRecents(p){
+  try{
+    const recents = JSON.parse(localStorage.getItem(LS_RECENTS) || "[]");
+    const ex = recents.findIndex(r=>r.name===p.name);
+    if(ex>=0) recents.splice(ex,1);
+    recents.unshift({...p, savedAt:new Date().toISOString()});
+    if(recents.length>10) recents.length = 10;
+    localStorage.setItem(LS_RECENTS, JSON.stringify(recents));
+    populateRecents();
+  }catch(e){ console.warn("recents save fail:",e); }
+}
+function saveCurrent(plan){
+  try{ localStorage.setItem(LS_CURRENT, JSON.stringify(plan)); }catch(e){}
+}
+function loadCurrent(){
+  try{
+    const raw = localStorage.getItem(LS_CURRENT);
+    if(!raw) return;
+    const parsed = JSON.parse(raw);
+    // Defensive: only restore if the plan has expected shape
+    if(!parsed || !parsed.p || !parsed.t || !Array.isArray(parsed.plan)) return;
+    // Normalize missing fields so renderOutput doesn't crash on older saves
+    parsed.p.diseases = parsed.p.diseases || [];
+    parsed.p.meds = parsed.p.meds || [];
+    parsed.p.allergens = parsed.p.allergens || [];
+    parsed.p.dislikes = parsed.p.dislikes || [];
+    parsed.violations = parsed.violations || [];
+    parsed.t.notes = parsed.t.notes || [];
+    currentPlan = parsed;
+    renderOutput();
+  }catch(e){ console.warn("loadCurrent failed:",e); }
+}
+function listSavedPlans(){
+  try{ return JSON.parse(localStorage.getItem(LS_SAVED) || "[]"); }catch(e){ return []; }
+}
+function persistSavedPlans(list){
+  try{ localStorage.setItem(LS_SAVED, JSON.stringify(list)); }catch(e){}
+}
+function promptSavePlan(){
+  if(!currentPlan){ alert("Generate a plan first."); return; }
+  const defName = `${currentPlan.p.name} — ${currentPlan.p.goal} — v${(listSavedPlans().filter(s=>s.patientName===currentPlan.p.name).length)+1}`;
+  const name = prompt("Save plan as:", defName);
+  if(!name) return;
+  const list = listSavedPlans();
+  list.unshift({
+    id: uuid(),
+    name, patientName: currentPlan.p.name, goal: currentPlan.p.goal,
+    kcal: currentPlan.t.kcal,
+    savedAt: new Date().toISOString(),
+    payload: currentPlan,
+  });
+  if(list.length>50) list.length=50;
+  persistSavedPlans(list);
+  populateSaved();
+  renderOutput();
+  showToast('💾 Plan saved: ' + name);
+}
+function loadSavedPlan(id){
+  if(!id) return;
+  const sp = listSavedPlans().find(s=>s.id===id);
+  if(!sp) return;
+  currentPlan = sp.payload;
+  // Restore form
+  applyPatientToForm(currentPlan.p);
+  renderOutput();
+}
+function deleteSavedPlan(id){
+  if(!confirm("Delete this saved plan?")) return;
+  const list = listSavedPlans().filter(s=>s.id!==id);
+  persistSavedPlans(list);
+  populateSaved();
+  renderOutput();
+}
+
+function populateRecents(){
+  const sel = document.getElementById("recentSel");
+  try{
+    const recents = JSON.parse(localStorage.getItem(LS_RECENTS)||"[]");
+    sel.innerHTML = `<option value="">— ${recents.length} recent —</option>` +
+      recents.map((r,i)=>`<option value="${i}">${esc(r.name)} (${r.goal})</option>`).join("");
+  }catch(e){}
+}
+function populateSaved(){
+  const sel = document.getElementById("savedSel");
+  const list = listSavedPlans();
+  sel.innerHTML = `<option value="">— ${list.length} plan(s) —</option>` +
+    list.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");
+}
+function loadRecent(idx){
+  if(idx==="") return;
+  try{
+    const recents = JSON.parse(localStorage.getItem(LS_RECENTS)||"[]");
+    applyPatientToForm(recents[+idx]);
+  }catch(e){}
+}
+function applyPatientToForm(p){
+  if(!p) return;
+  const setVal=(id,v)=>{ const el=document.getElementById(id); if(el && v!=null && v!==undefined) el.value=v; };
+  setVal("pname",p.name); setVal("age",p.age); setVal("gender",p.gender);
+  setVal("height",p.height); setVal("weight",p.weight);
+  setVal("waist",p.waist); setVal("hip",p.hip); setVal("bodyFat",p.bodyFat);
+  setVal("activity",p.activity); setVal("goal",p.goal);
+  setVal("cookTime",p.cookTime); setVal("ifWindow",p.ifWindow);
+  setVal("sleepHrs",p.sleepHrs); setVal("stress",p.stress);
+  setVal("caffeine",p.caffeine); setVal("alcohol",p.alcohol);
+  setVal("dosha",p.dosha); setVal("dietType",p.dietType); setVal("region",p.region);
+  setVal("budget",p.budget);
+  document.getElementById("dislikes").value = (p.dislikes||[]).join(", ");
+  // Biomarkers
+  if(p.biomarkers){
+    const b=p.biomarkers;
+    setVal("bm_hba1c",b.hba1c); setVal("bm_fbs",b.fbs);
+    setVal("bm_ldl",b.ldl); setVal("bm_tg",b.tg);
+    setVal("bm_hb",b.hb); setVal("bm_tsh",b.tsh);
+    setVal("bm_egfr",b.egfr); setVal("bm_uric",b.uric);
+    setVal("bm_sbp",b.sbp); setVal("bm_dbp",b.dbp);
+    setVal("bm_vitd",b.vitd); setVal("bm_b12",b.b12);
+  }
+  // Chips
+  document.querySelectorAll("#allergenChips .chip").forEach(c=>{
+    c.classList.toggle("on",(p.allergens||[]).includes(c.dataset.val));
+  });
+  document.querySelectorAll("#diseaseGroups .chip").forEach(c=>{
+    c.classList.toggle("on",(p.diseases||[]).includes(c.dataset.val));
+  });
+  document.querySelectorAll("#medChips .chip").forEach(c=>{
+    c.classList.toggle("on",(p.meds||[]).includes(c.dataset.val));
+  });
+}
+
+/* ============================================================
+   PRESETS & DIFF
+============================================================ */
+function openPresetMenu(){
+  const html = `
+    <div class="modal-bg" data-modal="preset">
+      <div class="modal" role="dialog">
+        <h3>🎯 Golden Scenario Presets</h3>
+        <div style="color:var(--muted);font-size:11px;margin-bottom:8px">Pick a preset to load a fully-configured patient profile for demo or testing:</div>
+        <div class="swap-list">
+          ${Object.entries(PRESETS).map(([k,p])=>`
+            <div class="swap-item" data-preset="${k}">
+              <div class="nm">${esc(p.name)}</div>
+              <div class="meta">${p.gender}, ${p.age}y · ${esc(p.goal)} · ${esc(p.dietType)} · ${(p.diseases||[]).join(", ")}</div>
+            </div>`).join("")}
+        </div>
+        <div class="modal-actions">
+          <button class="ghost" data-action="close">Cancel</button>
+        </div>
+      </div>
+    </div>`;
+  const root = document.getElementById("modalRoot");
+  root.innerHTML = html;
+  root.querySelectorAll("[data-preset]").forEach(el=>{
+    el.addEventListener("click",()=>{ applyPreset(el.dataset.preset); closeModal(); generate(); });
+  });
+  root.querySelector('[data-action="close"]').addEventListener("click",closeModal);
+  root.querySelector(".modal-bg").addEventListener("click",e=>{ if(e.target.classList.contains("modal-bg")) closeModal(); });
+}
+
+function applyPreset(key){
+  const p = PRESETS[key];
+  if(!p) return;
+  applyPatientToForm(p);
+}
+
+function openDiffMenu(){
+  const list = listSavedPlans();
+  if(list.length<2){ alert("Need at least 2 saved plans to diff. Save the current plan, regenerate with changes, save again."); return; }
+  const html = `
+    <div class="modal-bg" data-modal="diff">
+      <div class="modal" role="dialog">
+        <h3>⇆ Compare two saved plans</h3>
+        <label>Plan A (baseline)</label>
+        <select id="diffA">${list.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("")}</select>
+        <label>Plan B (compare)</label>
+        <select id="diffB">${list.map((p,i)=>`<option value="${p.id}" ${i===1?"selected":""}>${esc(p.name)}</option>`).join("")}</select>
+        <div class="modal-actions">
+          <button class="ghost" data-action="close">Cancel</button>
+          <button class="ghost" style="background:var(--accent);color:#fff" data-action="diff">Compare →</button>
+        </div>
+      </div>
+    </div>`;
+  const root = document.getElementById("modalRoot");
+  root.innerHTML = html;
+  root.querySelector('[data-action="close"]').addEventListener("click",closeModal);
+  root.querySelector('[data-action="diff"]').addEventListener("click",()=>{
+    const a = document.getElementById("diffA").value;
+    const b = document.getElementById("diffB").value;
+    showDiff(a,b);
+  });
+}
+
+function showDiff(idA, idB){
+  const A = listSavedPlans().find(s=>s.id===idA)?.payload;
+  const B = listSavedPlans().find(s=>s.id===idB)?.payload;
+  if(!A||!B){ alert("Could not load plans"); return; }
+  // Compute diff: for each day & slot, compare item names
+  const rows = [];
+  for(let d=0; d<7; d++){
+    for(const slot of SLOT_DEF){
+      const aSlot = A.plan[d]?.slots.find(s=>s.k===slot.k);
+      const bSlot = B.plan[d]?.slots.find(s=>s.k===slot.k);
+      const aNames = (aSlot?.items||[]).map(i=>i.n);
+      const bNames = (bSlot?.items||[]).map(i=>i.n);
+      if(aNames.join("|") !== bNames.join("|")){
+        rows.push({day:DAYS[d], slot:slot.label, a:aNames, b:bNames});
+      }
+    }
+  }
+  const html = `
+    <div class="modal-bg" data-modal="diff-view">
+      <div class="modal" style="max-width:900px" role="dialog">
+        <h3>Diff: <span style="color:var(--accent2)">${esc(A.p.name)}</span></h3>
+        <div style="color:var(--muted);font-size:11px;margin-bottom:8px">${rows.length} slot(s) differ between the two plans.</div>
+        <div class="diff-grid">
+          <div class="diff-col">
+            <h4>${esc(A.p.name)} — ${A.t.kcal} kcal</h4>
+          </div>
+          <div class="diff-col">
+            <h4>${esc(B.p.name)} — ${B.t.kcal} kcal</h4>
+          </div>
+        </div>
+        <div style="max-height:50vh;overflow:auto;margin-top:8px">
+        ${rows.map(r=>{
+          const emptyMsg = '<div style="color:var(--muted);font-size:10px;font-style:italic">(empty)</div>';
+          const aHtml = r.a.map(n=>`<div class="item diff-removed"><div class="nm">${esc(n)}</div></div>`).join("") || emptyMsg;
+          const bHtml = r.b.map(n=>`<div class="item diff-added"><div class="nm">${esc(n)}</div></div>`).join("") || emptyMsg;
+          return `
+          <div style="margin-bottom:10px;padding:6px;border:1px solid var(--line);border-radius:5px">
+            <div style="font-weight:600;font-size:11px;color:var(--accent2);margin-bottom:4px">${r.day} · ${r.slot}</div>
+            <div class="diff-grid">
+              <div>${aHtml}</div>
+              <div>${bHtml}</div>
+            </div>
+          </div>`;
+        }).join("")}
+        </div>
+        <div class="modal-actions">
+          <button class="ghost" data-action="close">Close</button>
+        </div>
+      </div>
+    </div>`;
+  const root = document.getElementById("modalRoot");
+  root.innerHTML = html;
+  root.querySelector('[data-action="close"]').addEventListener("click",closeModal);
+  root.querySelector(".modal-bg").addEventListener("click",e=>{ if(e.target.classList.contains("modal-bg")) closeModal(); });
+}
+
+/* ============================================================
+   UI BOOTSTRAP
+============================================================ */
+function buildAllergenChips(){
+  document.getElementById("allergenChips").innerHTML = ALLERGEN_OPTIONS.map(o=>
+    `<button class="chip" data-val="${o}" onclick="this.classList.toggle('on')">${o}</button>`
+  ).join("");
+}
+function buildMedChips(){
+  document.getElementById("medChips").innerHTML = MED_OPTIONS.map(o=>
+    `<button class="chip" data-val="${o}" onclick="this.classList.toggle('on')" title="${esc(MED_RULES[o]?.note||"")}">${o.replace(/_/g," ")}</button>`
+  ).join("");
+}
+function buildDiseaseGroups(){
+  document.getElementById("diseaseGroups").innerHTML = DISEASE_GROUPS.map((g,gi)=>
+    `<div class="disease-cat ${gi>0?'closed':''}">
+      <div class="cat-title" onclick="this.parentElement.classList.toggle('closed')">${g.cat}</div>
+      <div class="chip-group">${g.items.map(it=>`<button class="chip" data-val="${it.k}" onclick="this.classList.toggle('on')">${it.l}</button>`).join("")}</div>
+    </div>`
+  ).join("");
+}
+
+// Item click delegation
+document.addEventListener("click",e=>{
+  const item = e.target.closest(".item[data-item]");
+  if(item){
+    openSwap(+item.dataset.day, item.dataset.slot, decodeURIComponent(item.dataset.item));
+  }
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
+
+/* ============================================================
+   TOAST, DARK MODE, UTILITIES
+============================================================ */
+function showToast(msg) {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3200);
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('dietapp_theme', next);
+  const btn = document.querySelector('.theme-toggle');
+  if (btn) btn.textContent = next === 'dark' ? '☀️' : '🌙';
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('dietapp_theme');
+  const prefer = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  const theme = saved || prefer;
+  document.documentElement.setAttribute('data-theme', theme);
+  const btn = document.querySelector('.theme-toggle');
+  if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+}
+
+buildAllergenChips();
+buildMedChips();
+buildDiseaseGroups();
+populateRecents();
+populateSaved();
+initTheme();
+document.getElementById("date").textContent = new Date().toDateString();
+loadCurrent(); // restore last plan on refresh
+</script>
+</body>
+</html>

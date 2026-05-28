@@ -42,3 +42,14 @@ pnpm-debug.log*
 
 # OS
 Thumbs.db
+
+# Databases
+*.db
+
+# Staged build artifacts
+web/dist-app/
+
+# Temp images
+err.jpg.png
+
+

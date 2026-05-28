@@ -1,0 +1,9 @@
+allowBuilds:
+  '@prisma/client': true
+  '@prisma/engines': true
+  electron-winstaller: false
+  electron: true
+  esbuild: true
+  prisma: true
+  sharp: true
+  unrs-resolver: true

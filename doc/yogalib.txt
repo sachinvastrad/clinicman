@@ -1,0 +1,13 @@
+  CSV file            : C:\Users\AILap\Documents\yogapose\pocketyoga_poses\all_poses.csv
+  Images folder       : C:\Users\AILap\Documents\yogapose\pocketyoga_poses\pose_images
+
+  CSV has all details about the yoga pose there are 167 poses 
+  and CSV has all the details , all the image can be found in 
+   C:\Users\AILap\Documents\yogapose\pocketyoga_poses\pose_images folder 
+
+   if extra info needed  C:\Users\AILap\Documents\yogapose\pocketyoga_poses\poses has json file on pose 
+
+   dont fetch external image from website , just refer local image directory 
+
+   based on this prebuild and populate the yoga template , load it in CSV DB or SQL which every is the best way
+   but they should be pre-build in the software 

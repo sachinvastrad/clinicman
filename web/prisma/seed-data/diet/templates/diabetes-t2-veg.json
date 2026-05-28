@@ -1,0 +1,32 @@
+{
+  "name": "Diabetes T2 — Veg — South Indian",
+  "description": "Low-GI veg plan for Type 2 diabetes management; emphasises millets, dals, fibre, anti-inflammatory spices.",
+  "diet_type": "VEG",
+  "age_group": "ADULT",
+  "goal": "DIABETES_T2",
+  "condition_tags": ["diabetes_t2","insulin_resistance"],
+  "cuisine_regions": ["karnataka","tamil_nadu","south_indian"],
+  "target_kcal": 1700,
+  "macro_split": { "carbs_pct": 45, "protein_pct": 25, "fat_pct": 30 },
+  "protein_per_kg": 1.0,
+  "gi_cap": 55,
+  "salt_cap_g": 5,
+  "added_sugar_cap_g": 0,
+  "oil_cap_ml": 20,
+  "water_target_l": 3.0,
+  "slot_distribution": { "early_morning": 5, "breakfast": 22, "mid_morning": 8, "lunch": 25, "evening_snack": 10, "dinner": 25, "bedtime": 5 },
+  "slot_food_groups": {
+    "early_morning": ["BEVERAGE","NUT_OILSEED","SPICE"],
+    "breakfast": ["CEREAL_MILLET","PULSE_LEGUME","DAIRY"],
+    "mid_morning": ["FRUIT","BEVERAGE"],
+    "lunch": ["CEREAL_MILLET","PULSE_LEGUME","GLV","VEGETABLE","DAIRY"],
+    "evening_snack": ["NUT_OILSEED","BEVERAGE","PULSE_LEGUME"],
+    "dinner": ["CEREAL_MILLET","PULSE_LEGUME","VEGETABLE"],
+    "bedtime": ["DAIRY","SPICE"]
+  },
+  "allowed_foods": ["ragi","jowar","bajra","oats","quinoa","dals","sprouts","leafy greens","cinnamon","methi","amla","low-GI fruits (guava, apple)"],
+  "avoid_foods": ["sugar","jaggery","honey (large amounts)","white rice in large portions","fruit juice","sweets","refined flour"],
+  "lifestyle_notes": "45 min brisk walk daily including 15 min post-dinner; sleep 7-8 hours; manage stress.",
+  "supplement_hints": "Cinnamon, methi, amla as functional foods. Vit D3 if deficient. Pair carbs with protein at every meal.",
+  "source": "NIN-DGI-2011 + Annexure-10 GI"
+}

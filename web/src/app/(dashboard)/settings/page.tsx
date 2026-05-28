@@ -1,7 +1,7 @@
 import { Header } from "@/components/shared/header";
 import { getSessionUser } from "@/lib/supabase/server";
 import Link from "next/link";
-import { Users, Building2, Bell, Shield } from "lucide-react";
+import { Users, Building2, Bell, Shield, Database } from "lucide-react";
 
 export default async function SettingsPage() {
   const user = await getSessionUser();
@@ -25,6 +25,12 @@ export default async function SettingsPage() {
       icon: Bell,
       title: "Notification Preferences",
       description: "Configure reminder timings and WhatsApp message templates",
+    },
+    user.role === "admin" && {
+      href: "/settings/database",
+      icon: Database,
+      title: "Database Backup & Restore",
+      description: "Manage database backup files, trigger manual backups, and restore previous clinic data",
     },
     user.role === "admin" && {
       href: "/settings/security",

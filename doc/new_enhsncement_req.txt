@@ -1,0 +1,2 @@
+Patients bring multiple lab reports there should be provision to store them / upload them 
+all the template should be customiable i,e all communication templates , all presription template 

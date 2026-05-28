@@ -61,8 +61,12 @@ export default async function BillingPage() {
               </thead>
               <tbody className="divide-y divide-border">
                 {invoices.map((inv) => (
-                  <tr key={inv.id} className="hover:bg-muted/30 transition-colors">
-                    <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{inv.invoiceNumber}</td>
+                  <tr key={inv.id} className="hover:bg-muted/30 transition-colors cursor-pointer">
+                    <td className="px-4 py-3">
+                      <Link href={`/billing/${inv.id}`} className="font-mono text-xs text-primary hover:underline">
+                        {inv.invoiceNumber}
+                      </Link>
+                    </td>
                     <td className="px-4 py-3">
                       <Link href={`/patients/${inv.patientId}`} className="font-medium hover:text-primary transition-colors">
                         {inv.patient.fullName}

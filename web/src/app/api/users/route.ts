@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
       action:     "user.create",
       entityType: "user",
       entityId:   newUser.id,
-      newData:    { fullName, role },
+      newData:    JSON.stringify({ fullName, role }),
     },
   });
 

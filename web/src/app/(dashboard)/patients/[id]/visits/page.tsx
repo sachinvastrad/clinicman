@@ -4,7 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Stethoscope } from "lucide-react";
+import { ArrowLeft, Stethoscope, FlaskConical, Salad, Activity, Printer } from "lucide-react";
+import { CompleteVisitButton } from "@/components/shared/complete-visit-button";
 
 interface Props { params: Promise<{ id: string }> }
 
@@ -23,7 +24,12 @@ export default async function PatientVisitsPage({ params }: Props) {
   const visits = await prisma.visit.findMany({
     where:   { patientId: id, clinicId: user.clinic_id },
     orderBy: { visitDate: "desc" },
-    include: { vitals: true },
+    include: {
+      vitals: true,
+      prescription: { select: { id: true } },
+      dietChart:    { select: { id: true } },
+      yogaPlan:     { select: { id: true } },
+    },
   });
 
   return (
@@ -76,15 +82,60 @@ export default async function PatientVisitsPage({ params }: Props) {
                     {v.diagnosis && <p className="text-sm text-muted-foreground mb-1"><span className="font-medium text-foreground">Diagnosis:</span> {v.diagnosis}</p>}
                     {v.planOfAction && <p className="text-sm text-muted-foreground"><span className="font-medium text-foreground">Plan:</span> {v.planOfAction}</p>}
                   </div>
-                  <div className="text-right shrink-0">
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${
+
+                  <div className="text-right shrink-0 space-y-1.5 min-w-[120px]">
+                    {/* Status badge */}
+                    <span className={`block text-xs px-2 py-0.5 rounded-full text-center font-medium ${
                       v.status === "completed" ? "bg-green-100 text-green-700"
-                      : v.status === "locked" ? "bg-gray-100 text-gray-600"
+                      : v.status === "locked"    ? "bg-gray-100 text-gray-600"
                       : "bg-blue-100 text-blue-700"
-                    }`}>{v.status}</span>
+                    }`}>{v.status.replace("_", " ")}</span>
+
                     {v.followUpDate && (
-                      <p className="text-xs text-muted-foreground mt-1">Follow-up: {formatDate(v.followUpDate)}</p>
+                      <p className="text-xs text-muted-foreground">Follow-up: {formatDate(v.followUpDate)}</p>
                     )}
+
+                    {/* Prescription */}
+                    {v.prescription ? (
+                      <Link href={`/visits/${v.id}/prescription/print`}
+                        className="flex items-center gap-1 justify-end text-xs text-green-600 hover:underline">
+                        <Printer className="w-3 h-3" /> Print Rx
+                      </Link>
+                    ) : (
+                      <Link href={`/visits/${v.id}/prescription/new`}
+                        className="flex items-center gap-1 justify-end text-xs text-primary hover:underline">
+                        <FlaskConical className="w-3 h-3" /> Prescribe
+                      </Link>
+                    )}
+
+                    {/* Diet chart */}
+                    {v.dietChart ? (
+                      <Link href={`/visits/${v.id}/diet-chart/print`}
+                        className="flex items-center gap-1 justify-end text-xs text-green-600 hover:underline">
+                        <Printer className="w-3 h-3" /> Print Diet
+                      </Link>
+                    ) : (
+                      <Link href={`/visits/${v.id}/diet-chart`}
+                        className="flex items-center gap-1 justify-end text-xs text-muted-foreground hover:text-primary hover:underline">
+                        <Salad className="w-3 h-3" /> Add Diet Chart
+                      </Link>
+                    )}
+
+                    {/* Yoga plan */}
+                    {v.yogaPlan ? (
+                      <Link href={`/visits/${v.id}/yoga-plan/print`}
+                        className="flex items-center gap-1 justify-end text-xs text-green-600 hover:underline">
+                        <Printer className="w-3 h-3" /> Print Yoga
+                      </Link>
+                    ) : (
+                      <Link href={`/visits/${v.id}/yoga-plan`}
+                        className="flex items-center gap-1 justify-end text-xs text-muted-foreground hover:text-primary hover:underline">
+                        <Activity className="w-3 h-3" /> Add Yoga Plan
+                      </Link>
+                    )}
+
+                    {/* Complete visit button (client component) */}
+                    <CompleteVisitButton visitId={v.id} status={v.status} />
                   </div>
                 </div>
 
@@ -92,8 +143,8 @@ export default async function PatientVisitsPage({ params }: Props) {
                   <div className="mt-3 pt-3 border-t border-border flex flex-wrap gap-3 text-xs text-muted-foreground">
                     {v.vitals.bp && <span>BP: <strong className="text-foreground">{v.vitals.bp}</strong></span>}
                     {v.vitals.pulse && <span>Pulse: <strong className="text-foreground">{v.vitals.pulse} bpm</strong></span>}
-                    {v.vitals.temperature && <span>Temp: <strong className="text-foreground">{v.vitals.temperature}°F</strong></span>}
-                    {v.vitals.weight && <span>Weight: <strong className="text-foreground">{v.vitals.weight} kg</strong></span>}
+                    {v.vitals.temperature && <span>Temp: <strong className="text-foreground">{Number(v.vitals.temperature)}°F</strong></span>}
+                    {v.vitals.weight && <span>Weight: <strong className="text-foreground">{Number(v.vitals.weight)} kg</strong></span>}
                     {v.vitals.spo2 && <span>SpO₂: <strong className="text-foreground">{v.vitals.spo2}%</strong></span>}
                   </div>
                 )}

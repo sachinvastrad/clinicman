@@ -17,10 +17,10 @@ export async function GET(req: NextRequest) {
     clinicId: user.clinic_id,
     ...(q && {
       OR: [
-        { fullName:   { contains: q, mode: "insensitive" as const } },
+        { fullName:   { contains: q } },
         { phone:      { contains: q } },
         { patientCode:{ contains: q } },
-        { email:      { contains: q, mode: "insensitive" as const } },
+        { email:      { contains: q } },
       ],
     }),
     ...(caseType && { caseType: caseType as never }),
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
       action:     "patient.create",
       entityType: "patient",
       entityId:   patient.id,
-      newData:    { patientCode, fullName: patient.fullName },
+      newData:    JSON.stringify({ patientCode, fullName: patient.fullName }),
     },
   });
 

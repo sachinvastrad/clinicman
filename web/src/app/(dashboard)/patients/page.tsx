@@ -22,7 +22,7 @@ export default async function PatientsPage({ searchParams }: Props) {
     clinicId: user.clinic_id,
     ...(query && {
       OR: [
-        { fullName:   { contains: query, mode: "insensitive" as const } },
+        { fullName:   { contains: query } },
         { phone:      { contains: query } },
         { patientCode:{ contains: query } },
       ],

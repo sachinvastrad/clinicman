@@ -51,8 +51,8 @@ export async function PATCH(req: NextRequest, { params }: Ctx) {
       action:     "user.update",
       entityType: "user",
       entityId:   id,
-      oldData:    { role: target.role, isActive: target.isActive },
-      newData:    { role: updated.role, isActive: updated.isActive },
+      oldData:    JSON.stringify({ role: target.role, isActive: target.isActive }),
+      newData:    JSON.stringify({ role: updated.role, isActive: updated.isActive }),
     },
   });
 

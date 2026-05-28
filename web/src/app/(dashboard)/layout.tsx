@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/shared/sidebar";
+import { AtmosphericShell } from "@/components/shared/AtmosphericShell";
+import { CommandPalette } from "@/components/shared/command-palette";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const user = await getSessionUser();
@@ -20,9 +22,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       <Sidebar user={authUser} />
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <AtmosphericShell>
         {children}
-      </main>
+      </AtmosphericShell>
+      <CommandPalette userRole={authUser.role} />
     </div>
   );
 }

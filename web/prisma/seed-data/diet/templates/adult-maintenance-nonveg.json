@@ -1,0 +1,30 @@
+{
+  "name": "Adult Maintenance — Non-Veg — Pan-Indian",
+  "description": "Balanced NIN-aligned mixed plan for healthy adult maintenance with 3-4 non-veg meals per week.",
+  "diet_type": "NON_VEG",
+  "age_group": "ADULT",
+  "goal": "MAINTENANCE",
+  "condition_tags": ["general_wellness"],
+  "cuisine_regions": ["pan_indian"],
+  "target_kcal": 2100,
+  "macro_split": { "carbs_pct": 50, "protein_pct": 22, "fat_pct": 28 },
+  "protein_per_kg": 1.0,
+  "salt_cap_g": 5,
+  "added_sugar_cap_g": 25,
+  "oil_cap_ml": 25,
+  "water_target_l": 2.5,
+  "slot_distribution": { "early_morning": 3, "breakfast": 22, "mid_morning": 8, "lunch": 30, "evening_snack": 10, "dinner": 22, "bedtime": 5 },
+  "slot_food_groups": {
+    "early_morning": ["BEVERAGE","NUT_OILSEED"],
+    "breakfast": ["CEREAL_MILLET","EGG","DAIRY","FRUIT"],
+    "mid_morning": ["FRUIT","DAIRY","BEVERAGE"],
+    "lunch": ["CEREAL_MILLET","PULSE_LEGUME","GLV","FLESH_FOOD","VEGETABLE"],
+    "evening_snack": ["NUT_OILSEED","FRUIT","BEVERAGE"],
+    "dinner": ["CEREAL_MILLET","FLESH_FOOD","VEGETABLE"],
+    "bedtime": ["DAIRY"]
+  },
+  "allowed_foods": ["whole grains","lean meats","fish 2-3 times/week","eggs","seasonal fruits","leafy greens"],
+  "avoid_foods": ["processed meats","deep-fried items","ultra-processed snacks"],
+  "lifestyle_notes": "30 min activity daily; limit alcohol to weekends if any; sleep 7-8 hours.",
+  "source": "NIN-DGI-2011"
+}

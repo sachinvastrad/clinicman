@@ -21,7 +21,7 @@ export default async function FinancePage() {
       include: { invoice: { include: { patient: { select: { fullName: true } } } } },
     }),
     prisma.expense.findMany({
-      where:   { clinicId: user.clinic_id, expenseDate: { gte: start, lte: new Date(end.getFullYear(), end.getMonth() + 1, 0) } },
+      where:   { clinicId: user.clinic_id, expenseDate: { gte: start, lte: end } },
       orderBy: { expenseDate: "desc" },
       take:    20,
     }),

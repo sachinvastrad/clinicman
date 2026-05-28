@@ -1,0 +1,70 @@
+appId: in.sachihomeo.clinicman
+productName: Sachi Homeopathic Clinic
+copyright: Copyright © 2026 Sachi Homeopathic Clinic
+
+directories:
+  output: dist
+  buildResources: build
+
+# What goes into the asar archive: just the Electron main process and the
+# package.json. The Next.js server bundle is in extraResources (below) — it
+# can't live inside asar because we spawn it as a child Node process.
+files:
+  - "electron/main.js"
+  - "package.json"
+
+# Ships the staged dist-app/ (created by electron/build.mjs) to
+# <install-dir>/resources/app/, which is process.resourcesPath/app at runtime.
+extraResources:
+  - from: "dist-app"
+    to: "app"
+    filter:
+      - "**/*"
+
+asar: true
+
+# Use the per-platform toolset (split zips, no macOS dylib symlinks). The
+# legacy "0.0.0" toolset is a single .7z that contains darwin/*/lib symlinks,
+# which fail to extract on Windows accounts without symlink privilege.
+toolsets:
+  winCodeSign: "1.1.0"
+
+# Strip the dev DB and any leftover engine temp files just in case they sneak in.
+# These never belong in a shipped build.
+fileAssociations: []
+
+# Auto-update channel. electron-updater (when wired in main.js) will hit
+# <url>/latest.yml and fetch deltas from the same directory. Override the URL
+# per-environment via env var GH_UPDATE_URL or by editing this file before a
+# release build.
+publish:
+  - provider: generic
+    url: "https://updates.sachihomeo.in/clinicman/"
+    channel: latest
+    useMultipleRangeRequest: true
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  artifactName: "${productName}-Setup-${version}.${ext}"
+  # Code signing is read from env at build time:
+  #   CSC_LINK              → path or https URL to the .pfx cert (certificateFile)
+  #   CSC_KEY_PASSWORD      → password for the .pfx (certificatePassword)
+  # Leave the env vars unset to ship an unsigned build (current behavior).
+  signAndEditExecutable: true
+  signtoolOptions:
+    signingHashAlgorithms:
+      - sha256
+    rfc3161TimeStampServer: "http://timestamp.digicert.com"
+    # certificateFile / certificatePassword are intentionally omitted —
+    # electron-builder reads them from CSC_LINK / CSC_KEY_PASSWORD env vars.
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Sachi Homeopathic Clinic

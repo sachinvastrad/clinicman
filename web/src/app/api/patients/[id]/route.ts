@@ -67,8 +67,8 @@ export async function PATCH(req: NextRequest, { params }: Ctx) {
       action:     "patient.update",
       entityType: "patient",
       entityId:   patient.id,
-      oldData:    { fullName: existing.fullName, phone: existing.phone },
-      newData:    { fullName: patient.fullName, phone: patient.phone },
+      oldData:    JSON.stringify({ fullName: existing.fullName, phone: existing.phone }),
+      newData:    JSON.stringify({ fullName: patient.fullName, phone: patient.phone }),
     },
   });
 
@@ -96,7 +96,7 @@ export async function DELETE(_req: NextRequest, { params }: Ctx) {
       action:     "patient.delete",
       entityType: "patient",
       entityId:   id,
-      oldData:    { fullName: existing.fullName, patientCode: existing.patientCode },
+      oldData:    JSON.stringify({ fullName: existing.fullName, patientCode: existing.patientCode }),
     },
   });
 

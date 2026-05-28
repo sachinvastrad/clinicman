@@ -1,37 +1,17 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
-
-export async function createClient() {
-  const cookieStore = await cookies();
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll: () => cookieStore.getAll(),
-        setAll: (cookiesToSet) => {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            );
-          } catch {}
-        },
-      },
-    }
-  );
-}
+import { getSession } from "@/lib/session";
 
 export async function getSessionUser() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
+  const session = await getSession();
+  if (!session.isLoggedIn || !session.userId) return null;
 
-  const { data: profile } = await supabase
-    .from("users")
-    .select("id, clinic_id, full_name, phone, email, role, is_active, avatar_url")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile || !profile.is_active) return null;
-  return profile;
+  return {
+    id:         session.userId,
+    clinic_id:  session.clinicId,
+    full_name:  session.fullName,
+    email:      session.email,
+    role:       session.role,
+    is_active:  true,
+    avatar_url: null,
+    phone:      "",
+  };
 }

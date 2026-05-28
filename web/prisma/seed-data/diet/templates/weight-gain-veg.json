@@ -1,0 +1,31 @@
+{
+  "name": "Weight Gain — Veg — 2500 kcal",
+  "description": "Calorie surplus veg plan for underweight adults; emphasises healthy fats, dairy, protein, complex carbs.",
+  "diet_type": "VEG",
+  "age_group": "ADULT",
+  "goal": "WEIGHT_GAIN",
+  "condition_tags": ["underweight","convalescence"],
+  "cuisine_regions": ["pan_indian"],
+  "target_kcal": 2500,
+  "macro_split": { "carbs_pct": 50, "protein_pct": 20, "fat_pct": 30 },
+  "protein_per_kg": 1.2,
+  "salt_cap_g": 5,
+  "added_sugar_cap_g": 30,
+  "oil_cap_ml": 30,
+  "water_target_l": 3.0,
+  "slot_distribution": { "early_morning": 5, "breakfast": 22, "mid_morning": 10, "lunch": 25, "evening_snack": 12, "dinner": 20, "bedtime": 6 },
+  "slot_food_groups": {
+    "early_morning": ["NUT_OILSEED","DAIRY","FRUIT"],
+    "breakfast": ["CEREAL_MILLET","PULSE_LEGUME","DAIRY","FRUIT","NUT_OILSEED"],
+    "mid_morning": ["FRUIT","DAIRY","NUT_OILSEED"],
+    "lunch": ["CEREAL_MILLET","PULSE_LEGUME","GLV","VEGETABLE","DAIRY","FAT_OIL"],
+    "evening_snack": ["NUT_OILSEED","DAIRY","FRUIT"],
+    "dinner": ["CEREAL_MILLET","PULSE_LEGUME","VEGETABLE","FAT_OIL"],
+    "bedtime": ["DAIRY","NUT_OILSEED"]
+  },
+  "allowed_foods": ["paneer","ghee","banana","dates","nuts","whole milk","khichdi","stuffed parathas"],
+  "avoid_foods": ["junk food (empty calories)","sugar binges","skipping meals"],
+  "lifestyle_notes": "Resistance training 3-4 days/week; sleep 8 hours; avoid stress; never skip meals.",
+  "supplement_hints": "Whey or plant protein post-workout if gym-based.",
+  "source": "Clinic-Curated"
+}

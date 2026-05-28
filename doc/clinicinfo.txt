@@ -1,0 +1,6 @@
+website https://sachihomeo.in/
+logo : ./logo.png
+clinic-name: Sachi homeopathic clinic
+Address: A103, police station, near varthur, Bengaluru, Karnataka 560087
+Phone: 081474 27195
+doctor-name:Dr Rachana Vastrad BHMS

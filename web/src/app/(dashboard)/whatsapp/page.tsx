@@ -62,9 +62,9 @@ export default async function WhatsAppPage() {
                   <tr key={msg.id} className="hover:bg-muted/30 transition-colors">
                     <td className="px-4 py-3">
                       <Link href={`/patients/${msg.patientId}`} className="font-medium hover:text-primary transition-colors">
-                        {msg.patient.fullName}
+                        {msg.patient?.fullName ?? "Unknown patient"}
                       </Link>
-                      <p className="text-xs text-muted-foreground">{msg.patient.phone}</p>
+                      <p className="text-xs text-muted-foreground">{msg.patient?.phone ?? "—"}</p>
                     </td>
                     <td className="px-4 py-3 text-muted-foreground">{msg.templateName ?? "Custom"}</td>
                     <td className="px-4 py-3">

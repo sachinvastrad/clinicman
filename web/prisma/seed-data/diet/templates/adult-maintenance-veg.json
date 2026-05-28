@@ -1,0 +1,31 @@
+{
+  "name": "Adult Maintenance — Veg — Pan-Indian",
+  "description": "Balanced NIN-aligned veg plan for healthy adult maintenance.",
+  "diet_type": "VEG",
+  "age_group": "ADULT",
+  "goal": "MAINTENANCE",
+  "condition_tags": ["general_wellness"],
+  "cuisine_regions": ["pan_indian"],
+  "target_kcal": 2000,
+  "macro_split": { "carbs_pct": 55, "protein_pct": 18, "fat_pct": 27 },
+  "protein_per_kg": 0.9,
+  "salt_cap_g": 5,
+  "added_sugar_cap_g": 25,
+  "oil_cap_ml": 25,
+  "water_target_l": 2.5,
+  "slot_distribution": { "early_morning": 3, "breakfast": 22, "mid_morning": 8, "lunch": 30, "evening_snack": 10, "dinner": 22, "bedtime": 5 },
+  "slot_food_groups": {
+    "early_morning": ["BEVERAGE","NUT_OILSEED"],
+    "breakfast": ["CEREAL_MILLET","PULSE_LEGUME","DAIRY","FRUIT"],
+    "mid_morning": ["FRUIT","DAIRY","BEVERAGE"],
+    "lunch": ["CEREAL_MILLET","PULSE_LEGUME","GLV","VEGETABLE","DAIRY"],
+    "evening_snack": ["NUT_OILSEED","FRUIT","BEVERAGE"],
+    "dinner": ["CEREAL_MILLET","PULSE_LEGUME","VEGETABLE"],
+    "bedtime": ["DAIRY","SPICE"]
+  },
+  "allowed_foods": ["whole grains","dals","milk and curd","seasonal fruits","leafy greens","nuts and seeds"],
+  "avoid_foods": ["refined sugar","ultra-processed snacks","deep-fried foods","sugary beverages"],
+  "lifestyle_notes": "30 min walk daily; sleep 7-8 hours; minimise screen during meals.",
+  "supplement_hints": "No routine supplements; review Vit D and B12 status annually.",
+  "source": "NIN-DGI-2011"
+}

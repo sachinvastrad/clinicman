@@ -1,0 +1,32 @@
+{
+  "name": "Weight Loss — Veg — 1200 kcal — Pan-Indian",
+  "description": "Lower-calorie veg plan for adult women; doctor-supervised. High protein satiety from dals, paneer, sprouts.",
+  "diet_type": "VEG",
+  "age_group": "ADULT",
+  "goal": "WEIGHT_LOSS_MODERATE",
+  "condition_tags": ["obesity","weight_loss"],
+  "cuisine_regions": ["pan_indian"],
+  "target_kcal": 1200,
+  "macro_split": { "carbs_pct": 35, "protein_pct": 35, "fat_pct": 30 },
+  "protein_per_kg": 1.4,
+  "gi_cap": 55,
+  "salt_cap_g": 4,
+  "added_sugar_cap_g": 5,
+  "oil_cap_ml": 15,
+  "water_target_l": 3.0,
+  "requires_dietitian_review": false,
+  "slot_distribution": { "early_morning": 3, "breakfast": 25, "mid_morning": 8, "lunch": 30, "evening_snack": 7, "dinner": 22, "bedtime": 5 },
+  "slot_food_groups": {
+    "early_morning": ["BEVERAGE","NUT_OILSEED"],
+    "breakfast": ["CEREAL_MILLET","PULSE_LEGUME"],
+    "mid_morning": ["FRUIT","DAIRY"],
+    "lunch": ["CEREAL_MILLET","PULSE_LEGUME","GLV","VEGETABLE"],
+    "evening_snack": ["NUT_OILSEED","BEVERAGE"],
+    "dinner": ["VEGETABLE","PULSE_LEGUME"],
+    "bedtime": ["DAIRY"]
+  },
+  "allowed_foods": ["millets","sprouts","leafy greens","greek yogurt","paneer (limited)","clear soups"],
+  "avoid_foods": ["sugar","white rice","refined flour","ghee in excess","fried foods","sweet beverages"],
+  "lifestyle_notes": "45 min activity; protein in every slot; strict 12-hour overnight fast.",
+  "source": "Clinic-Curated"
+}

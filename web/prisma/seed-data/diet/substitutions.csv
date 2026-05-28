@@ -1,0 +1,395 @@
+from_food,to_food,context_slot,reason,similarity_score
+White Rice (raw),Brown Rice (raw),,low_gi,0.85
+White Rice (raw),Red Rice,,low_gi,0.85
+White Rice (raw),Basmati Rice,,low_gi,0.90
+White Rice (raw),Quinoa,,high_protein,0.65
+White Rice (raw),Ragi (Finger Millet),,diabetes_t2,0.70
+White Rice (raw),Jowar (Sorghum),,diabetes_t2,0.70
+White Rice (raw),Foxtail Millet (Navane),,diabetes_t2,0.72
+White Rice (raw),Little Millet (Saame),,diabetes_t2,0.72
+White Rice (raw),Barnyard Millet (Oodalu),,diabetes_t2,0.72
+White Rice (raw),Barley (Jau),,diabetes_t2,0.68
+White Rice (raw),Bulgur Wheat (Daliya),,diabetes_t2,0.70
+Brown Rice (raw),Red Rice,,low_gi,0.95
+Brown Rice (raw),Quinoa,,high_protein,0.70
+Wheat Flour (Whole),Ragi (Finger Millet),,gluten_free,0.65
+Wheat Flour (Whole),Jowar (Sorghum),,gluten_free,0.70
+Wheat Flour (Whole),Bajra (Pearl Millet),,gluten_free,0.65
+Wheat Flour (Whole),Multigrain Roti,,low_gi,0.85
+Roti (Whole Wheat, cooked),Multigrain Roti,,low_gi,0.85
+Roti (Whole Wheat, cooked),Jowar Rotla,,gluten_free,0.70
+Roti (Whole Wheat, cooked),Bajra Rotla,,gluten_free,0.70
+Roti (Whole Wheat, cooked),Ragi Mudde,,gluten_free,0.65
+Plain Roti,Multigrain Roti,,low_gi,0.85
+Plain Roti,Jowar Roti,,gluten_free,0.80
+Plain Roti,Bajra Roti,,gluten_free,0.75
+Plain Roti,Phulka,,low_cal,0.95
+Steamed Rice,Brown Rice Steamed,,low_gi,0.90
+Steamed Rice,Red Rice Steamed,,low_gi,0.88
+Steamed Rice,Millet Khichdi,,diabetes_t2,0.70
+Wheat Suji (Semolina),Wheat Flour (Whole),,fiber,0.70
+Wheat Suji (Semolina),Bulgur Wheat (Daliya),,fiber,0.75
+Oats (Rolled),Oats Porridge (Sweet, Milk),,prepared,0.95
+Oats (Rolled),Daliya Khichdi,,fiber,0.80
+Oats (Rolled),Ragi (Finger Millet),,calcium,0.65
+Vermicelli (Sevai),Rice Vermicelli,,gluten_free,0.85
+Vermicelli (Sevai),Foxtail Millet (Navane),,low_gi,0.55
+Toor Dal (Pigeon Pea),Moong Dal (Green Gram Split),,ibs,0.85
+Toor Dal (Pigeon Pea),Masoor Dal (Red Lentil Split),,iron,0.85
+Toor Dal (Pigeon Pea),Chana Dal (Bengal Gram Split),,fiber,0.85
+Moong Dal (Green Gram Split),Masoor Dal (Red Lentil Split),,quick_cook,0.95
+Moong Dal (Green Gram Split),Toor Dal (Pigeon Pea),,common,0.90
+Urad Dal (Black Gram Split),Moong Dal (Green Gram Split),,low_gas,0.80
+Urad Dal (Black Gram Split),Chana Dal (Bengal Gram Split),,common,0.80
+Rajma (Kidney Beans),Black-eyed Peas (Lobia),,less_gas,0.80
+Rajma (Kidney Beans),Kabuli Chana (White Chickpea),,similar_use,0.85
+Rajma (Kidney Beans),Black Chana (Kala Chana),,similar_use,0.85
+Kabuli Chana (White Chickpea),Black Chana (Kala Chana),,iron,0.90
+Kabuli Chana (White Chickpea),Rajma (Kidney Beans),,similar_use,0.85
+Black Chana (Kala Chana),Kabuli Chana (White Chickpea),,similar_use,0.90
+Black Chana (Kala Chana),Sprouted Chana (Black),,raw,0.95
+Whole Moong (Green Gram),Moong Sprouts,,raw,0.90
+Whole Moong (Green Gram),Whole Masoor (Brown Lentil),,quick_cook,0.85
+Soybean (Yellow),Tofu (Soya Paneer),,easy_use,0.85
+Soybean (Yellow),Soya Chunks (TVP),,easy_use,0.80
+Soybean (Yellow),Whole Moong (Green Gram),,non_soy_protein,0.70
+Soy Milk (Plain),Almond Milk (Unsweetened),,nut_pref,0.80
+Soy Milk (Plain),Cow Milk (Toned),,if_not_vegan,0.85
+Tofu (Soya Paneer),Paneer (Cottage Cheese),,if_not_vegan,0.85
+Tofu (Soya Paneer),Tofu Silken,,texture_softer,0.95
+Paneer (Cottage Cheese),Tofu (Soya Paneer),,lactose,0.85
+Paneer (Cottage Cheese),Greek Yogurt (Hung Curd),lunch,lactose,0.70
+Paneer (Cottage Cheese),Whey Protein (Plain),,high_protein,0.65
+Chicken Breast (Skinless),Chicken Thigh (Skinless),,similar,0.90
+Chicken Breast (Skinless),Pomfret (Pampus),,non_veg_alt,0.85
+Chicken Breast (Skinless),Salmon (Farmed),,omega3,0.80
+Chicken Breast (Skinless),Tofu (Soya Paneer),,vegetarian,0.65
+Chicken Breast (Skinless),Paneer (Cottage Cheese),,vegetarian,0.70
+Chicken Thigh (Skinless),Chicken Breast (Skinless),,leaner,0.92
+Mutton (Goat) Lean,Chicken Thigh (Skinless),,heart,0.75
+Mutton (Goat) Lean,Rohu (Carp),,heart,0.70
+Rohu (Carp),Pomfret (Pampus),,similar,0.90
+Rohu (Carp),Salmon (Farmed),,omega3,0.80
+Pomfret (Pampus),Rohu (Carp),,cost,0.90
+Pomfret (Pampus),Salmon (Farmed),,omega3,0.85
+Prawns,Chicken Breast (Skinless),,allergy_shellfish,0.75
+Prawns,Pomfret (Pampus),,seafood_alt,0.85
+Chicken Egg (Whole),Egg White Only,,low_chol,0.85
+Chicken Egg (Whole),Tofu (Soya Paneer),,vegetarian,0.70
+Chicken Egg (Whole),Paneer (Cottage Cheese),,vegetarian,0.75
+Cow Milk (Whole),Cow Milk (Toned),,low_fat,0.95
+Cow Milk (Whole),Cow Milk (Skimmed),,low_fat,0.90
+Cow Milk (Whole),Soy Milk (Plain),,vegan,0.80
+Cow Milk (Whole),Almond Milk (Unsweetened),,vegan,0.75
+Cow Milk (Toned),Cow Milk (Skimmed),,lower_fat,0.95
+Cow Milk (Toned),Soy Milk (Plain),,vegan,0.80
+Buffalo Milk,Cow Milk (Toned),,lighter,0.85
+Curd (Cow),Greek Yogurt (Hung Curd),,high_protein,0.90
+Curd (Cow),Buttermilk (Chaas),,light,0.80
+Curd (Cow),Yogurt (Low Fat Plain),,low_fat,0.95
+Greek Yogurt (Hung Curd),Curd (Cow),,common,0.95
+Greek Yogurt (Hung Curd),Paneer (Cottage Cheese),,protein,0.75
+Buttermilk (Chaas),Buttermilk Spiced (Masala Chaas),,prepared,0.98
+Buttermilk (Chaas),Tender Coconut Water,,summer,0.70
+Lassi (Sweet),Lassi (Salted),,low_sugar,0.85
+Lassi (Sweet),Buttermilk Spiced (Masala Chaas),,low_cal,0.80
+Ghee (Cow),Olive Oil,,heart,0.65
+Ghee (Cow),Coconut Oil,,similar_use,0.75
+Ghee (Cow),Mustard Oil,,heart,0.65
+Ghee (Cow),Groundnut Oil,,neutral,0.80
+Butter,Ghee (Cow),,similar,0.92
+Butter,Olive Oil,,heart,0.60
+Coconut Oil,Groundnut Oil,,neutral_flavor,0.85
+Coconut Oil,Mustard Oil,,north_indian,0.75
+Coconut Oil,Olive Oil,,heart,0.70
+Mustard Oil,Groundnut Oil,,allergy_mustard,0.80
+Mustard Oil,Olive Oil,,heart,0.75
+Sunflower Oil,Groundnut Oil,,similar_use,0.95
+Sunflower Oil,Mustard Oil,,heart,0.75
+Sunflower Oil,Olive Oil,,heart,0.80
+Olive Oil,Groundnut Oil,,cost,0.85
+Sesame Oil (Til),Mustard Oil,,strong_flavor,0.80
+Almonds,Walnuts,,brain_omega3,0.80
+Almonds,Cashew Nuts,,similar_use,0.85
+Almonds,Peanuts (Groundnut),,cost,0.75
+Almonds,Pistachios,,similar,0.85
+Almonds,Pumpkin Seeds,,nut_free,0.75
+Almonds,Sunflower Seeds,,nut_free,0.75
+Walnuts,Almonds,,common,0.85
+Walnuts,Flaxseeds (Alsi),,omega3,0.80
+Walnuts,Chia Seeds,,omega3,0.80
+Cashew Nuts,Almonds,,health,0.85
+Cashew Nuts,Sunflower Seeds,,allergy_nut,0.70
+Peanuts (Groundnut),Almonds,,allergy_peanut,0.80
+Peanuts (Groundnut),Sunflower Seeds,,allergy_peanut,0.75
+Peanuts (Groundnut),Pumpkin Seeds,,allergy_peanut,0.75
+Flaxseeds (Alsi),Chia Seeds,,omega3,0.95
+Flaxseeds (Alsi),Walnuts,,omega3,0.80
+Chia Seeds,Flaxseeds (Alsi),,similar,0.95
+Chia Seeds,Pumpkin Seeds,,seed_alt,0.80
+Pumpkin Seeds,Sunflower Seeds,,similar,0.92
+Pumpkin Seeds,Sesame Seeds (White),,similar,0.85
+Sunflower Seeds,Pumpkin Seeds,,similar,0.92
+Sesame Seeds (White),Black Sesame Seeds,,variety,0.98
+Sesame Seeds (White),Flaxseeds (Alsi),,allergy_sesame,0.70
+Mustard Seeds,Fenugreek Seeds (Methi),,similar_use,0.65
+Coconut (Fresh),Coconut (Dry / Copra),,storage,0.92
+Coconut (Fresh),Cashew Nuts,,creamy,0.70
+Honey,Jaggery (Gur),,natural_sweetener,0.85
+Honey,Dates (Dry),,natural_sweetener,0.80
+Honey,Sugar (White),,if_no_diabetes,0.80
+Jaggery (Gur),Honey,,winter,0.85
+Jaggery (Gur),Sugar (White),,iron,0.65
+Sugar (White),Jaggery (Gur),,natural,0.85
+Sugar (White),Honey,,natural,0.80
+Spinach (Palak),Amaranth Leaves (Cholai),,iron,0.92
+Spinach (Palak),Methi Leaves (Fenugreek),,iron,0.85
+Spinach (Palak),Drumstick Leaves (Moringa),,immunity,0.88
+Spinach (Palak),Mustard Greens (Sarson),,iron,0.85
+Methi Leaves (Fenugreek),Spinach (Palak),,common,0.85
+Methi Leaves (Fenugreek),Amaranth Leaves (Cholai),,iron,0.85
+Methi Leaves (Fenugreek),Mustard Greens (Sarson),,winter,0.85
+Drumstick Leaves (Moringa),Spinach (Palak),,common,0.88
+Drumstick Leaves (Moringa),Curry Leaves,,immunity,0.65
+Mustard Greens (Sarson),Spinach (Palak),,winter,0.85
+Mustard Greens (Sarson),Methi Leaves (Fenugreek),,winter,0.85
+Amaranth Leaves (Cholai),Spinach (Palak),,iron,0.92
+Cabbage,Cauliflower,,similar,0.85
+Cabbage,Broccoli,,nutrient_dense,0.80
+Cauliflower,Broccoli,,nutrient_dense,0.90
+Cauliflower,Cabbage,,cost,0.85
+Broccoli,Cauliflower,,cost,0.90
+Broccoli,Spinach (Palak),,iron,0.75
+Carrot,Beetroot,,root_color,0.80
+Carrot,Pumpkin (Yellow),,vitamin_a,0.85
+Beetroot,Carrot,,common,0.80
+Potato,Sweet Potato,,low_gi,0.80
+Potato,Yam (Suran),,similar,0.85
+Potato,Colocasia (Arbi),,similar,0.85
+Potato,Raw Banana (Plantain),,similar,0.80
+Sweet Potato,Pumpkin (Yellow),,beta_carotene,0.80
+Sweet Potato,Potato,,common,0.80
+Onion (Red),,,no_onion_garlic,0.50
+Onion (Red),Cabbage,no_onion,no_onion_garlic,0.55
+Garlic,Asafoetida (Hing),,sattvic,0.75
+Garlic,Ginger,,similar_taste,0.70
+Tomato (Ripe),Tamarind (Pulp),,sour,0.70
+Tomato (Ripe),Amla (Indian Gooseberry),,vitamin_c,0.65
+Cucumber,Bottle Gourd (Lauki),,cooling,0.85
+Cucumber,Snake Gourd (Padwal),,low_cal,0.85
+Bottle Gourd (Lauki),Ridge Gourd (Turai),,similar,0.95
+Bottle Gourd (Lauki),Snake Gourd (Padwal),,similar,0.92
+Bottle Gourd (Lauki),Ash Gourd (Petha),,similar,0.92
+Ridge Gourd (Turai),Snake Gourd (Padwal),,similar,0.95
+Bitter Gourd (Karela),Methi Leaves (Fenugreek),,diabetes_t2_bitter,0.75
+Pumpkin (Yellow),Carrot,,beta_carotene,0.85
+Pumpkin (Yellow),Sweet Potato,,beta_carotene,0.80
+Brinjal (Eggplant),Mushrooms (Button),,similar_texture,0.70
+Brinjal (Eggplant),Capsicum (Green),,nightshade_alt,0.80
+Okra (Bhindi),French Beans,,similar,0.80
+Okra (Bhindi),Cluster Beans (Gawar),,similar,0.85
+Cluster Beans (Gawar),French Beans,,similar,0.92
+Green Peas (Fresh),Cluster Beans (Gawar),,similar,0.80
+Green Peas (Fresh),French Beans,,similar,0.80
+Mushrooms (Button),Tofu (Soya Paneer),,similar_texture,0.65
+Mushrooms (Button),Cauliflower,,sattvic_avoid,0.65
+Apple,Pear,,similar,0.92
+Apple,Guava,,similar,0.80
+Apple,Pomegranate,,winter,0.75
+Banana,Dates (Dry),,energy,0.80
+Banana,Raw Banana (Plantain),,green_curry,0.70
+Banana,Pomegranate,,low_gi,0.65
+Banana,Apple,,low_gi,0.75
+Mango (Ripe),Papaya (Ripe),,tropical,0.80
+Mango (Ripe),Guava,,low_gi,0.65
+Mango (Ripe),Pineapple,,tropical,0.80
+Papaya (Ripe),Mango (Ripe),,tropical,0.80
+Papaya (Ripe),Guava,,fiber,0.85
+Guava,Apple,,fiber,0.80
+Guava,Amla (Indian Gooseberry),,vitamin_c,0.85
+Orange,Sweet Lime (Mosambi),,similar,0.92
+Orange,Amla (Indian Gooseberry),,vitamin_c,0.80
+Orange,Guava,,vitamin_c,0.85
+Sweet Lime (Mosambi),Orange,,similar,0.92
+Pomegranate,Berries,,antioxidant,0.85
+Grapes (Black),Strawberry,,berry_alt,0.80
+Grapes (Black),Pomegranate,,antioxidant,0.80
+Watermelon,Musk Melon,,hydration,0.92
+Watermelon,Cucumber,,hydration,0.85
+Musk Melon,Watermelon,,similar,0.92
+Pineapple,Papaya (Ripe),,digestion,0.80
+Strawberry,Blueberry (Imported),,berry,0.90
+Strawberry,Pomegranate,,antioxidant,0.80
+Blueberry (Imported),Strawberry,,berry,0.90
+Blueberry (Imported),Pomegranate,,antioxidant,0.85
+Kiwi,Orange,,vitamin_c,0.85
+Avocado,Walnuts,,healthy_fat,0.75
+Dates (Dry),Raisins (Black),,dried_fruit,0.85
+Dates (Dry),Jaggery (Gur),,natural_sweet,0.75
+Raisins (Black),Dates (Dry),,similar,0.85
+Amla (Indian Gooseberry),Guava,,vitamin_c,0.85
+Amla (Indian Gooseberry),Orange,,vitamin_c,0.80
+Tea Leaves (Black),Green Tea (Brewed),,low_caffeine,0.80
+Tea Leaves (Black),Ginger-Lemon Water,,no_caffeine,0.70
+Coffee (Black, Brewed),Green Tea (Brewed),,low_caffeine,0.75
+Coffee (Black, Brewed),Tea Leaves (Black),,similar,0.85
+Masala Chai (Reduced Sugar),Green Tea,,low_cal,0.75
+Masala Chai (Reduced Sugar),Hot Turmeric Milk,,no_caffeine,0.75
+Salt (Iodized),,low_sodium,hypertension,0.30
+Bread (Whole Wheat),Multigrain Roti,,fresher,0.85
+Bread (Whole Wheat),Plain Roti,,fresher,0.80
+Idli Batter (Rice-Urad),Dosa Batter (Rice-Urad),,similar,0.90
+Whey Protein (Plain),Greek Yogurt (Hung Curd),,natural,0.70
+Whey Protein (Plain),Soya Chunks (TVP),,vegan,0.65
+Plain Dosa,Ragi Dosa,,low_gi,0.85
+Plain Dosa,Set Dosa,,karnataka,0.92
+Plain Dosa,Akki Roti,,karnataka,0.85
+Idli (Steamed Pair),Plain Dosa,,similar,0.92
+Idli (Steamed Pair),Pongal (Ven),,south_indian,0.80
+Idli (Steamed Pair),Set Dosa,,similar,0.88
+Akki Roti,Ragi Mudde,,karnataka,0.75
+Akki Roti,Plain Dosa,,karnataka,0.85
+Ragi Mudde,Akki Roti,,karnataka,0.75
+Ragi Mudde,Multigrain Roti,,low_gi,0.75
+Plain Roti,Multigrain Roti,,low_gi,0.85
+Plain Roti,Methi Thepla,,nutrient_dense,0.80
+Multigrain Roti,Jowar Roti,,gluten_free,0.75
+Multigrain Roti,Bajra Roti,,gluten_free,0.72
+Methi Thepla,Multigrain Roti,,common,0.85
+Bajra Roti,Bajra Rotla,,similar,0.98
+Jowar Roti,Jowar Rotla,,similar,0.98
+Phulka,Plain Roti,,common,0.95
+Phulka,Multigrain Roti,,low_gi,0.85
+Steamed Rice,Brown Rice Steamed,,low_gi,0.90
+Steamed Rice,Red Rice Steamed,,low_gi,0.88
+Steamed Rice,Curd Rice,,gut_healing,0.80
+Steamed Rice,Vegetable Khichdi,,balanced,0.85
+Steamed Rice,Millet Khichdi,,diabetes_t2,0.78
+Curd Rice,Yogurt (Low Fat Plain),,similar,0.65
+Vegetable Khichdi,Millet Khichdi,,low_gi,0.92
+Vegetable Khichdi,Daliya Khichdi,,fiber,0.88
+Vegetable Khichdi,Daal Khichdi (Soft, Convalescent),,bland,0.92
+Millet Khichdi,Vegetable Khichdi,,common,0.92
+Millet Khichdi,Daliya Khichdi,,fiber,0.85
+Pongal (Ven),Idli (Steamed Pair),,light,0.80
+Vegetable Pulao,Steamed Rice,,plain,0.80
+Vegetable Pulao,Vegetable Khichdi,,low_oil,0.78
+Lemon Rice,Vegetable Pulao,,similar,0.80
+Coconut Rice,Lemon Rice,,similar,0.80
+Sambar,Rasam,,light,0.80
+Sambar,Toor Dal Tadka,,similar,0.85
+Sambar,Moong Dal,,light,0.80
+Rasam,Sambar,,heavier,0.80
+Rasam,Toor Dal Tadka,,similar_protein,0.70
+Toor Dal Tadka,Moong Dal,,light,0.85
+Toor Dal Tadka,Masoor Dal,,similar,0.88
+Toor Dal Tadka,Chana Dal,,similar,0.85
+Toor Dal Tadka,Sambar,,vegetables_added,0.85
+Moong Dal,Masoor Dal,,similar,0.92
+Moong Dal,Toor Dal Tadka,,common,0.85
+Masoor Dal,Moong Dal,,similar,0.92
+Masoor Dal,Toor Dal Tadka,,common,0.88
+Chana Dal,Toor Dal Tadka,,similar,0.85
+Rajma Curry,Kabuli Chana Masala,,similar,0.92
+Kabuli Chana Masala,Rajma Curry,,similar,0.92
+Kabuli Chana Masala,Black Chana Sundal,,light,0.75
+Black Chana Sundal,Sprouts Salad,,raw_protein,0.78
+Sprouts Salad,Moong Chilla,,cooked,0.78
+Sprouts Salad,Black Chana Sundal,,protein,0.78
+Moong Chilla,Besan Chilla,,similar,0.92
+Moong Chilla,Sprouts Salad,,raw,0.78
+Besan Chilla,Moong Chilla,,similar,0.92
+Besan Chilla,Egg Bhurji,,egg_alt,0.65
+Vegetable Upma,Vegetable Poha,,similar,0.92
+Vegetable Upma,Oats Porridge (Savoury),,low_gi,0.80
+Vegetable Poha,Vegetable Upma,,similar,0.92
+Vegetable Poha,Oats Porridge (Savoury),,fiber,0.75
+Oats Porridge (Savoury),Oats Porridge (Sweet, Milk),,sweet,0.85
+Oats Porridge (Savoury),Vegetable Upma,,common,0.80
+Oats Porridge (Sweet, Milk),Oats Porridge (Savoury),,savoury,0.85
+Daliya Khichdi,Vegetable Khichdi,,low_gi,0.88
+Daliya Khichdi,Oats Porridge (Savoury),,similar,0.80
+Mixed Vegetable Curry,Palak Paneer,,similar_role,0.65
+Mixed Vegetable Curry,Aloo Gobi,,common,0.85
+Palak Paneer,Paneer Bhurji,,similar,0.85
+Palak Paneer,Tofu Bhurji,,vegan,0.75
+Methi Aloo,Aloo Gobi,,similar,0.80
+Bhindi Sabzi,Lauki Sabzi,,light,0.78
+Bhindi Sabzi,Cluster Beans (Gawar),,similar,0.80
+Lauki Sabzi,Bhindi Sabzi,,similar_role,0.78
+Lauki Sabzi,Tinda Curry,,gourd,0.92
+Karela Stir Fry,Methi Aloo,,bitter_replacement,0.70
+Baingan Bharta,Aloo Gobi,,similar_role,0.75
+Aloo Gobi,Methi Aloo,,similar,0.80
+Aloo Gobi,Mixed Vegetable Curry,,common,0.85
+Tofu Bhurji,Paneer Bhurji,,similar,0.92
+Paneer Bhurji,Tofu Bhurji,,vegan,0.92
+Paneer Bhurji,Egg Bhurji,,egg_alt,0.75
+Boiled Egg,Egg White Omelette,,low_chol,0.85
+Boiled Egg,Egg Omelette (Plain),,similar,0.92
+Egg Bhurji,Egg Omelette (Plain),,similar,0.92
+Egg Bhurji,Paneer Bhurji,,vegetarian,0.78
+Egg Omelette (Plain),Egg White Omelette,,low_chol,0.92
+Egg Curry,Chicken Curry (Home Style),,similar_role,0.85
+Egg Curry,Paneer Bhurji,,vegetarian,0.65
+Grilled Chicken Breast,Grilled Fish,,similar_lean,0.92
+Grilled Chicken Breast,Salmon Pan-Seared,,omega3,0.85
+Grilled Chicken Breast,Boiled Egg,,quick,0.75
+Chicken Curry (Home Style),Egg Curry,,similar_role,0.85
+Chicken Curry (Home Style),Fish Curry (Coastal),,seafood,0.85
+Chicken Curry (Home Style),Rajma Curry,,vegetarian,0.65
+Fish Curry (Coastal),Chicken Curry (Home Style),,non_veg_alt,0.85
+Fish Curry (Coastal),Egg Curry,,vegetarian,0.70
+Grilled Fish,Grilled Chicken Breast,,similar_lean,0.92
+Grilled Fish,Salmon Pan-Seared,,omega3,0.92
+Salmon Pan-Seared,Grilled Fish,,common,0.92
+Coconut Chutney,Mint Chutney,,low_cal,0.75
+Coconut Chutney,Tomato Chutney,,sour,0.78
+Mint Chutney,Coconut Chutney,,common,0.75
+Mint Chutney,Tomato Chutney,,sour,0.80
+Tomato Chutney,Mint Chutney,,fresh,0.80
+Vegetable Raita,Boondi Raita,,light,0.85
+Vegetable Raita,Curd (Cow),,plain,0.80
+Boondi Raita,Vegetable Raita,,low_cal,0.85
+Mixed Fruit Salad,Apple Slices (Daily),,light,0.85
+Mixed Fruit Salad,Sprouts Salad,,raw_savoury,0.65
+Soaked Almonds,Mixed Nuts (Daily),,variety,0.85
+Soaked Almonds,Walnuts,,brain,0.78
+Methi Water,Warm Lemon Water,,early_morning,0.80
+Warm Lemon Water,Methi Water,,early_morning,0.80
+Warm Lemon Water,Tender Coconut Water,,hydration,0.75
+Buttermilk Spiced (Masala Chaas),Lassi (Salted),,similar,0.85
+Buttermilk Spiced (Masala Chaas),Tender Coconut Water,,hydration,0.75
+Green Tea (Brewed),Masala Chai (Reduced Sugar),,morning,0.78
+Green Tea (Brewed),Tea Leaves (Black),,similar,0.85
+Masala Chai (Reduced Sugar),Hot Turmeric Milk,,evening,0.75
+Tender Coconut Water,Buttermilk Spiced (Masala Chaas),,hydration,0.80
+Roasted Chana (Bhuna),Mixed Nuts (Daily),,protein_snack,0.80
+Roasted Chana (Bhuna),Khakra (Multigrain),,snack,0.75
+Khakra (Multigrain),Roasted Chana (Bhuna),,low_oil,0.75
+Mixed Nuts (Daily),Soaked Almonds,,variety,0.85
+Apple Slices (Daily),Pear,,similar,0.92
+Apple Slices (Daily),Guava,,fiber,0.85
+Hot Turmeric Milk,Warm Milk With Almond,,sleep,0.92
+Warm Milk With Almond,Hot Turmeric Milk,,sleep,0.92
+Drumstick Soup,Vegetable Clear Soup,,light,0.85
+Drumstick Soup,Tomato Soup,,immunity,0.70
+Vegetable Clear Soup,Drumstick Soup,,similar,0.85
+Vegetable Clear Soup,Tomato Soup,,similar,0.85
+Tomato Soup,Vegetable Clear Soup,,similar,0.85
+Sauteed Greens,Beetroot Salad,,raw_iron,0.75
+Beetroot Salad,Sauteed Greens,,cooked,0.75
+Quinoa Salad,Sprouts Salad,,raw_protein,0.78
+Quinoa Salad,Sauteed Greens,,low_carb,0.65
+Vegetable Sandwich (Multigrain),Stuffed Tofu Wrap,,higher_protein,0.78
+Stuffed Tofu Wrap,Vegetable Sandwich (Multigrain),,lighter,0.78
+Daal Khichdi (Soft, Convalescent),Vegetable Khichdi,,normal,0.92
+Daal Khichdi (Soft, Convalescent),Moong Dal,,similar,0.85
+Sago (Sabudana),Rice Flakes (Poha),,fasting_alt,0.75
+Sago (Sabudana),Amaranth Grain (Rajgira),,fasting,0.80
+Methi Thepla,Multigrain Roti,,lower_oil,0.80
+Bajra Rotla,Jowar Rotla,,similar,0.92
+Jowar Rotla,Bajra Rotla,,similar,0.92
+Vegetable Pulao,Vegetable Khichdi,,lower_oil,0.80
+Stuffed Paratha (Aloo, cooked),Multigrain Roti,,lower_oil_carb,0.65
+Stuffed Paratha (Aloo, cooked),Plain Roti,,lower_oil,0.75

@@ -6,8 +6,10 @@ import { formatDate, calculateAge } from "@/lib/utils";
 import Link from "next/link";
 import {
   ArrowLeft, Phone, Mail, MapPin, Calendar, FileText,
-  Stethoscope, Activity, MessageCircle, Edit,
+  Stethoscope, Activity, MessageCircle, Edit, FlaskConical,
+  ClipboardList,
 } from "lucide-react";
+import { ActivityTimeline } from "@/components/shared/activity-timeline";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -103,55 +105,21 @@ export default async function PatientProfilePage({ params }: Props) {
             <ActionButton href={`/visits/new?patientId=${id}`} icon={Stethoscope} label="New Visit" primary />
             <ActionButton href={`/appointments?patientId=${id}`} icon={Calendar} label="Book Appointment" />
             <ActionButton href={`/billing/new?patientId=${id}`} icon={FileText} label="New Invoice" />
+            <ActionButton href={`/patients/${id}/remedy-history`} icon={FlaskConical} label="Remedy History" />
             <ActionButton href={`/whatsapp?patientId=${id}`} icon={MessageCircle} label="WhatsApp" />
+            <ActionButton href={`/patients/${id}/medical-certificate`} icon={ClipboardList} label="Medical Certificate" />
           </div>
         </div>
 
         {/* Tabs-like sections */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Visit History */}
-          <div className="bg-card rounded-xl border border-border overflow-hidden">
-            <div className="flex items-center justify-between px-5 py-3.5 border-b border-border">
+          <div className="bg-card rounded-xl border border-border overflow-hidden p-5 space-y-4">
+            <div className="flex items-center justify-between border-b border-border pb-3">
               <h3 className="font-semibold text-sm flex items-center gap-2"><Activity className="w-4 h-4 text-primary" /> Visit History</h3>
               <Link href={`/patients/${id}/visits`} className="text-xs text-primary hover:underline">View all</Link>
             </div>
-            {patient.visits.length === 0 ? (
-              <div className="p-8 text-center text-sm text-muted-foreground">No visits yet</div>
-            ) : (
-              <div className="divide-y divide-border">
-                {patient.visits.map((v) => (
-                  <div key={v.id} className="px-5 py-3.5 hover:bg-muted/30 transition-colors">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <p className="text-sm font-medium capitalize">{v.visitType?.replace("_", " ") ?? "Visit"}</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">{formatDate(v.visitDate)}</p>
-                        {v.chiefComplaint && (
-                          <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{v.chiefComplaint}</p>
-                        )}
-                      </div>
-                      <div className="text-right">
-                        {v.improvementScore !== null && (
-                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                            v.improvementScore >= 7 ? "bg-green-100 text-green-700"
-                            : v.improvementScore >= 4 ? "bg-yellow-100 text-yellow-700"
-                            : "bg-red-100 text-red-700"
-                          }`}>
-                            Score: {v.improvementScore}/10
-                          </span>
-                        )}
-                        <span className={`block mt-1 text-xs px-2 py-0.5 rounded-full text-center ${
-                          v.status === "completed" ? "bg-green-100 text-green-700"
-                          : v.status === "locked" ? "bg-gray-100 text-gray-600"
-                          : "bg-blue-100 text-blue-700"
-                        }`}>
-                          {v.status}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+            <ActivityTimeline visits={patient.visits} patientId={id} />
           </div>
 
           {/* Case History Summary */}

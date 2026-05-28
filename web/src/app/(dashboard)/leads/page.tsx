@@ -3,7 +3,7 @@ import { getSessionUser } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
-import { Plus, Users2 } from "lucide-react";
+import { Plus, Users2, Kanban, BarChart2 } from "lucide-react";
 
 export default async function LeadsPage() {
   const user = await getSessionUser();
@@ -33,10 +33,20 @@ export default async function LeadsPage() {
             <h2 className="font-semibold">Lead Pipeline</h2>
             <p className="text-sm text-muted-foreground">{leads.length} lead{leads.length !== 1 ? "s" : ""}</p>
           </div>
-          <Link href="/leads/new"
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
-            <Plus className="w-4 h-4" /> Add Lead
-          </Link>
+          <div className="flex gap-2">
+            <Link href="/leads/analytics"
+              className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg text-sm font-medium hover:bg-muted transition-colors">
+              <BarChart2 className="w-4 h-4" /> Analytics
+            </Link>
+            <Link href="/leads/kanban"
+              className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg text-sm font-medium hover:bg-muted transition-colors">
+              <Kanban className="w-4 h-4" /> Kanban
+            </Link>
+            <Link href="/leads/new"
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
+              <Plus className="w-4 h-4" /> Add Lead
+            </Link>
+          </div>
         </div>
 
         {leads.length === 0 ? (
@@ -61,7 +71,9 @@ export default async function LeadsPage() {
               <tbody className="divide-y divide-border">
                 {leads.map((lead) => (
                   <tr key={lead.id} className="hover:bg-muted/30 transition-colors">
-                    <td className="px-4 py-3 font-medium">{lead.fullName}</td>
+                    <td className="px-4 py-3 font-medium">
+                      <Link href={`/leads/${lead.id}`} className="hover:text-primary transition-colors">{lead.fullName}</Link>
+                    </td>
                     <td className="px-4 py-3 text-muted-foreground">{lead.phone}</td>
                     <td className="px-4 py-3 text-muted-foreground capitalize">{lead.source?.replace("_", " ") ?? "—"}</td>
                     <td className="px-4 py-3 text-muted-foreground">{lead.interestedIn ?? "—"}</td>

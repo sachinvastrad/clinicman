@@ -3,7 +3,7 @@ import { getSessionUser } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
-import { FileText, Plus } from "lucide-react";
+import { FileText, Printer } from "lucide-react";
 
 export default async function PrescriptionsPage() {
   const user = await getSessionUser();
@@ -53,14 +53,16 @@ export default async function PrescriptionsPage() {
                     <p className="text-xs text-muted-foreground font-mono mt-0.5">{rx.visit.patient.patientCode}</p>
                     <p className="text-xs text-muted-foreground mt-1">{formatDate(rx.createdAt)}</p>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right space-y-1.5">
                     <span className={`text-xs px-2 py-0.5 rounded-full ${rx.whatsappSent ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}>
                       {rx.whatsappSent ? "Sent via WhatsApp" : "Not sent"}
                     </span>
-                    {rx.pdfUrl && (
-                      <a href={rx.pdfUrl} target="_blank" rel="noopener noreferrer"
-                        className="block mt-1 text-xs text-primary hover:underline">View PDF</a>
-                    )}
+                    <div>
+                      <Link href={`/visits/${rx.visitId}/prescription/print`}
+                        className="flex items-center gap-1 justify-end text-xs text-primary hover:underline">
+                        <Printer className="w-3 h-3" /> Print Rx
+                      </Link>
+                    </div>
                   </div>
                 </div>
                 {rx.items.length > 0 && (
