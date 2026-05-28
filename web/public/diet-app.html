@@ -11,19 +11,19 @@
 <style>
 /* ═══════════════════════════════════════════════════════════════
    DrMan.ai — Premium Design System
-   Grid: 8px · Font: Inter · Palette: Teal-Emerald + Warm Slate
+   Grid: 8px · Font: Inter · Palette: Indigo-Blue + Warm Slate
    ═══════════════════════════════════════════════════════════════ */
 
 /* ── Design Tokens ── */
 :root {
   /* Accent */
-  --accent: #0d9488;
-  --accent2: #0f766e;
-  --accent-light: #14b8a6;
-  --accent-glow: rgba(20, 184, 166, 0.12);
-  --accent-surface: #f0fdfa;
-  --accent-chip: #ccfbf1;
-  --accent-chip-ink: #115e59;
+  --accent: #4f46e5;
+  --accent2: #3730a3;
+  --accent-light: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.12);
+  --accent-surface: #f5f3ff;
+  --accent-chip: #e0e7ff;
+  --accent-chip-ink: #312e81;
 
   /* Surfaces */
   --bg: #f4f7f9;
@@ -68,7 +68,7 @@
   --shadow-sm: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
   --shadow-md: 0 4px 12px rgba(15,23,42,0.07), 0 1px 3px rgba(15,23,42,0.04);
   --shadow-lg: 0 12px 40px rgba(15,23,42,0.10), 0 4px 12px rgba(15,23,42,0.05);
-  --shadow-glow: 0 0 24px rgba(20,184,166,0.18);
+  --shadow-glow: 0 0 24px rgba(99, 102, 241, 0.18);
 
   /* Transitions */
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -91,20 +91,20 @@
   --muted-light: #64748b;
   --line: rgba(148, 163, 184, 0.12);
   --line-light: rgba(148, 163, 184, 0.06);
-  --accent-surface: rgba(20, 184, 166, 0.08);
-  --accent-chip: rgba(20, 184, 166, 0.15);
-  --accent-chip-ink: #5eead4;
+  --accent-surface: rgba(99, 102, 241, 0.08);
+  --accent-chip: rgba(99, 102, 241, 0.15);
+  --accent-chip-ink: #a5b4fc;
   --chip: var(--accent-chip);
   --chip-ink: var(--accent-chip-ink);
-  --accent-glow: rgba(20, 184, 166, 0.2);
+  --accent-glow: rgba(99, 102, 241, 0.2);
   --ok-light: rgba(5, 150, 105, 0.1);
   --warn-light: rgba(217, 119, 6, 0.1);
   --bad-light: rgba(220, 38, 38, 0.1);
   --info-light: rgba(2, 132, 199, 0.1);
 }
 [data-theme="dark"] body { background: var(--bg); }
-[data-theme="dark"] header { background: linear-gradient(135deg, #134e4a 0%, #0c1222 100%); }
-[data-theme="dark"] .section.essential { background: rgba(20,184,166,0.06); }
+[data-theme="dark"] header { background: linear-gradient(135deg, #1e1b4b 0%, #0c1222 100%); }
+[data-theme="dark"] .section.essential { background: rgba(99, 102, 241, 0.06); }
 [data-theme="dark"] .tip-banner { background: rgba(5,150,105,0.08); border-color: rgba(5,150,105,0.2); color: #6ee7b7; }
 [data-theme="dark"] .tip-banner b { color: #a7f3d0; }
 [data-theme="dark"] input, [data-theme="dark"] select, [data-theme="dark"] textarea {
@@ -113,13 +113,13 @@
 [data-theme="dark"] table.plan th { background: rgba(30, 41, 59, 0.8); }
 [data-theme="dark"] table.plan td.day { background: rgba(30, 41, 59, 0.5); }
 [data-theme="dark"] .stat { background: rgba(30, 41, 59, 0.5); }
-[data-theme="dark"] .item { background: rgba(20, 184, 166, 0.06); }
-[data-theme="dark"] .item:hover { background: rgba(20, 184, 166, 0.12); }
-[data-theme="dark"] .item .nm { color: #5eead4; }
+[data-theme="dark"] .item { background: rgba(99, 102, 241, 0.06); }
+[data-theme="dark"] .item:hover { background: rgba(99, 102, 241, 0.12); }
+[data-theme="dark"] .item .nm { color: #818cf8; }
 [data-theme="dark"] .violations { background: rgba(217,119,6,0.08); border-color: rgba(217,119,6,0.2); color: #fbbf24; }
 [data-theme="dark"] .modal { background: #1e293b; }
-[data-theme="dark"] .modal .swap-item:hover { background: rgba(20,184,166,0.08); border-color: var(--accent); }
-[data-theme="dark"] .modal .swap-item .nm { color: #5eead4; }
+[data-theme="dark"] .modal .swap-item:hover { background: rgba(99, 102, 241, 0.08); border-color: var(--accent); }
+[data-theme="dark"] .modal .swap-item .nm { color: #818cf8; }
 [data-theme="dark"] .day-menu { background: #1e293b; }
 [data-theme="dark"] .dos-donts .dos { background: rgba(5,150,105,0.06); border-color: rgba(5,150,105,0.15); }
 [data-theme="dark"] .dos-donts .donts { background: rgba(220,38,38,0.06); border-color: rgba(220,38,38,0.15); }
@@ -128,7 +128,7 @@
 [data-theme="dark"] .diff-added { background: rgba(22,163,74,0.1); }
 [data-theme="dark"] .diff-removed { background: rgba(220,38,38,0.1); }
 [data-theme="dark"] button.ghost { background: transparent; color: var(--accent-light); border-color: var(--accent); }
-[data-theme="dark"] button.ghost:hover { background: rgba(20,184,166,0.08); }
+[data-theme="dark"] button.ghost:hover { background: rgba(99, 102, 241, 0.08); }
 
 /* ── Reset & Base ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; }
@@ -145,7 +145,7 @@ body {
 
 /* ── Header ── */
 header {
-  background: linear-gradient(135deg, #0f766e 0%, #0d9488 40%, #134e4a 100%);
+  background: linear-gradient(135deg, #3730a3 0%, #4f46e5 40%, #1e1b4b 100%);
   color: #fff;
   padding: 16px 24px;
   display: flex;
@@ -161,8 +161,8 @@ header::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 20% 50%, rgba(94,234,212,0.12) 0%, transparent 60%),
-              radial-gradient(ellipse at 80% 20%, rgba(45,212,191,0.08) 0%, transparent 50%);
+  background: radial-gradient(ellipse at 20% 50%, rgba(165,180,252,0.12) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(129,140,248,0.08) 0%, transparent 50%);
   pointer-events: none;
 }
 header > * { position: relative; z-index: 1; }
@@ -177,9 +177,9 @@ header h1 {
 }
 header h1 .logo-dot {
   width: 8px; height: 8px;
-  background: #5eead4;
+  background: #a5b4fc;
   border-radius: 50%;
-  box-shadow: 0 0 12px rgba(94,234,212,0.6);
+  box-shadow: 0 0 12px rgba(165,180,252,0.6);
   animation: pulse-dot 3s ease-in-out infinite;
 }
 header small {
